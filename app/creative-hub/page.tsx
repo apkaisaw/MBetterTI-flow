@@ -50,9 +50,18 @@ const mockNFTs = {
   ]
 }
 
+// 定义 NFT 类型
+interface NFT {
+  id: number;
+  title: string;
+  creator: string;
+  price: string;
+  image: string;
+}
+
 export default function CreativeHub() {
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [selectedNFT, setSelectedNFT] = useState(null)
+  const [selectedNFT, setSelectedNFT] = useState<NFT | null>(null)
   const { language } = useLanguage()
 
   const t = content[language]
