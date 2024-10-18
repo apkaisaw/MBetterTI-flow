@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import LanguageSwitch from './LanguageSwitch'
 import { useLanguage } from '../contexts/LanguageContext'
+import { Wallet, WalletCards, User, Home, Lightbulb, BookOpen, Palette, Flower } from 'lucide-react'
 
 const Header = () => {
   const [isConnected, setIsConnected] = useState(false)
@@ -41,38 +42,50 @@ const Header = () => {
   }, [])
 
   const navItems = [
-    { href: "/", label: language === 'zh' ? '首页' : 'Home' },
-    { href: "/persona-discovery", label: language === 'zh' ? '个性发现' : 'Persona Discovery' },
-    { href: "/blog-garden", label: language === 'zh' ? '博客花园' : 'Blog Garden' },
-    { href: "/creative-hub", label: language === 'zh' ? '创意中心' : 'Creative Hub' },
+    { href: "/", label: language === 'zh' ? '首页' : 'Home', icon: Home },
+    { href: "/persona-discovery", label: language === 'zh' ? '个性发现' : 'Persona Discovery', icon: Lightbulb },
+    { href: "/blog-garden", label: language === 'zh' ? '博客花园' : 'Blog Garden', icon: BookOpen },
+    { href: "/creative-hub", label: language === 'zh' ? '创意中心' : 'Creative Hub', icon: Palette },
   ]
 
   return (
-    <header className="bg-purple-700 text-white p-4 shadow-lg">
+    <header className="bg-gradient-to-r from-purple-300/70 via-purple-400/70 to-indigo-400/70 backdrop-blur-md text-purple-900 py-4 px-6 shadow-lg fixed w-full top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold hover:text-purple-300 transition-colors duration-300">Idealist Garden</Link>
-        <nav className="flex items-center space-x-6">
-          <ul className="flex space-x-4">
-            {navItems.map((item, index) => (
-              <motion.li key={item.href} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <Link href={item.href} className="hover:text-purple-300 transition-colors duration-300">
-                  {item.label}
-                </Link>
-              </motion.li>
-            ))}
-          </ul>
+        <Link href="/" className="text-2xl font-bold hover:text-purple-700 transition-colors duration-300 flex items-center">
+          <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
+            <Flower className="w-8 h-8 mr-3 text-purple-700" />
+          </motion.div>
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-indigo-700">
+            Idealist Garden
+          </span>
+        </Link>
+        <nav className="hidden md:flex items-center space-x-1">
+          {navItems.map((item) => (
+            <motion.div key={item.href} whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>
+              <Link href={item.href} className="px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-all duration-300 flex items-center">
+                <item.icon className="w-5 h-5 mr-2" />
+                <span>{item.label}</span>
+              </Link>
+            </motion.div>
+          ))}
         </nav>
         <div className="flex items-center space-x-4">
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <button onClick={connectWallet} className="bg-indigo-500 p-2 rounded-full hover:bg-indigo-600 transition-colors duration-300">
-              <i data-lucide={isConnected ? "wallet" : "wallet-cards"} className="w-6 h-6"></i>
-            </button>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <button className="bg-indigo-500 p-2 rounded-full hover:bg-indigo-600 transition-colors duration-300">
-              <i data-lucide="user" className="w-6 h-6"></i>
-            </button>
-          </motion.div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={connectWallet}
+            className="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-full transition-all duration-300 flex items-center"
+          >
+            {isConnected ? <Wallet className="w-5 h-5 mr-2" /> : <WalletCards className="w-5 h-5 mr-2" />}
+            <span>{isConnected ? (language === 'zh' ? '已连接' : 'Connected') : (language === 'zh' ? '连接钱包' : 'Connect Wallet')}</span>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all duration-300"
+          >
+            <User className="w-5 h-5" />
+          </motion.button>
           <LanguageSwitch />
         </div>
       </div>

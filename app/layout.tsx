@@ -1,20 +1,9 @@
 import './globals.css'
-import { Noto_Sans_SC, Inter } from 'next/font/google'
 import dynamic from 'next/dynamic'
 import Footer from '../components/Footer'
-import Script from 'next/script'
 import { LanguageProvider } from '../contexts/LanguageContext'
 
 const Header = dynamic(() => import('../components/Header'), { ssr: false })
-
-const notoSansSC = Noto_Sans_SC({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-noto-sans-sc',
-})
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata = {
   title: 'Idealist Garden - 创意与个人成长平台',
@@ -28,12 +17,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh" className={`${notoSansSC.variable} ${inter.variable}`}>
-      <body className={`${inter.className} bg-gradient-to-br from-purple-100 to-indigo-100 min-h-screen flex flex-col font-sans`}>
+    <html lang="zh">
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+      </head>
+      <body className="bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col font-sans">
         <LanguageProvider>
-          <Script src="https://unpkg.com/lucide@latest" strategy="afterInteractive" />
           <Header />
-          <main className="flex-grow container mx-auto px-4 py-8">{children}</main>
+          <main className="flex-grow container mx-auto px-4 py-8 mt-20">{children}</main>
           <Footer />
         </LanguageProvider>
       </body>

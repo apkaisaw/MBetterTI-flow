@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '../../contexts/LanguageContext'
+import { Compass, CheckCircle, ArrowRight, Sparkles, RefreshCcw, Brain, Zap, Target } from 'lucide-react'
 
 const mbtiTypes = ['ISTJ', 'ISFJ', 'INFJ', 'INTJ', 'ISTP', 'ISFP', 'INFP', 'INTP', 'ESTP', 'ESFP', 'ENFP', 'ENTP', 'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ']
 
@@ -61,12 +62,13 @@ export default function PersonaDiscovery() {
   const [mbtiResult, setMbtiResult] = useState<string | null>(null)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
   const [showMbtiSelect, setShowMbtiSelect] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
   const { language } = useLanguage()
 
   const t = content[language]
 
   const startMBTITest = () => {
-    console.log("Starting MBTI test")
+    setIsGenerating(true)
     setTimeout(() => {
       const randomMBTI = mbtiTypes[Math.floor(Math.random() * mbtiTypes.length)]
       setMbtiResult(randomMBTI)
@@ -80,102 +82,150 @@ export default function PersonaDiscovery() {
   }
 
   const generateImage = (mbtiType: string) => {
-    setGeneratedImage(`https://source.unsplash.com/random/400x400?abstract&${mbtiType}`)
+    setIsGenerating(true)
+    setTimeout(() => {
+      setGeneratedImage(`https://source.unsplash.com/random/400x400?abstract&${mbtiType}`)
+      setIsGenerating(false)
+    }, 2000)
   }
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.lucide) {
-      window.lucide.createIcons();
-    }
-  }, []);
-
   return (
-    <div className="bg-white bg-opacity-70 rounded-lg shadow-lg p-8 mb-8">
-      <motion.section 
-        initial={{ opacity: 0, y: -20 }}
+    <div className="container mx-auto px-4 py-12 max-w-6xl">
+      <motion.h1 
+        initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-16"
+        transition={{ duration: 0.5 }}
+        className="text-5xl font-bold text-center mb-12 text-purple-800 relative"
       >
-        <div className="flex items-center justify-center mb-6">
-          <i data-lucide="compass" className="text-purple-600 mr-4 w-12 h-12"></i>
-          <h1 className="text-4xl font-bold text-purple-800">{t.title}</h1>
-        </div>
-        <p className="text-purple-700 mb-8 text-center text-xl">{t.subtitle}</p>
-      </motion.section>
+        {t.title}
+        <motion.span
+          className="absolute -top-6 -right-6 text-9xl text-purple-200 opacity-50"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        >
+          <Sparkles />
+        </motion.span>
+      </motion.h1>
+      <p className="text-xl text-center text-purple-600 mb-16">{t.subtitle}</p>
 
-      <motion.section 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="mb-16"
-      >
-        <h2 className="text-3xl font-semibold text-purple-800 mb-6">{t.mbtiTest}</h2>
-        <p className="text-purple-700 mb-4">{t.mbtiDescription}</p>
-        {!mbtiResult && (
-          <div className="flex space-x-4">
-            <button onClick={startMBTITest} className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors duration-300 flex items-center">
-              {t.startTest}
-              <i data-lucide="arrow-right" className="ml-2 w-5 h-5"></i>
-            </button>
-            <button onClick={() => setShowMbtiSelect(!showMbtiSelect)} className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors duration-300 flex items-center">
-              {t.selectType}
-              <i data-lucide="check-circle" className="ml-2 w-5 h-5"></i>
-            </button>
-          </div>
-        )}
-        {showMbtiSelect && (
-          <div className="mt-4 grid grid-cols-4 gap-2">
-            {mbtiTypes.map(type => (
-              <button
-                key={type}
-                onClick={() => selectMBTI(type)}
-                className="bg-purple-200 text-purple-800 px-4 py-2 rounded-md hover:bg-purple-300 transition-colors duration-300 text-sm"
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <motion.section 
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white p-8 rounded-2xl shadow-lg"
+        >
+          <h2 className="text-3xl font-semibold text-purple-800 mb-6 flex items-center">
+            <Brain className="mr-3 text-purple-600" size={32} />
+            {t.mbtiTest}
+          </h2>
+          <p className="text-purple-700 mb-8">{t.mbtiDescription}</p>
+          {!mbtiResult && (
+            <div className="flex flex-col space-y-4">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={startMBTITest}
+                className="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 transition-colors duration-300 flex items-center justify-center"
               >
-                {type}
-              </button>
-            ))}
-          </div>
-        )}
-        {mbtiResult && (
-          <div className="mt-4 p-4 bg-purple-100 rounded-lg">
-            <h3 className="text-2xl font-semibold text-purple-800 mb-4 flex items-center">
-              <i data-lucide="check-circle" className="mr-2 text-green-600 w-6 h-6"></i>
-              {t.yourResult}
-            </h3>
-            <p className="text-purple-700 text-xl">{t.yourType} <span className="font-bold text-purple-900">{mbtiResult}</span></p>
-          </div>
-        )}
-      </motion.section>
-
-      <motion.section 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="mb-16"
-      >
-        <h2 className="text-3xl font-semibold text-purple-800 mb-6">{t.soulForge}</h2>
-        <p className="text-purple-700 mb-4">{t.soulForgeDescription}</p>
-        <div className="flex flex-col items-center">
-          {generatedImage ? (
-            <div className="mt-4 p-4 bg-purple-100 rounded-lg">
-              <img src={generatedImage} alt="Generated Soul Image" className="w-full max-w-md rounded-lg shadow-lg" />
+                {t.startTest}
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowMbtiSelect(!showMbtiSelect)}
+                className="bg-indigo-600 text-white px-6 py-3 rounded-full hover:bg-indigo-700 transition-colors duration-300 flex items-center justify-center"
+              >
+                {t.selectType}
+                <CheckCircle className="ml-2 w-5 h-5" />
+              </motion.button>
             </div>
-          ) : mbtiResult ? (
-            <p className="text-purple-600">{t.generating}</p>
-          ) : (
-            <p className="text-purple-700">{t.completeTest}</p>
           )}
-        </div>
-      </motion.section>
+          <AnimatePresence>
+            {showMbtiSelect && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="mt-4 grid grid-cols-4 gap-2"
+              >
+                {mbtiTypes.map(type => (
+                  <motion.button
+                    key={type}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => selectMBTI(type)}
+                    className="bg-purple-100 text-purple-800 px-3 py-2 rounded-lg hover:bg-purple-200 transition-colors duration-300 text-sm"
+                  >
+                    {type}
+                  </motion.button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+          {mbtiResult && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-8 p-6 bg-purple-100 rounded-lg shadow-inner"
+            >
+              <h3 className="text-2xl font-semibold text-purple-800 mb-4 flex items-center">
+                <CheckCircle className="mr-2 text-green-600 w-6 h-6" />
+                {t.yourResult}
+              </h3>
+              <p className="text-purple-700 text-xl">{t.yourType} <span className="font-bold text-purple-900">{mbtiResult}</span></p>
+            </motion.div>
+          )}
+        </motion.section>
+
+        <motion.section 
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4 }}
+          className="bg-white p-8 rounded-2xl shadow-lg"
+        >
+          <h2 className="text-3xl font-semibold text-purple-800 mb-6 flex items-center">
+            <Zap className="mr-3 text-purple-600" size={32} />
+            {t.soulForge}
+          </h2>
+          <p className="text-purple-700 mb-8">{t.soulForgeDescription}</p>
+          <div className="flex flex-col items-center">
+            {generatedImage ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="w-full max-w-md"
+              >
+                <img src={generatedImage} alt="Generated Soul Image" className="w-full rounded-lg shadow-lg" />
+              </motion.div>
+            ) : mbtiResult ? (
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="text-purple-600"
+              >
+                <RefreshCcw className="w-16 h-16" />
+              </motion.div>
+            ) : (
+              <p className="text-purple-700 text-center">{t.completeTest}</p>
+            )}
+          </div>
+        </motion.section>
+      </div>
 
       <motion.section
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
+        className="mt-16"
       >
-        <h2 className="text-3xl font-semibold text-purple-800 mb-6">{t.evolveSelf}</h2>
-        <p className="text-purple-700 mb-4">{t.evolveSelfDescription}</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <h2 className="text-3xl font-semibold text-purple-800 mb-8 flex items-center justify-center">
+          <Target className="mr-3 text-purple-600" size={32} />
+          {t.evolveSelf}
+        </h2>
+        <p className="text-purple-700 mb-8 text-center max-w-2xl mx-auto">{t.evolveSelfDescription}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <EvolveSelfCard
             title={t.selfReflection}
             description={t.selfReflectionDesc}
@@ -205,12 +255,15 @@ interface EvolveSelfCardProps {
 
 const EvolveSelfCard: React.FC<EvolveSelfCardProps> = ({ title, description }) => {
   return (
-    <div className="bg-purple-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      className="bg-purple-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+    >
       <h3 className="text-2xl font-semibold text-purple-800 mb-3 flex items-center">
-        <i data-lucide="sparkles" className="mr-2 text-yellow-500 w-6 h-6"></i>
+        <Sparkles className="mr-2 text-yellow-500 w-6 h-6" />
         {title}
       </h3>
       <p className="text-purple-700">{description}</p>
-    </div>
+    </motion.div>
   )
 }
