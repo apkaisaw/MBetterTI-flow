@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '../../contexts/LanguageContext'
-import { Search, PenTool, Heart, MessageCircle, Repeat2, Share2, TrendingUp, Filter, User, BookOpen, BarChart2, Sparkles } from 'lucide-react'
+import { Search, PenTool, Heart, MessageCircle, Repeat2, Share2, TrendingUp, Filter, User, BookOpen, BarChart2, Sparkles, LucideIcon } from 'lucide-react'
 
 const content = {
   zh: {
@@ -342,8 +342,14 @@ export default function BlogGarden() {
   )
 }
 
-// 新增的 InteractionButton 组件
-const InteractionButton = ({ icon: Icon, count, label }) => (
+// 修改 InteractionButton 组件定义
+interface InteractionButtonProps {
+  icon: LucideIcon;
+  count: number;
+  label: string;
+}
+
+const InteractionButton: React.FC<InteractionButtonProps> = ({ icon: Icon, count, label }) => (
   <motion.button 
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }}
