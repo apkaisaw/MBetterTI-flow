@@ -46,7 +46,7 @@ const Header = () => {
   const navItems = [
     { href: "/", label: t('home'), icon: Home },
     { href: "/persona-discovery", label: t('personaDiscovery'), icon: Lightbulb },
-    { href: "/blog-garden", label: t('blogGarden'), icon: BookOpen },·
+    { href: "/blog-garden", label: t('blogGarden'), icon: BookOpen },
     { href: "/creative-hub", label: t('creativeHub'), icon: Palette },
   ]
 
