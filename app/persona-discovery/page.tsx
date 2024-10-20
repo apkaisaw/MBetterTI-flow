@@ -14,90 +14,36 @@ import {
 } from '../../lib/personality-test'
 import { personalityTest as fullPersonalityTest } from '../../data/personality-test'
 import { personalityTest as quickPersonalityTest } from '../../data/small-personality-test'
+import { useTranslation } from 'react-i18next'  // 修改这一行
 
-const content = {
-  zh: {
-    title: "个性发现",
-    mbtiTest: "MBTI 测试",
-    startQuickTest: "开始快速测试 (28题)",
-    startFullTest: "开始完整测试 (70题)",
-    viewTypes: "查看MBTI类型",
-    viewPreviousResult: "查看之前的测试结果",
-    backToOptions: "返回选项",
-    yourResult: "您的结果",
-    yourType: "您的类型：",
-    soulForgeDescription: "基于您的MBTI类型生成独特的灵魂图像",
-    evolveSelf: "自我进化",
-    evolveSelfDescription: "探索成长和自我提升的方法",
-    selfReflection: "自我反思",
-    selfReflectionDesc: "定期进行自我评估，了解自己的优势和成长领域",
-    exploreNewPerspectives: "探索新视角",
-    exploreNewPerspectivesDesc: "尝试从不同角度看待事物，拓展思维",
-    developComplementarySkills: "发展互补技能",
-    developComplementarySkillsDesc: "培养与您的MBTI类型互补的技能，实现全面发展",
-    practiceMindfulness: "练习正念",
-    practiceMindfulnessDesc: "通过冥想和正念练习提高自我意识",
-    historyResults: "历史测试结果",
-    expand: "展开",
-    collapse: "收起",
-    testTime: "测试时间",
-    type: "类型",
-    scores: "得分",
-  },
-  en: {
-    title: "Persona Discovery",
-    mbtiTest: "MBTI Test",
-    startQuickTest: "Start Quick Test (28 questions)",
-    startFullTest: "Start Full Test (70 questions)",
-    viewTypes: "View MBTI Types",
-    viewPreviousResult: "View Previous Test Result",
-    backToOptions: "Back to Options",
-    yourResult: "Your Result",
-    yourType: "Your Type: ",
-    soulForgeDescription: "Generate a unique soul image based on your MBTI type",
-    evolveSelf: "Evolve Self",
-    evolveSelfDescription: "Explore ways to grow and improve yourself",
-    selfReflection: "Self Reflection",
-    selfReflectionDesc: "Regularly assess yourself to understand your strengths and areas for growth",
-    exploreNewPerspectives: "Explore New Perspectives",
-    exploreNewPerspectivesDesc: "Try to see things from different angles and expand your thinking",
-    developComplementarySkills: "Develop Complementary Skills",
-    developComplementarySkillsDesc: "Cultivate skills that complement your MBTI type for well-rounded development",
-    practiceMindfulness: "Practice Mindfulness",
-    practiceMindfulnessDesc: "Enhance self-awareness through meditation and mindfulness practices",
-    historyResults: "History Test Results",
-    expand: "Expand",
-    collapse: "Collapse",
-    testTime: "Test Time",
-    type: "Type",
-    scores: "Scores",
-  }
-};
+// 修改 ResultCard 组件
+const ResultCard = ({ titleKey, children, isVisible, isLoading = false }: { titleKey: string; children: React.ReactNode; isVisible: boolean; isLoading?: boolean }) => {
+  const { t } = useTranslation('common');
 
-// 修改 ResultCard 组件，添加 isLoading 属性
-const ResultCard = ({ title, children, isVisible, isLoading = false }: { title: string; children: React.ReactNode; isVisible: boolean; isLoading?: boolean }) => (
-  <AnimatePresence>
-    {isVisible && (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        className="bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-2xl px-6 py-4 mb-6 transition-all duration-300 hover:shadow-xl"
-      >
-        <h4 className="text-xl font-semibold mb-3 text-purple-800">{title}</h4>
-        {isLoading ? (
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            className="text-purple-600 flex justify-center"
-          >
-            <RefreshCcw className="w-8 h-8" />
-          </motion.div>
-        ) : children}
-      </motion.div>
-    )}
-  </AnimatePresence>
-)
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-2xl px-6 py-4 mb-6 transition-all duration-300 hover:shadow-xl"
+        >
+          <h4 className="text-xl font-semibold mb-3 text-purple-800">{t(titleKey)}</h4>
+          {isLoading ? (
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className="text-purple-600 flex justify-center"
+            >
+              <RefreshCcw className="w-8 h-8" />
+            </motion.div>
+          ) : children}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
 
 export default function PersonaDiscovery() {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0)
@@ -112,8 +58,7 @@ export default function PersonaDiscovery() {
   const [isQuickTest, setIsQuickTest] = useState(true)
   const [viewingType, setViewingType] = useState<PersonalityClassGroup | null>(null)
   const [isHistoryExpanded, setIsHistoryExpanded] = useState(false)
-
-  const t = content[language]
+  const { t } = useTranslation('common');  // 使用 'common' 命名空间
 
   useEffect(() => {
     loadSavedResults()
@@ -198,7 +143,7 @@ export default function PersonaDiscovery() {
         onClick={() => startTest(true)}
         className="w-full bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 transition-colors duration-300"
       >
-        {t.startQuickTest}
+        {t('startQuickTest')}
       </motion.button>
       <motion.button
         whileHover={{ scale: 1.05 }}
@@ -206,7 +151,7 @@ export default function PersonaDiscovery() {
         onClick={() => startTest(false)}
         className="w-full bg-indigo-600 text-white px-6 py-3 rounded-full hover:bg-indigo-700 transition-colors duration-300"
       >
-        {t.startFullTest}
+        {t('startFullTest')}
       </motion.button>
       <motion.button
         whileHover={{ scale: 1.05 }}
@@ -214,7 +159,7 @@ export default function PersonaDiscovery() {
         onClick={() => setShowMbtiSelect(!showMbtiSelect)}
         className="w-full bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition-colors duration-300"
       >
-        {t.viewTypes}
+        {t('viewTypes')}
       </motion.button>
       {showMbtiSelect && (
         <div className="grid grid-cols-4 gap-2 mt-4">
@@ -271,14 +216,14 @@ export default function PersonaDiscovery() {
 
   const renderResult = (result: PersonalityClassGroup, isViewing: boolean = false) => (
     <div className="space-y-4">
-      <ResultCard title="MBTI 类型和描述" isVisible={!!result}>
+      <ResultCard titleKey="mbtiTypeAndDescription" isVisible={!!result}>
         <h2 className="text-2xl font-bold mb-2 text-purple-800">{result.type}</h2>
         <h3 className="text-xl mb-2 text-purple-700">{result.name} - {result.epithet}</h3>
         <p className="text-purple-700">{result.description}</p>
       </ResultCard>
 
       {!isViewing && (
-        <ResultCard title="各维度的得分" isVisible={!!result}>
+        <ResultCard titleKey="dimensionScores" isVisible={!!result}>
           <div className="grid grid-cols-2 gap-4 text-purple-700">
             <div>E: {result.scores?.E || 0} - I: {result.scores?.I || 0}</div>
             <div>S: {result.scores?.S || 0} - N: {result.scores?.N || 0}</div>
@@ -288,16 +233,16 @@ export default function PersonaDiscovery() {
         </ResultCard>
       )}
 
-      <ResultCard title="荣格功能偏好" isVisible={!!result}>
+      <ResultCard titleKey="jungianFunctionalPreference" isVisible={!!result}>
         <ul className="list-disc list-inside text-purple-700">
-          <li>主导功能：{result.jungianFunctionalPreference.dominant}</li>
-          <li>辅助功能：{result.jungianFunctionalPreference.auxiliary}</li>
-          <li>第三功能：{result.jungianFunctionalPreference.tertiary}</li>
-          <li>劣势功能：{result.jungianFunctionalPreference.inferior}</li>
+          <li>{t('dominantFunction')}: {result.jungianFunctionalPreference.dominant}</li>
+          <li>{t('auxiliaryFunction')}: {result.jungianFunctionalPreference.auxiliary}</li>
+          <li>{t('tertiaryFunction')}: {result.jungianFunctionalPreference.tertiary}</li>
+          <li>{t('inferiorFunction')}: {result.jungianFunctionalPreference.inferior}</li>
         </ul>
       </ResultCard>
 
-      <ResultCard title="主要特征" isVisible={!!result}>
+      <ResultCard titleKey="generalTraits" isVisible={!!result}>
         <ul className="list-disc list-inside text-purple-700">
           {result.generalTraits.map((trait: string, index: number) => (
             <li key={index}>{trait}</li>
@@ -305,7 +250,7 @@ export default function PersonaDiscovery() {
         </ul>
       </ResultCard>
 
-      <ResultCard title="关系优势" isVisible={!!result}>
+      <ResultCard titleKey="relationshipStrengths" isVisible={!!result}>
         <ul className="list-disc list-inside text-purple-700">
           {result.relationshipStrengths.map((strength: string, index: number) => (
             <li key={index}>{strength}</li>
@@ -313,7 +258,7 @@ export default function PersonaDiscovery() {
         </ul>
       </ResultCard>
 
-      <ResultCard title="关系劣势" isVisible={!!result}>
+      <ResultCard titleKey="relationshipWeaknesses" isVisible={!!result}>
         <ul className="list-disc list-inside text-purple-700">
           {result.relationshipWeaknesses.map((weakness: string, index: number) => (
             <li key={index}>{weakness}</li>
@@ -321,11 +266,11 @@ export default function PersonaDiscovery() {
         </ul>
       </ResultCard>
 
-      <ResultCard title="成功的定义" isVisible={!!result}>
+      <ResultCard titleKey="successDefinition" isVisible={!!result}>
         <p className="text-purple-700">{result.successDefinition}</p>
       </ResultCard>
 
-      <ResultCard title="优势" isVisible={!!result}>
+      <ResultCard titleKey="strengths" isVisible={!!result}>
         <ul className="list-disc list-inside text-purple-700">
           {result.strengths.map((strength: string, index: number) => (
             <li key={index}>{strength}</li>
@@ -333,7 +278,7 @@ export default function PersonaDiscovery() {
         </ul>
       </ResultCard>
 
-      <ResultCard title="天赋" isVisible={!!result}>
+      <ResultCard titleKey="gifts" isVisible={!!result}>
         <ul className="list-disc list-inside text-purple-700">
           {result.gifts.map((gift: string, index: number) => (
             <li key={index}>{gift}</li>
@@ -341,7 +286,7 @@ export default function PersonaDiscovery() {
         </ul>
       </ResultCard>
 
-      <ResultCard title="潜在问题领域" isVisible={!!result}>
+      <ResultCard titleKey="potentialProblemAreas" isVisible={!!result}>
         <ul className="list-disc list-inside text-purple-700">
           {result.potentialProblemAreas.map((area: string, index: number) => (
             <li key={index}>{area}</li>
@@ -349,19 +294,19 @@ export default function PersonaDiscovery() {
         </ul>
       </ResultCard>
 
-      <ResultCard title="问题解释" isVisible={!!result}>
+      <ResultCard titleKey="explanationOfProblems" isVisible={!!result}>
         <p className="text-purple-700">{result.explanationOfProblems}</p>
       </ResultCard>
 
-      <ResultCard title="解决方案" isVisible={!!result}>
+      <ResultCard titleKey="solutions" isVisible={!!result}>
         <p className="text-purple-700">{result.solutions}</p>
       </ResultCard>
 
-      <ResultCard title="幸福生活建议" isVisible={!!result}>
+      <ResultCard titleKey="livingHappilyTips" isVisible={!!result}>
         <p className="text-purple-700">{result.livingHappilyTips}</p>
       </ResultCard>
 
-      <ResultCard title="成功生活的十条原则" isVisible={!!result}>
+      <ResultCard titleKey="tenRulesToLive" isVisible={!!result}>
         <ol className="list-decimal list-inside text-purple-700">
           {result.tenRulesToLive.map((rule: string, index: number) => (
             <li key={index}>{rule}</li>
@@ -370,7 +315,7 @@ export default function PersonaDiscovery() {
       </ResultCard>
 
       {!isViewing && (
-        <ResultCard title="灵魂锻造" isVisible={!!result} isLoading={isGenerating}>
+        <ResultCard titleKey="soulForge" isVisible={!!result} isLoading={isGenerating}>
           {generatedImage ? (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -380,7 +325,7 @@ export default function PersonaDiscovery() {
               <img src={generatedImage} alt="Generated Soul Image" className="w-full rounded-lg shadow-lg" />
             </motion.div>
           ) : (
-            <p className="text-purple-700 text-center">{t.soulForgeDescription}</p>
+            <p className="text-purple-700 text-center">{t('soulForgeDescription')}</p>
           )}
         </ResultCard>
       )}
@@ -394,7 +339,7 @@ export default function PersonaDiscovery() {
       className="bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-2xl px-8 pt-6 pb-8 mb-4"
     >
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-2xl font-bold text-purple-800">{t.historyResults}</h3>
+        <h3 className="text-2xl font-bold text-purple-800">{t('historyResults')}</h3>
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
@@ -402,7 +347,7 @@ export default function PersonaDiscovery() {
           className="text-purple-600 hover:text-purple-800"
         >
           {isHistoryExpanded ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
-          <span className="ml-2">{isHistoryExpanded ? t.collapse : t.expand}</span>
+          <span className="ml-2">{isHistoryExpanded ? t('collapse') : t('expand')}</span>
         </motion.button>
       </div>
       <AnimatePresence>
@@ -417,8 +362,8 @@ export default function PersonaDiscovery() {
               const personalityType = getPersonalityClassGroupByTestScores(result.testScores)
               return (
                 <li key={index} className="mb-2">
-                  {t.testTime}: {new Date(result.timestamp).toLocaleString()} - 
-                  {t.type}: {personalityType.type}
+                  {t('testTime')}: {new Date(result.timestamp).toLocaleString()} - 
+                  {t('type')}: {personalityType.type}
                 </li>
               )
             })}
@@ -437,7 +382,7 @@ export default function PersonaDiscovery() {
           transition={{ duration: 0.5 }}
           className="text-5xl font-bold text-center mb-12 text-purple-800 relative"
         >
-          {t.title}
+          {t('title')}
           <motion.span
             className="absolute -top-6 -right-6 text-9xl text-purple-200 opacity-50"
             animate={{ rotate: 360 }}
@@ -455,7 +400,7 @@ export default function PersonaDiscovery() {
         >
           <h2 className="text-3xl font-semibold text-purple-800 mb-6 flex items-center">
             <Compass className="mr-3 text-purple-600" size={32} />
-            {t.mbtiTest}
+            {t('mbtiTest')}
           </h2>
           {!testStarted && !testResult && !viewingType && renderInitialOptions()}
           {testStarted && !testResult && renderQuestion(isQuickTest ? quickPersonalityTest[currentQuestion] : fullPersonalityTest[currentQuestion])}
@@ -472,7 +417,7 @@ export default function PersonaDiscovery() {
               }}
               className="mt-6 bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 transition-colors duration-300 shadow-md hover:shadow-lg"
             >
-              {t.backToOptions}
+              {t('backToOptions')}
             </motion.button>
           )}
         </motion.div>
@@ -488,25 +433,25 @@ export default function PersonaDiscovery() {
         >
           <h2 className="text-3xl font-semibold text-purple-800 mb-8 flex items-center justify-center">
             <Target className="mr-3 text-purple-600" size={32} />
-            {t.evolveSelf}
+            {t('evolveSelf')}
           </h2>
-          <p className="text-purple-700 mb-8 text-center max-w-2xl mx-auto">{t.evolveSelfDescription}</p>
+          <p className="text-purple-700 mb-8 text-center max-w-2xl mx-auto">{t('evolveSelfDescription')}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <EvolveSelfCard
-              title={t.selfReflection}
-              description={t.selfReflectionDesc}
+              title={t('selfReflection')}
+              description={t('selfReflectionDesc')}
             />
             <EvolveSelfCard
-              title={t.exploreNewPerspectives}
-              description={t.exploreNewPerspectivesDesc}
+              title={t('exploreNewPerspectives')}
+              description={t('exploreNewPerspectivesDesc')}
             />
             <EvolveSelfCard
-              title={t.developComplementarySkills}
-              description={t.developComplementarySkillsDesc}
+              title={t('developComplementarySkills')}
+              description={t('developComplementarySkillsDesc')}
             />
             <EvolveSelfCard
-              title={t.practiceMindfulness}
-              description={t.practiceMindfulnessDesc}
+              title={t('practiceMindfulness')}
+              description={t('practiceMindfulnessDesc')}
             />
           </div>
         </motion.section>

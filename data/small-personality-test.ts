@@ -84,11 +84,11 @@ export const personalityTest: TestQuestion[] = [
   },
   {
     no: 9,
-    question: "Children often do not: ",
+    question: "You remember more from a trip:",
     answerOptions: [
-      { type: "A", answer: "make themselves useful enough", score: "S" },
-      { type: "B", answer: "exercise their fantasy enough", score: "N" },
-    ],
+      { type: "A", answer: "Specific details like scenery", score: "S" },
+      { type: "B", answer: "The overall feeling or insight", score: "N" }
+    ]
   },
   {
     no: 10,

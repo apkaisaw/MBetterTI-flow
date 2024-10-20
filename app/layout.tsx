@@ -2,6 +2,7 @@ import './globals.css'
 import dynamic from 'next/dynamic'
 import Footer from '../components/Footer'
 import { LanguageProvider } from '../contexts/LanguageContext'
+import I18nClientProvider from './I18nClientProvider'
 
 const Header = dynamic(() => import('../components/Header'), { ssr: false })
 
@@ -13,19 +14,23 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  params: { lang },
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
+  params: { lang: string };
 }) {
   return (
-    <html lang="zh">
+    <html lang={lang}>
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col font-sans">
-        <LanguageProvider>
-          <Header />
-          <main className="flex-grow container mx-auto px-4 py-8 mt-20">{children}</main>
-          <Footer />
+        <LanguageProvider initialLanguage={lang}>
+          <I18nClientProvider locale={lang} namespaces={['common']}>
+            <Header />
+            <main className="flex-grow container mx-auto px-4 py-8 mt-20">{children}</main>
+            <Footer />
+          </I18nClientProvider>
         </LanguageProvider>
       </body>
     </html>

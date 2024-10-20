@@ -6,11 +6,13 @@ import { motion } from 'framer-motion'
 import LanguageSwitch from './LanguageSwitch'
 import { useLanguage } from '../contexts/LanguageContext'
 import { Wallet, WalletCards, User, Home, Lightbulb, BookOpen, Palette, Flower } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 const Header = () => {
   const [isConnected, setIsConnected] = useState(false)
   const [address, setAddress] = useState('')
   const { language } = useLanguage()
+  const { t } = useTranslation('common')
 
   const connectWallet = async () => {
     if (typeof window.ethereum !== 'undefined') {
@@ -23,7 +25,7 @@ const Header = () => {
         console.error('Failed to connect wallet:', error)
       }
     } else {
-      alert(language === 'zh' ? '请安装MetaMask!' : 'Please install MetaMask!')
+      alert(t('installMetaMask'))
     }
   }
 
@@ -42,10 +44,10 @@ const Header = () => {
   }, [])
 
   const navItems = [
-    { href: "/", label: language === 'zh' ? '首页' : 'Home', icon: Home },
-    { href: "/persona-discovery", label: language === 'zh' ? '个性发现' : 'Persona Discovery', icon: Lightbulb },
-    { href: "/blog-garden", label: language === 'zh' ? '博客花园' : 'Blog Garden', icon: BookOpen },
-    { href: "/creative-hub", label: language === 'zh' ? '创意中心' : 'Creative Hub', icon: Palette },
+    { href: "/", label: t('home'), icon: Home },
+    { href: "/persona-discovery", label: t('personaDiscovery'), icon: Lightbulb },
+    { href: "/blog-garden", label: t('blogGarden'), icon: BookOpen },·
+    { href: "/creative-hub", label: t('creativeHub'), icon: Palette },
   ]
 
   return (
@@ -56,7 +58,7 @@ const Header = () => {
             <Flower className="w-8 h-8 mr-3 text-purple-700" />
           </motion.div>
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-indigo-700">
-            Idealist Garden
+            {t('idealistGarden')}
           </span>
         </Link>
         <nav className="hidden md:flex items-center space-x-1">
@@ -77,7 +79,7 @@ const Header = () => {
             className="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-full transition-all duration-300 flex items-center"
           >
             {isConnected ? <Wallet className="w-5 h-5 mr-2" /> : <WalletCards className="w-5 h-5 mr-2" />}
-            <span>{isConnected ? (language === 'zh' ? '已连接' : 'Connected') : (language === 'zh' ? '连接钱包' : 'Connect Wallet')}</span>
+            <span>{isConnected ? t('connected') : t('connectWallet')}</span>
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}

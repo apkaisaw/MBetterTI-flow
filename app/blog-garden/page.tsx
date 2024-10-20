@@ -4,69 +4,14 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { Search, PenTool, Heart, MessageCircle, Repeat2, Share2, TrendingUp, Filter, User, BookOpen, BarChart2, Sparkles, LucideIcon } from 'lucide-react'
-
-const content = {
-  zh: {
-    title: "博客花园",
-    searchPlaceholder: "搜索博客文章...",
-    createNew: "创建新博客文章",
-    whatOnMind: "你在想什么？",
-    post: "发布",
-    likes: "喜欢",
-    comments: "评论",
-    reposts: "转发",
-    shares: "分享",
-    personalStats: "个人统计",
-    postsCount: "发帖数",
-    followersCount: "关注者",
-    followingCount: "正在关注",
-    mbtiActivityBoard: "MBTI 活跃度看板",
-    filterByMBTI: "按MBTI筛选",
-    interestedPeople: "你可能感兴趣的人",
-    trendingTopics: "趋势话题",
-    recommendedPosts: "推荐文章",
-    follow: "关注",
-    allTypes: "所有类型",
-    viewMore: "查看更多"
-  },
-  en: {
-    title: "Blog Garden",
-    searchPlaceholder: "Search blog posts...",
-    createNew: "Create New Blog Post",
-    whatOnMind: "What's on your mind?",
-    post: "Post",
-    likes: "Likes",
-    comments: "Comments",
-    reposts: "Reposts",
-    shares: "Shares",
-    personalStats: "Personal Stats",
-    postsCount: "Posts",
-    followersCount: "Followers",
-    followingCount: "Following",
-    mbtiActivityBoard: "MBTI Activity Board",
-    filterByMBTI: "Filter by MBTI",
-    interestedPeople: "People You May Be Interested In",
-    trendingTopics: "Trending Topics",
-    recommendedPosts: "Recommended Posts",
-    follow: "Follow",
-    allTypes: "All Types",
-    viewMore: "View More"
-  }
-}
+import { useTranslation } from 'react-i18next'
 
 // 模拟博客文章数据
-const mockPosts = {
-  zh: [
-    { id: 1, author: '张三', avatar: 'https://i.pravatar.cc/150?img=1', content: '创造力是一种可以通过练习和正确的方法来培养的技能...', likes: 15, comments: 3, reposts: 2, shares: 1 },
-    { id: 2, author: '李四', avatar: 'https://i.pravatar.cc/150?img=2', content: '规律的冥想练习可以显著改善心理健康,减少压力和焦虑...', likes: 20, comments: 5, reposts: 4, shares: 2 },
-    { id: 3, author: '王五', avatar: 'https://i.pravatar.cc/150?img=3', content: '个人成长是一个持续的过程,有多种方法可以促进自我发展...', likes: 10, comments: 2, reposts: 1, shares: 0 },
-  ],
-  en: [
-    { id: 1, author: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=4', content: 'Creativity is a skill that can be cultivated through practice and proper methods...', likes: 15, comments: 3, reposts: 2, shares: 1 },
-    { id: 2, author: 'Jane Smith', avatar: 'https://i.pravatar.cc/150?img=5', content: 'Regular meditation practice can significantly improve mental health, reducing stress and anxiety...', likes: 20, comments: 5, reposts: 4, shares: 2 },
-    { id: 3, author: 'Bob Johnson', avatar: 'https://i.pravatar.cc/150?img=6', content: 'Personal growth is an ongoing process, and there are many ways to promote self-development...', likes: 10, comments: 2, reposts: 1, shares: 0 },
-  ]
-}
+const mockPosts = [
+  { id: 1, author: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=4', content: 'Creativity is a skill that can be cultivated through practice and proper methods...', likes: 15, comments: 3, reposts: 2, shares: 1 },
+  { id: 2, author: 'Jane Smith', avatar: 'https://i.pravatar.cc/150?img=5', content: 'Regular meditation practice can significantly improve mental health, reducing stress and anxiety...', likes: 20, comments: 5, reposts: 4, shares: 2 },
+  { id: 3, author: 'Bob Johnson', avatar: 'https://i.pravatar.cc/150?img=6', content: 'Personal growth is an ongoing process, and there are many ways to promote self-development...', likes: 10, comments: 2, reposts: 1, shares: 0 },
+]
 
 const mbtiTypes = ['ISTJ', 'ISFJ', 'INFJ', 'INTJ', 'ISTP', 'ISFP', 'INFP', 'INTP', 'ESTP', 'ESFP', 'ENFP', 'ENTP', 'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ']
 
@@ -103,11 +48,9 @@ export default function BlogGarden() {
   const [newPost, setNewPost] = useState('')
   const [selectedMBTI, setSelectedMBTI] = useState('')
   const { language } = useLanguage()
+  const { t } = useTranslation('common')
 
-  const t = content[language]
-  const posts = mockPosts[language]
-
-  const filteredPosts = posts.filter(post =>
+  const filteredPosts = mockPosts.filter(post =>
     post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
     post.author.toLowerCase().includes(searchTerm.toLowerCase())
   )
@@ -120,7 +63,7 @@ export default function BlogGarden() {
         transition={{ duration: 0.5 }}
         className="text-5xl font-bold text-center mb-12 text-purple-800 relative"
       >
-        {t.title}
+        {t('blogGardenTitle')}
         <span className="absolute -top-6 -right-6 text-9xl text-purple-200 opacity-50 transform rotate-12">🌿</span>
       </motion.h1>
 
@@ -135,19 +78,19 @@ export default function BlogGarden() {
           <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 bg-opacity-80 backdrop-blur-lg">
             <h2 className="text-2xl font-semibold mb-4 flex items-center text-purple-800">
               <BarChart2 className="mr-2" size={24} />
-              {t.personalStats}
+              {t('personalStats')}
             </h2>
             <div className="space-y-2">
-              <p className="text-purple-700">{t.postsCount}: <span className="font-bold">42</span></p>
-              <p className="text-purple-700">{t.followersCount}: <span className="font-bold">1,234</span></p>
-              <p className="text-purple-700">{t.followingCount}: <span className="font-bold">567</span></p>
+              <p className="text-purple-700">{t('postsCount')}: <span className="font-bold">42</span></p>
+              <p className="text-purple-700">{t('followersCount')}: <span className="font-bold">1,234</span></p>
+              <p className="text-purple-700">{t('followingCount')}: <span className="font-bold">567</span></p>
             </div>
           </div>
 
           <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-semibold mb-4 flex items-center text-purple-800">
               <BarChart2 className="mr-2" size={24} />
-              {t.mbtiActivityBoard}
+              {t('mbtiActivityBoard')}
             </h2>
             <div className="grid grid-cols-4 gap-2">
               {mbtiActivityData.map((mbti) => (
@@ -189,7 +132,7 @@ export default function BlogGarden() {
           <div className="relative">
             <input
               type="text"
-              placeholder={t.searchPlaceholder}
+              placeholder={t('searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full p-4 pl-12 rounded-full border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white bg-opacity-80 backdrop-blur-lg"
@@ -199,7 +142,7 @@ export default function BlogGarden() {
 
           <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             <textarea
-              placeholder={t.whatOnMind}
+              placeholder={t('whatOnMind')}
               value={newPost}
               onChange={(e) => setNewPost(e.target.value)}
               className="w-full p-4 rounded-lg border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none bg-transparent"
@@ -213,7 +156,7 @@ export default function BlogGarden() {
               >
                 <span className="relative z-10 flex items-center">
                   <PenTool className="mr-2" size={18} />
-                  {t.post}
+                  {t('post')}
                 </span>
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500"
@@ -240,10 +183,10 @@ export default function BlogGarden() {
                 </div>
                 <p className="mb-4 text-purple-700">{post.content}</p>
                 <div className="flex justify-between text-purple-600">
-                  <InteractionButton icon={Heart} count={post.likes} label={t.likes} />
-                  <InteractionButton icon={MessageCircle} count={post.comments} label={t.comments} />
-                  <InteractionButton icon={Repeat2} count={post.reposts} label={t.reposts} />
-                  <InteractionButton icon={Share2} count={post.shares} label={t.shares} />
+                  <InteractionButton icon={Heart} count={post.likes} label={t('likes')} />
+                  <InteractionButton icon={MessageCircle} count={post.comments} label={t('comments')} />
+                  <InteractionButton icon={Repeat2} count={post.reposts} label={t('reposts')} />
+                  <InteractionButton icon={Share2} count={post.shares} label={t('shares')} />
                 </div>
               </motion.div>
             ))}
@@ -260,14 +203,14 @@ export default function BlogGarden() {
           <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-semibold mb-4 flex items-center text-purple-800">
               <Filter className="mr-2" size={24} />
-              {t.filterByMBTI}
+              {t('filterByMBTI')}
             </h2>
             <select
               value={selectedMBTI}
               onChange={(e) => setSelectedMBTI(e.target.value)}
               className="w-full p-3 rounded-full border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-transparent"
             >
-              <option value="">{t.allTypes}</option>
+              <option value="">{t('allTypes')}</option>
               {mbtiTypes.map(type => (
                 <option key={type} value={type}>{type}</option>
               ))}
@@ -277,7 +220,7 @@ export default function BlogGarden() {
           <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-semibold mb-4 flex items-center text-purple-800">
               <User className="mr-2" size={24} />
-              {t.interestedPeople}
+              {t('interestedPeople')}
             </h2>
             {interestedPeople.map((person) => (
               <div key={person.id} className="flex items-center justify-between mb-4 last:mb-0">
@@ -293,7 +236,7 @@ export default function BlogGarden() {
                   whileTap={{ scale: 0.95 }}
                   className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm hover:bg-purple-200 transition duration-300"
                 >
-                  {t.follow}
+                  {t('follow')}
                 </motion.button>
               </div>
             ))}
@@ -302,7 +245,7 @@ export default function BlogGarden() {
           <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-semibold mb-4 flex items-center text-purple-800">
               <TrendingUp className="mr-2" size={24} />
-              {t.trendingTopics}
+              {t('trendingTopics')}
             </h2>
             <ul className="space-y-2">
               {trendingTopics.map((topic, index) => (
@@ -320,9 +263,9 @@ export default function BlogGarden() {
           <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-semibold mb-4 flex items-center text-purple-800">
               <BookOpen className="mr-2" size={24} />
-              {t.recommendedPosts}
+              {t('recommendedPosts')}
             </h2>
-            {posts.slice(0, 3).map((post) => (
+            {mockPosts.slice(0, 3).map((post) => (
               <div key={post.id} className="mb-4 pb-4 border-b border-purple-100 last:border-b-0">
                 <h3 className="font-semibold text-purple-800 hover:text-purple-600 transition duration-300">{post.author}</h3>
                 <p className="text-sm text-purple-600 truncate">{post.content}</p>
@@ -333,7 +276,7 @@ export default function BlogGarden() {
               whileTap={{ scale: 0.95 }}
               className="text-purple-600 hover:text-purple-800 font-semibold transition duration-300"
             >
-              {t.viewMore}
+              {t('viewMore')}
             </motion.button>
           </div>
         </motion.div>

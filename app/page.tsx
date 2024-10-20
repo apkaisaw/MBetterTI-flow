@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useLanguage } from '../contexts/LanguageContext'
+import { useTranslation } from 'react-i18next'
 
 const modules = {
   zh: [
@@ -33,6 +34,7 @@ const features = {
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const { language } = useLanguage();
+  const { t } = useTranslation('common');
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.lucide) {
@@ -40,30 +42,28 @@ export default function Home() {
     }
   }, []);
 
-  const currentModules = modules[language];
-  const currentFeatures = features[language];
+  const currentModules = modules[language as keyof typeof modules] || modules.en;
+  const currentFeatures = features[language as keyof typeof features] || features.en;
 
   return (
     <div className="text-center min-h-screen flex flex-col justify-center items-center p-4 space-y-16">
       {/* 英雄部分 */}
       <section className="max-w-4xl">
         <h1 className="text-5xl font-bold text-purple-800 mb-6">
-          {language === 'zh' ? '欢迎来到理想主义者花园' : 'Welcome to Idealist Garden'}
+          {t('welcomeTitle')}
         </h1>
         <p className="text-xl text-purple-600 mb-10">
-          {language === 'zh' 
-            ? '一个去中心化的Web3平台,供富有创造力的理想主义者表达、联系和产生影响。'
-            : 'A decentralized Web3 platform for creative idealists to express, connect, and make a difference.'}
+          {t('welcomeDescription')}
         </p>
         <Link href="/persona-discovery" className="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300">
-          {language === 'zh' ? '开始你的旅程' : 'Start Your Journey'}
+          {t('startJourney')}
         </Link>
       </section>
 
       {/* 主要模块 */}
       <section className="w-full max-w-6xl">
         <h2 className="text-3xl font-semibold text-purple-800 mb-8">
-          {language === 'zh' ? '探索我们的生态系统' : 'Explore Our Ecosystem'}
+          {t('exploreEcosystem')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {currentModules.map((module, index) => (
@@ -92,7 +92,7 @@ export default function Home() {
       {/* 特性部分 */}
       <section className="w-full max-w-6xl">
         <h2 className="text-3xl font-semibold text-purple-800 mb-8">
-          {language === 'zh' ? '为什么选择理想主义者花园？' : 'Why Choose Idealist Garden?'}
+          {t('whyChooseUs')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {currentFeatures.map((feature, index) => (
@@ -108,15 +108,13 @@ export default function Home() {
       {/* 行动号召部分 */}
       <section className="w-full max-w-4xl bg-purple-100 p-8 rounded-lg">
         <h2 className="text-3xl font-semibold text-purple-800 mb-4">
-          {language === 'zh' ? '准备好产生影响了吗？' : 'Ready to Make a Difference?'}
+          {t('readyToMakeADifference')}
         </h2>
         <p className="text-xl text-purple-600 mb-6">
-          {language === 'zh'
-            ? '加入我们富有创造力的理想主义者社区,开始塑造更美好的未来。'
-            : 'Join our community of creative idealists and start shaping a better future today.'}
+          {t('joinCommunity')}
         </p>
         <Link href="/persona-discovery" className="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300">
-          {language === 'zh' ? '创建你的角色' : 'Create Your Persona'}
+          {t('createPersona')}
         </Link>
       </section>
     </div>
