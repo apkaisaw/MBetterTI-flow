@@ -27,18 +27,23 @@ const ResultCard = ({ titleKey, children, isVisible, isLoading = false }: { titl
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-2xl px-6 py-4 mb-6 transition-all duration-300 hover:shadow-xl"
+          className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg shadow-lg rounded-3xl px-8 py-6 mb-8 transition-all duration-300 hover:shadow-xl border border-white border-opacity-30"
         >
-          <h4 className="text-xl font-semibold mb-3 text-purple-800">{t(titleKey)}</h4>
+          <h4 className="text-2xl font-bold mb-4 text-purple-900 flex items-center">
+            <Sparkles className="mr-3 text-purple-700" size={24} />
+            {t(titleKey)}
+          </h4>
           {isLoading ? (
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              className="text-purple-600 flex justify-center"
+              className="text-purple-700 flex justify-center"
             >
-              <RefreshCcw className="w-8 h-8" />
+              <RefreshCcw className="w-10 h-10" />
             </motion.div>
-          ) : children}
+          ) : (
+            <div className="text-purple-800">{children}</div>
+          )}
         </motion.div>
       )}
     </AnimatePresence>
@@ -136,40 +141,43 @@ export default function PersonaDiscovery() {
   };
 
   const renderInitialOptions = () => (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.03, boxShadow: "0 10px 20px rgba(138, 43, 226, 0.2)" }}
+        whileTap={{ scale: 0.98 }}
         onClick={() => startTest(true)}
-        className="w-full bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 transition-colors duration-300"
+        className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center text-lg font-semibold"
       >
+        <Zap className="mr-3" size={24} />
         {t('startQuickTest')}
       </motion.button>
       <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.03, boxShadow: "0 10px 20px rgba(63, 81, 181, 0.2)" }}
+        whileTap={{ scale: 0.98 }}
         onClick={() => startTest(false)}
-        className="w-full bg-indigo-600 text-white px-6 py-3 rounded-full hover:bg-indigo-700 transition-colors duration-300"
+        className="w-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-8 py-4 rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center text-lg font-semibold"
       >
+        <Brain className="mr-3" size={24} />
         {t('startFullTest')}
       </motion.button>
       <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.03, boxShadow: "0 10px 20px rgba(0, 150, 136, 0.2)" }}
+        whileTap={{ scale: 0.98 }}
         onClick={() => setShowMbtiSelect(!showMbtiSelect)}
-        className="w-full bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition-colors duration-300"
+        className="w-full bg-gradient-to-r from-green-600 to-teal-600 text-white px-8 py-4 rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center text-lg font-semibold"
       >
+        <Target className="mr-3" size={24} />
         {t('viewTypes')}
       </motion.button>
       {showMbtiSelect && (
-        <div className="grid grid-cols-4 gap-2 mt-4">
+        <div className="grid grid-cols-4 gap-3 mt-6">
           {['ISTJ', 'ISFJ', 'INFJ', 'INTJ', 'ISTP', 'ISFP', 'INFP', 'INTP', 'ESTP', 'ESFP', 'ENFP', 'ENTP', 'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ'].map(type => (
             <motion.button
               key={type}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, backgroundColor: "#EDE9FE" }}
               whileTap={{ scale: 0.95 }}
               onClick={() => viewMBTI(type)}
-              className="bg-purple-100 text-purple-800 px-3 py-2 rounded-lg hover:bg-purple-200 transition-colors duration-300"
+              className="bg-purple-100 text-purple-800 px-4 py-3 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md font-medium"
             >
               {type}
             </motion.button>
@@ -187,26 +195,27 @@ export default function PersonaDiscovery() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white shadow-md rounded-2xl px-8 pt-6 pb-8 mb-4"
+        className="bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg shadow-xl rounded-3xl px-8 pt-6 pb-8 mb-8 border border-white border-opacity-40"
       >
         <div className="mb-4 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
           <div 
-            className="bg-purple-600 h-2.5 rounded-full" 
+            className="bg-gradient-to-r from-purple-600 to-indigo-600 h-2.5 rounded-full transition-all duration-500 ease-in-out" 
             style={{ width: `${progress}%` }}
           ></div>
         </div>
-        <p className="text-sm text-purple-600 mb-4">问题 {currentQuestion + 1} / {currentQuestions.length}</p>
+        <p className="text-sm text-purple-600 mb-4 font-semibold">问题 {currentQuestion + 1} / {currentQuestions.length}</p>
         <h2 className="text-2xl font-bold mb-4 text-purple-800">{question.question}</h2>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4">
           {question.answerOptions.map((option: any) => (
             <motion.button
               key={option.type}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03, boxShadow: "0 8px 16px rgba(138, 43, 226, 0.2)" }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => handleAnswer(option.type)}
-              className="bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 transition-colors duration-300"
+              className="bg-gradient-to-r from-purple-500 to-indigo-500 bg-opacity-80 backdrop-filter backdrop-blur-sm text-white px-6 py-4 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-between"
             >
-              {option.answer}
+              <span>{option.answer}</span>
+              <ArrowRight size={20} />
             </motion.button>
           ))}
         </div>
@@ -336,7 +345,7 @@ export default function PersonaDiscovery() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-2xl px-8 pt-6 pb-8 mb-4"
+      className="bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg shadow-xl rounded-3xl px-8 pt-6 pb-8 mb-8 border border-white border-opacity-40"
     >
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-2xl font-bold text-purple-800">{t('historyResults')}</h3>
@@ -374,8 +383,8 @@ export default function PersonaDiscovery() {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-indigo-100 to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto space-y-10">
         <motion.h1 
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -384,7 +393,7 @@ export default function PersonaDiscovery() {
         >
           {t('title')}
           <motion.span
-            className="absolute -top-6 -right-6 text-9xl text-purple-200 opacity-50"
+            className="absolute -top-6 -right-6 text-9xl text-purple-400 opacity-70" // 修改这里
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           >
@@ -396,7 +405,7 @@ export default function PersonaDiscovery() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white bg-opacity-80 backdrop-blur-lg p-8 rounded-2xl shadow-xl"
+          className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg p-8 rounded-3xl shadow-lg border border-white border-opacity-30"
         >
           <h2 className="text-3xl font-semibold text-purple-800 mb-6 flex items-center">
             <Compass className="mr-3 text-purple-600" size={32} />
@@ -429,7 +438,7 @@ export default function PersonaDiscovery() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mt-12 bg-white bg-opacity-80 backdrop-blur-lg p-8 rounded-2xl shadow-xl"
+          className="bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg p-8 rounded-3xl shadow-xl border border-white border-opacity-40"
         >
           <h2 className="text-3xl font-semibold text-purple-800 mb-8 flex items-center justify-center">
             <Target className="mr-3 text-purple-600" size={32} />
