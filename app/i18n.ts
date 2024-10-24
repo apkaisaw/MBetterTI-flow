@@ -6,8 +6,10 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import resourcesToBackend from 'i18next-resources-to-backend';
 
 export const i18nConfig = {
-  fallbackLng: 'zh',
-  supportedLngs: ['zh', 'en'],
+  fallbackLng: 'en',
+  supportedLngs: ['en', 'zh'],
+  defaultNS: 'common',
+  ns: ['common'],
   debug: process.env.NODE_ENV === 'development',
 };
 
@@ -21,8 +23,8 @@ export const initTranslationsClient = (lang: string, namespaces: string[]) => {
       lng: lang,
       fallbackLng: 'en',
       supportedLngs: ['en', 'zh'],
-      defaultNS: namespaces[0],
-      fallbackNS: namespaces[0],
+      defaultNS: 'common',
+      fallbackNS: 'common',
       ns: namespaces,
     });
   return i18nInstance;

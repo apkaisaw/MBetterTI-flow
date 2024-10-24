@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import LanguageSwitch from './LanguageSwitch'
 import { useLanguage } from '../contexts/LanguageContext'
 import { Wallet, WalletCards, User, Home, Lightbulb, BookOpen, Palette, Flower } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
@@ -88,7 +87,6 @@ const Header = () => {
           >
             <User className="w-5 h-5" />
           </motion.button>
-          <LanguageSwitch />
         </div>
       </div>
     </header>
