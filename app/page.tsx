@@ -2,38 +2,23 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useLanguage } from '../contexts/LanguageContext'
 import { useTranslation } from 'react-i18next'
+import Image from 'next/image'
 
-const modules = {
-  zh: [
-    { icon: 'compass', title: "个性发现", description: "探索并发现你独特的数字身份。", link: "/persona-discovery", color: "from-purple-200 to-indigo-200" },
-    { icon: 'palette', title: "创意中心", description: "将你的艺术、文学和想法作为NFT分享。", link: "/creative-hub", color: "from-indigo-200 to-blue-200" },
-    { icon: 'book-open', title: "博客花园", description: "写作、阅读并参与引人深思的内容。", link: "/blog-garden", color: "from-blue-200 to-purple-200" },
-  ],
-  en: [
-    { icon: 'compass', title: "Persona Discovery", description: "Explore and discover your unique digital identity.", link: "/persona-discovery", color: "from-purple-200 to-indigo-200" },
-    { icon: 'palette', title: "Creative Hub", description: "Share your art, literature, and ideas as NFTs.", link: "/creative-hub", color: "from-indigo-200 to-blue-200" },
-    { icon: 'book-open', title: "Blog Garden", description: "Write, read, and engage with thought-provoking content.", link: "/blog-garden", color: "from-blue-200 to-purple-200" },
-  ]
-}
+const modules = [
+  { icon: 'heart', title: "Soul Becoming", description: "Break through MBTI framework and discover your true potential.", link: "/soul-becoming", color: "from-purple-200 to-indigo-200" },
+  { icon: 'palette', title: "Creative Hub", description: "Share your art, literature, and ideas as NFTs.", link: "/creative-hub", color: "from-indigo-200 to-blue-200" },
+  { icon: 'book-open', title: "Blog Garden", description: "Write, read, and engage with thought-provoking content.", link: "/blog-garden", color: "from-blue-200 to-purple-200" },
+]
 
-const features = {
-  zh: [
-    { icon: 'sparkles', title: "独特的数字身份", description: "通过我们创新的基于MBTI的系统创建和发展你的数字角色。" },
-    { icon: 'users', title: "理想主义者社区", description: "与志同道合的人联系,他们和你一样热衷于创造力和积极变革。" },
-    { icon: 'globe', title: "去中心化平台", description: "享受Web3生态系统的好处,确保你的内容真正属于你。" },
-  ],
-  en: [
-    { icon: 'sparkles', title: "Unique Digital Identity", description: "Create and evolve your digital persona through our innovative MBTI-based system." },
-    { icon: 'users', title: "Community of Idealists", description: "Connect with like-minded individuals who share your passion for creativity and positive change." },
-    { icon: 'globe', title: "Decentralized Platform", description: "Enjoy the benefits of a Web3 ecosystem, ensuring your content remains truly yours." },
-  ]
-}
+const features = [
+  { icon: 'sparkles', title: "Personal Growth Journey", description: "Explore and evolve beyond traditional personality frameworks through our innovative system." },
+  { icon: 'users', title: "Community of Idealists", description: "Connect with like-minded individuals who share your passion for creativity and positive change." },
+  { icon: 'globe', title: "Decentralized Platform", description: "Enjoy the benefits of a Web3 ecosystem, ensuring your content remains truly yours." },
+]
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const { language } = useLanguage();
   const { t } = useTranslation('common');
 
   useEffect(() => {
@@ -42,31 +27,50 @@ export default function Home() {
     }
   }, []);
 
-  const currentModules = modules[language as keyof typeof modules] || modules.en;
-  const currentFeatures = features[language as keyof typeof features] || features.en;
-
   return (
     <div className="text-center min-h-screen flex flex-col justify-center items-center p-4 space-y-16">
-      {/* 英雄部分 */}
-      <section className="max-w-4xl">
+      {/* Hero Section */}
+      <section className="max-w-6xl w-full">
         <h1 className="text-5xl font-bold text-purple-800 mb-6">
           {t('welcomeTitle')}
         </h1>
         <p className="text-xl text-purple-600 mb-10">
           {t('welcomeDescription')}
         </p>
+        
+        {/* New Image Card */}
+        <div className="relative w-full h-[400px] mb-8 rounded-2xl overflow-hidden">
+          <Image
+            src="/back.jpg"
+            alt="Hero background"
+            fill
+            style={{ objectFit: 'cover' }}
+            priority
+            className=""
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(243_232_255/0.4)_0%,transparent_10%,transparent_90%,rgb(243_232_255/0.4)_100%)]"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgb(243_232_255/0.4)_0%,transparent_10%,transparent_90%,rgb(243_232_255/0.4)_100%)]"></div>
+        </div>
+
         <Link href="/persona-discovery" className="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300">
           {t('startJourney')}
         </Link>
+        <div className="mt-4 text-center">
+          <span className="inline-flex items-center justify-center space-x-2 text-purple-700 font-medium animate-pulse">
+            <i data-lucide="arrow-down" className="w-4 h-4"></i>
+            <span className="text-sm tracking-wide">Start Your Persona Discovery Here!</span>
+            <i data-lucide="arrow-down" className="w-4 h-4"></i>
+          </span>
+        </div>
       </section>
 
-      {/* 主要模块 */}
+      {/* Main Modules */}
       <section className="w-full max-w-6xl">
         <h2 className="text-3xl font-semibold text-purple-800 mb-8">
           {t('exploreEcosystem')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {currentModules.map((module, index) => (
+          {modules.map((module, index) => (
             <Link
               key={module.title}
               href={module.link}
@@ -89,13 +93,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 特性部分 */}
+      {/* Features Section */}
       <section className="w-full max-w-6xl">
         <h2 className="text-3xl font-semibold text-purple-800 mb-8">
           {t('whyChooseUs')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {currentFeatures.map((feature, index) => (
+          {features.map((feature, index) => (
             <div key={index} className="bg-white bg-opacity-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
               <i data-lucide={feature.icon} className="text-purple-600 mb-4 w-8 h-8"></i>
               <h3 className="text-xl font-semibold text-purple-800 mb-2">{feature.title}</h3>
@@ -105,7 +109,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 行动号召部分 */}
+      {/* Call to Action */}
       <section className="w-full max-w-4xl bg-purple-100 p-8 rounded-lg">
         <h2 className="text-3xl font-semibold text-purple-800 mb-4">
           {t('readyToMakeADifference')}
