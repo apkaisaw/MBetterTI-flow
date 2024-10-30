@@ -13,17 +13,8 @@ import {
   BookOpen, 
   Palette, 
   Flower,
-  Heart,          // 心形
-  Sparkles,       // 闪光
-  Star,           // 星星
-  Compass,        // 指南针
-  Infinity,       // 无限符号
-  Leaf,           // 树叶
-  Flame,          // 火焰
-  Sun,            // 太阳
-  Moon,           // 月亮
-  Spirit,         // 精神
-  Lotus,          // 莲花
+  Flame,        
+
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
@@ -64,8 +55,8 @@ const Header = () => {
 
   const navItems = [
     { href: "/", label: t('home'), icon: Home },
-    { href: "/soul-becoming", label: t('soulBecoming'), icon: Flame },
     { href: "/persona-discovery", label: t('personaDiscovery'), icon: Lightbulb },
+    { href: "/soul-becoming", label: t('soulBecoming'), icon: Flame },
     { href: "/blog-garden", label: t('blogGarden'), icon: BookOpen },
     { href: "/creative-hub", label: t('creativeHub'), icon: Palette },
   ]
