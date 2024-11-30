@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@swan-io/boxed": "^2.3.2",
+    "ethers": "^6.13.4",
     "firebase": "^10.14.1",
     "framer-motion": "^11.11.9",
     "i18next": "^23.16.1",

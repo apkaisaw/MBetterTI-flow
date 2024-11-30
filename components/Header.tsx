@@ -14,7 +14,7 @@ import {
   Palette, 
   Flower,
   Flame,        
-
+  Heart,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
@@ -54,11 +54,10 @@ const Header = () => {
   }, [])
 
   const navItems = [
-    { href: "/", label: t('home'), icon: Home },
-    { href: "/persona-discovery", label: t('personaDiscovery'), icon: Lightbulb },
-    { href: "/soul-becoming", label: t('soulBecoming'), icon: Flame },
-    { href: "/blog-garden", label: t('blogGarden'), icon: BookOpen },
-    { href: "/creative-hub", label: t('creativeHub'), icon: Palette },
+    { href: '/', icon: Home, label: t('home') },
+    { href: '/persona-discovery', icon: User, label: t('personaDiscovery') },
+    { href: '/ai-life-coach', icon: Heart, label: t('aiLifeCoach') },
+    { href: '/wellness-corner', icon: BookOpen, label: t('wellnessCorner') },
   ]
 
   return (

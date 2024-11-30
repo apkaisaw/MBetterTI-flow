@@ -7,7 +7,7 @@ import resourcesToBackend from 'i18next-resources-to-backend';
 
 export const i18nConfig = {
   fallbackLng: 'en',
-  supportedLngs: ['en', 'zh'],
+  supportedLngs: ['en'],
   defaultNS: 'common',
   ns: ['common'],
   debug: process.env.NODE_ENV === 'development',
@@ -22,7 +22,7 @@ export const initTranslationsClient = (lang: string, namespaces: string[]) => {
     .init({
       lng: lang,
       fallbackLng: 'en',
-      supportedLngs: ['en', 'zh'],
+      supportedLngs: ['en'],
       defaultNS: 'common',
       fallbackNS: 'common',
       ns: namespaces,

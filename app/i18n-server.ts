@@ -14,11 +14,11 @@ export async function initTranslationsServer(lang: string, namespaces: string[])
     .init({
       lng: lang,
       fallbackLng: 'en',
-      supportedLngs: ['en', 'zh'],
+      supportedLngs: ['en'],
       defaultNS: namespaces[0],
       fallbackNS: namespaces[0],
       ns: namespaces,
-      preload: ['en', 'zh'],
+      preload: ['en'],
     });
   return i18nInstance;
 }
