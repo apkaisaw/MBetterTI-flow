@@ -3,7 +3,9 @@ import dynamic from 'next/dynamic'
 import Footer from '../components/Footer'
 import { LanguageProvider } from '../contexts/LanguageContext'
 import I18nClientProvider from './I18nClientProvider'
+import { Inter } from 'next/font/google'
 
+const inter = Inter({ subsets: ['latin'] })
 const Header = dynamic(() => import('../components/Header'), { ssr: false })
 
 export const metadata = {
@@ -21,10 +23,7 @@ export default function RootLayout({
 
   return (
     <html lang={defaultLang}>
-      <head>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
-      </head>
-      <body className="bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col font-sans">
+      <body className={`bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col ${inter.className}`}>
         <LanguageProvider initialLanguage={defaultLang}>
           <I18nClientProvider locale={defaultLang} namespaces={['common']}>
             <Header />

@@ -13,6 +13,7 @@ import {
 } from '../../lib/personality-test'
 import { personalityTest as fullPersonalityTest } from '../../data/personality-test'
 import { personalityTest as quickPersonalityTest } from '../../data/small-personality-test'
+import Image from 'next/image'
 
 // MBTI Introduction Card component
 const MbtiIntroCard = () => {
@@ -29,9 +30,11 @@ const MbtiIntroCard = () => {
           </p>
         </div>
         <div className="w-full md:w-1/3">
-          <img 
+          <Image 
             src="/images/pdmbti.jpg" 
             alt="MBTI Type Diagram" 
+            width={400}
+            height={300}
             className="rounded-lg shadow-md w-full"
           />
         </div>

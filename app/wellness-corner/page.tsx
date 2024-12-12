@@ -253,7 +253,7 @@ This signature does not authorize any blockchain transaction.
                 className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <div className="flex items-center mb-4">
-                  <img src={post.avatar} alt={post.author} className="w-12 h-12 rounded-full mr-4 border-2 border-purple-300" />
+                  <Image src={post.avatar} alt={post.author} className="w-12 h-12 rounded-full mr-4 border-2 border-purple-300" width={48} height={48} />
                   <h2 className="text-xl font-semibold text-purple-800">{post.author}</h2>
                 </div>
                 <p className="mb-4 text-purple-700">{post.content}</p>
@@ -350,7 +350,7 @@ This signature does not authorize any blockchain transaction.
             {interestedPeople.map((person) => (
               <div key={person.id} className="flex items-center justify-between mb-4 last:mb-0">
                 <div className="flex items-center">
-                  <img src={person.avatar} alt={person.name} className="w-10 h-10 rounded-full mr-3 border-2 border-purple-300" />
+                  <Image src={person.avatar} alt={person.name} className="w-10 h-10 rounded-full mr-3 border-2 border-purple-300" width={40} height={40} />
                   <div>
                     <p className="font-semibold text-purple-800">{person.name}</p>
                     <p className="text-sm text-purple-600">{person.title}</p>
