@@ -6,6 +6,7 @@ import { useLanguage } from '../../contexts/LanguageContext'
 import { Search, PenTool, Heart, MessageCircle, Repeat2, Share2, TrendingUp, Filter, User, BookOpen, BarChart2, Sparkles, LucideIcon, Star, Trophy, Users, CreditCard } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { ethers } from 'ethers'
+import Image from 'next/image'
 
 // 添加更多模板文章
 const mockPosts = [
@@ -176,7 +177,7 @@ This signature does not authorize any blockchain transaction.
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-4 text-xl text-purple-600 max-w-2xl mx-auto"
         >
-          Share your wellness journey, complete challenges together, and earn points while supporting each other's growth
+          Share your wellness journey, complete challenges together, and earn points while supporting each other&apos;s growth
         </motion.p>
       </div>
 
