@@ -100,6 +100,15 @@ const trendingTopics = [
   '#EmotionalBalance'
 ]
 
+interface WalletError {
+  code: number;
+  message: string;
+}
+
+function isWalletError(error: unknown): error is WalletError {
+  return typeof error === 'object' && error !== null && 'code' in error;
+}
+
 export default function BlogGarden() {
   const [totalPoints, setTotalPoints] = useState(0)
   const [postRatings, setPostRatings] = useState<{[key: number]: number}>({})
@@ -149,9 +158,9 @@ This signature does not authorize any blockchain transaction.
       console.log('Signature successful:', signature)
       alert('Points claim signature successful! Your points will be processed shortly.')
       
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Signature failed:', error)
-      if (error.code === 4001) {
+      if (isWalletError(error) && error.code === 4001) {
         alert('Points claim cancelled. You can try again anytime.')
       } else {
         alert('An error occurred while claiming points. Please try again.')
