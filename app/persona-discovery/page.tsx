@@ -23,7 +23,7 @@ const MbtiIntroCard = () => {
         <div className="flex-1">
           <h3 className="text-2xl font-bold mb-4 text-purple-900">About MBTI</h3>
           <p className="text-purple-800 mb-4">
-            The Myers-Briggs Type Indicator (MBTI) is a widely recognized personality assessment tool based on Carl Jung's theory of psychological types. It helps individuals understand their preferences, strengths, and potential areas for growth.
+            The Myers-Briggs Type Indicator (MBTI) is a widely recognized personality assessment tool based on Carl Jung&apos;s theory of psychological types. It helps individuals understand their preferences, strengths, and potential areas for growth.
           </p>
           <p className="text-purple-800">
             By identifying your MBTI type, you can gain valuable insights into your natural tendencies in areas such as communication, decision-making, and personal relationships. This understanding can lead to better self-awareness and more effective interactions with others.
@@ -453,7 +453,7 @@ export default function PersonaDiscovery() {
             <div className="bg-purple-50 bg-opacity-50 p-6 rounded-xl">
               <h4 className="text-lg font-semibold text-purple-800 mb-3 flex items-center">
                 <CheckCircle className="mr-2" size={20} />
-                What You'll Get
+                What You&apos;ll Get
               </h4>
               <ul className="space-y-2 text-purple-700">
                 <li className="flex items-center">
