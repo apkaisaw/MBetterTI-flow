@@ -14,6 +14,8 @@ import { personalityTest as fullPersonalityTest } from '../../data/personality-t
 import { personalityTest as quickPersonalityTest } from '../../data/small-personality-test'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
 
 // 添加类型定义
 declare global {
@@ -88,7 +90,7 @@ const TestInstructions = () => (
               <span className="font-bold">2</span>
             </div>
             <div>
-              <h4 className="font-semibold mb-0.5">Don&apos;t overthink it���keep it quick and intuitive</h4>
+              <h4 className="font-semibold mb-0.5">Don&apos;t overthink it—keep it quick and intuitive</h4>
               <p className="text-purple-700 text-sm">Some questions might seem strangely worded or unclear. Trust your instincts and move on.</p>
             </div>
           </div>
@@ -168,7 +170,7 @@ const WalletModal = ({
       } else if (error.code === -32002) {
         console.log('MetaMask is already processing a request')
       }
-      setStep('select') // 发生错误返回选��步骤
+      setStep('select') // 发生错误返回选择步骤
     }
   }
 
@@ -290,6 +292,8 @@ export default function MbtiTest() {
   const [testStarted, setTestStarted] = useState(false)
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
   const [walletAddress, setWalletAddress] = useState<string>('')
+  const router = useRouter()
+  const { t } = useTranslation()
 
   useEffect(() => {
     const checkConnection = async () => {
@@ -407,7 +411,7 @@ export default function MbtiTest() {
 
     return (
       <div className="min-h-screen flex flex-col relative">
-        {/* 背景渐变 */}
+        {/* ��景渐变 */}
         <div 
           className="absolute inset-0 bg-gradient-to-br from-purple-100/80 via-indigo-100/80 to-blue-100/80 backdrop-blur-sm"
           style={{
