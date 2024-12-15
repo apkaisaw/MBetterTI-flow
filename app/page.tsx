@@ -206,7 +206,7 @@ export default function Home() {
                     <p className={`text-purple-600 text-sm transition-all duration-300 ${
                       activeIndex === index ? 'opacity-100 max-h-40' : 'opacity-0 max-h-0'
                     } overflow-hidden`}>
-                      {module.details}
+                      {module.description}
                     </p>
                     <div className={`mt-4 inline-flex items-center text-purple-700 transition-all duration-300 ${
                       activeIndex === index ? 'opacity-100' : 'opacity-0'
@@ -359,7 +359,7 @@ export default function Home() {
               Is the MBTI test free?
             </h3>
             <p className="text-purple-600">
-              Yes, it's free to participate.
+              Yes, it&apos;s free to participate.
             </p>
           </div>
           <div className="bg-white bg-opacity-50 p-6 rounded-lg">
