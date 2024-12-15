@@ -102,9 +102,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [address, setAddress] = useState('');
   const [expandedItems, setExpandedItems] = useState<string[]>(() => 
     navItems
-      .filter(item => item.subItems)
-      .map(item => item.path || '')
-      .filter(Boolean)
+      .filter(item => item.subItems && item.path)
+      .map(item => item.path!)
   );
   
   const connectWallet = async () => {
@@ -152,7 +151,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     }
   }, []);
 
-  const toggleExpand = (path: string) => {
+  const toggleExpand = (path: string | undefined) => {
+    if (!path) return;
     setExpandedItems(prev => 
       prev.includes(path) 
         ? prev.filter(p => p !== path)
@@ -178,7 +178,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = !item.subItems && pathname === item.path;
-            const isExpanded = expandedItems.includes(item.path);
+            const isExpanded = item.path ? expandedItems.includes(item.path) : false;
             const hasSubItems = item.subItems && item.subItems.length > 0;
             
             return (
