@@ -24,7 +24,20 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
-const navItems = [
+interface NavSubItem {
+  name: string;
+  path: string;
+  subItems?: NavSubItem[];
+}
+
+interface NavItem {
+  name: string;
+  path?: string;
+  icon: any;
+  subItems?: NavSubItem[];
+}
+
+const navItems: NavItem[] = [
   {
     name: 'Home',
     path: '/dashboard',
@@ -90,7 +103,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [expandedItems, setExpandedItems] = useState<string[]>(() => 
     navItems
       .filter(item => item.subItems)
-      .map(item => item.path)
+      .map(item => item.path || '')
+      .filter(Boolean)
   );
   
   const connectWallet = async () => {
