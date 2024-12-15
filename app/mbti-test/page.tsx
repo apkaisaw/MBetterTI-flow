@@ -21,10 +21,10 @@ import { useTranslation } from 'react-i18next'
 declare global {
   interface Window {
     ethereum?: {
+      request: (args: { method: string; }) => Promise<unknown>;
+      on: (eventName: string, callback: (...args: unknown[]) => void) => void;
+      removeListener?: (eventName: string, callback: (...args: unknown[]) => void) => void;
       isMetaMask?: boolean;
-      request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
-      on: (eventName: string, callback: (args: unknown[]) => void) => void;
-      removeListener: (eventName: string, callback: (args: unknown[]) => void) => void;
     };
   }
 }
@@ -151,17 +151,14 @@ const WalletModal = ({
 
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts'
-      }).catch((err: any) => {
-        console.log('Request account error:', err)
-        throw err
-      })
+      }) as unknown[]
 
-      if (accounts && accounts.length > 0) {
+      if (Array.isArray(accounts) && accounts.length > 0 && typeof accounts[0] === 'string') {
         console.log('Successfully connected to account:', accounts[0])
         onConnect(accounts[0])
       } else {
         console.log('No accounts received')
-        setStep('select') // 如果失败返回选择步骤
+        setStep('select')
       }
     } catch (error: any) {
       console.error('Failed to connect to MetaMask:', error)
@@ -170,7 +167,7 @@ const WalletModal = ({
       } else if (error.code === -32002) {
         console.log('MetaMask is already processing a request')
       }
-      setStep('select') // 发生错误回选择步骤
+      setStep('select')
     }
   }
 
