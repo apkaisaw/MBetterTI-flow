@@ -22,9 +22,9 @@ declare global {
   interface Window {
     ethereum?: {
       isMetaMask?: boolean;
-      request: (args: { method: string; params?: any[] }) => Promise<any>;
-      on: (event: string, handler: (...args: any[]) => void) => void;
-      removeListener: (event: string, handler: (...args: any[]) => void) => void;
+      request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+      on: (eventName: string, callback: (args: unknown[]) => void) => void;
+      removeListener: (eventName: string, callback: (args: unknown[]) => void) => void;
     };
   }
 }
@@ -170,7 +170,7 @@ const WalletModal = ({
       } else if (error.code === -32002) {
         console.log('MetaMask is already processing a request')
       }
-      setStep('select') // 发生错误返回选择步骤
+      setStep('select') // 发生错误回选择步骤
     }
   }
 
@@ -295,29 +295,30 @@ export default function MbtiTest() {
   const router = useRouter()
   const { t } = useTranslation()
 
+  const handleAccountsChanged = (accounts: unknown[]) => {
+    console.log('Accounts changed:', accounts)
+    if (Array.isArray(accounts) && accounts.length > 0 && typeof accounts[0] === 'string') {
+      setWalletAddress(accounts[0])
+    } else {
+      setWalletAddress('')
+    }
+  }
+
   useEffect(() => {
     const checkConnection = async () => {
       if (typeof window !== 'undefined' && window.ethereum) {
         try {
           const accounts = await window.ethereum.request({ 
             method: 'eth_accounts' 
-          })
-          console.log('Current accounts:', accounts) // 添加调试日志
-          if (accounts && accounts.length > 0) {
+          }) as unknown[]
+          
+          console.log('Current accounts:', accounts)
+          if (Array.isArray(accounts) && accounts.length > 0 && typeof accounts[0] === 'string') {
             setWalletAddress(accounts[0])
           }
         } catch (error) {
           console.error('Error checking wallet connection:', error)
         }
-      }
-    }
-
-    const handleAccountsChanged = (accounts: string[]) => {
-      console.log('Accounts changed:', accounts) // 添加调试日志
-      if (accounts && accounts.length > 0) {
-        setWalletAddress(accounts[0])
-      } else {
-        setWalletAddress('')
       }
     }
 
@@ -330,10 +331,10 @@ export default function MbtiTest() {
 
       // 清理函数
       return () => {
-        window.ethereum.removeListener('accountsChanged', handleAccountsChanged)
+        window.ethereum?.removeListener?.('accountsChanged', handleAccountsChanged)
       }
     }
-  }, []) // 保持依赖数组为空
+  }, [])
 
   const handleAnswer = (answer: "A" | "B") => {
     const newAnswers = [...answers, answer]
@@ -411,7 +412,7 @@ export default function MbtiTest() {
 
     return (
       <div className="min-h-screen flex flex-col relative">
-        {/* ��景渐变 */}
+        {/* 景渐变 */}
         <div 
           className="absolute inset-0 bg-gradient-to-br from-purple-100/80 via-indigo-100/80 to-blue-100/80 backdrop-blur-sm"
           style={{
