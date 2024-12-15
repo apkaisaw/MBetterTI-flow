@@ -6,33 +6,30 @@ import { useTranslation } from 'react-i18next'
 import Image from 'next/image'
 
 const modules = [
-  { 
-    icon: 'compass', 
-    title: "Persona Discovery", 
-    description: "Start your journey of self-discovery with our innovative MBTI-based insights.", 
-    details: "Unlock your personality type through scientific assessments and gain deep insights into your cognitive preferences, strengths, and growth areas.",
-    link: "/persona-discovery", 
-    color: "from-purple-200 to-blue-200", 
-    image: "/persona-discovery.jpg" 
+  {
+    icon: 'brain', 
+    title: "MBTI + AI Life Coach",
+    description: "Get personalized AI Life Coaching based on your MBTI results to unlock your strengths and improve weaknesses.",
+    link: "/ai-life-coach",
+    color: "from-purple-200 to-indigo-200",
+    image: "/persona-discovery.jpg"
   },
-  { 
-    icon: 'heart', 
-    title: "AI Life Coach", 
-    description: "Gain deeper insights beyond MBTI and unlock your true potential.", 
-    details: "Experience personalized coaching powered by AI that adapts to your unique personality type, helping you overcome challenges and achieve personal growth.",
-    link: "/ai-life-coach", 
-    color: "from-purple-200 to-indigo-200", 
-    image: "/ai-life-coach.jpg" 
+  {
+    icon: 'link', 
+    title: "On-Chain Growth Records",
+    description: "Store your growth records permanently on the blockchain and earn unique achievement badges (NFTs).",
+    link: "/growth-records",
+    color: "from-indigo-200 to-purple-200",
+    image: "/ai-life-coach.jpg"
   },
-  { 
-    icon: 'book-open', 
-    title: "Wellness Corner", 
-    description: "Explore and share transformative insights for personal growth.", 
-    details: "Join a supportive community of like-minded individuals, share experiences, and access curated resources tailored to your personality type.",
-    link: "/wellness-corner", 
-    color: "from-blue-200 to-purple-200", 
-    image: "/wellness-corner.jpg" 
-  },
+  {
+    icon: 'target', 
+    title: "Personalized Growth Challenges",
+    description: "Take tailored growth challenges designed to elevate you to higher personality levels.",
+    link: "/challenges",
+    color: "from-purple-200 to-pink-200",
+    image: "/wellness-corner.jpg"
+  }
 ]
 
 const testimonials = [
@@ -60,28 +57,35 @@ const testimonials = [
 ]
 
 const steps = [
-  { 
-    number: "01", 
-    title: "Take the Assessment", 
-    description: "Complete our scientifically designed MBTI assessment to discover your personality type",
+  {
+    number: "01",
+    title: "MBTI Test",
+    description: "Complete our scientifically designed MBTI assessment",
     icon: 'clipboard-check',
-    color: "from-blue-100 to-purple-100"
+    color: "from-purple-100 to-indigo-100"
   },
-  { 
-    number: "02", 
-    title: "Get Your Results", 
-    description: "Receive detailed insights about your personality type, strengths, and growth areas",
-    icon: 'bar-chart',
+  {
+    number: "02",
+    title: "AI Life Coach",
+    description: "Get personalized guidance and growth plans",
+    icon: 'robot',
+    color: "from-indigo-100 to-purple-100"
+  },
+  {
+    number: "03",
+    title: "Complete Challenges",
+    description: "Earn on-chain records and achievement badges",
+    icon: 'trophy',
     color: "from-purple-100 to-pink-100"
   },
-  { 
-    number: "03", 
-    title: "Start Your Journey", 
-    description: "Begin your personal growth journey with tailored recommendations and AI coaching",
-    icon: 'rocket',
-    color: "from-pink-100 to-blue-100"
+  {
+    number: "04",
+    title: "Growth Archive",
+    description: "Upload and trade your growth journey",
+    icon: 'archive',
+    color: "from-pink-100 to-purple-100"
   }
-];
+]
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -103,29 +107,48 @@ export default function Home() {
           <span className="bg-gradient-to-r from-purple-800 to-purple-900 text-transparent bg-clip-text">T</span>
           <span className="bg-gradient-to-r from-purple-800 to-purple-900 text-transparent bg-clip-text">I</span>
         </h1>
+        <p className="text-2xl text-purple-600 mb-6">
+          Personalized growth plans powered by MBTI and AI Life Coach
+        </p>
         
         {/* Value Proposition */}
         <div className="mb-12">
-          <p className="text-2xl text-purple-600 mb-6">
-            I&apos;m better through insight
-          </p>
-          <div className="max-w-3xl mx-auto">
-            <p className="text-lg text-purple-700 mb-8">
-              Transform your self-understanding with AI-powered personality insights. 
-              Get personalized guidance and join a community of growth-minded individuals.
-            </p>
-            <div className="flex justify-center gap-8 mb-10">
-              <div className="flex items-center space-x-2">
-                <i data-lucide="check-circle" className="w-5 h-5 text-purple-600"></i>
-                <span className="text-purple-700">Scientific Assessment</span>
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white/30 backdrop-blur-sm rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+                    <i data-lucide="brain" className="w-6 h-6 text-purple-600"></i>
+                  </div>
+                </div>
+                <h3 className="text-lg font-semibold text-purple-800 mb-2">Scientific Assessment</h3>
+                <p className="text-purple-600 text-sm">
+                  Discover your true personality type through our comprehensive MBTI analysis
+                </p>
               </div>
-              <div className="flex items-center space-x-2">
-                <i data-lucide="check-circle" className="w-5 h-5 text-purple-600"></i>
-                <span className="text-purple-700">AI-Powered Coaching</span>
+
+              <div className="bg-white/30 backdrop-blur-sm rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+                    <i data-lucide="sparkles" className="w-6 h-6 text-purple-600"></i>
+                  </div>
+                </div>
+                <h3 className="text-lg font-semibold text-purple-800 mb-2">AI-Powered Coaching</h3>
+                <p className="text-purple-600 text-sm">
+                  Get personalized guidance from our advanced AI life coach
+                </p>
               </div>
-              <div className="flex items-center space-x-2">
-                <i data-lucide="check-circle" className="w-5 h-5 text-purple-600"></i>
-                <span className="text-purple-700">Supportive Community</span>
+
+              <div className="bg-white/30 backdrop-blur-sm rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+                    <i data-lucide="users" className="w-6 h-6 text-purple-600"></i>
+                  </div>
+                </div>
+                <h3 className="text-lg font-semibold text-purple-800 mb-2">Supportive Community</h3>
+                <p className="text-purple-600 text-sm">
+                  Join a community of growth-minded individuals on their journey
+                </p>
               </div>
             </div>
           </div>
@@ -218,7 +241,7 @@ export default function Home() {
           Your journey to self-discovery starts here
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
           {/* Connecting Line */}
           <div className="hidden md:block absolute top-24 left-0 w-full h-0.5 bg-gradient-to-r from-purple-200 via-pink-200 to-purple-200"></div>
           
@@ -244,7 +267,7 @@ export default function Home() {
                   <h3 className="text-xl font-semibold text-purple-800 mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-purple-600">
+                  <p className="text-purple-600 text-sm">
                     {step.description}
                   </p>
                 </div>
@@ -323,6 +346,47 @@ export default function Home() {
         <Link href="/persona-discovery" className="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300">
           {t('createPersona')}
         </Link>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="w-full max-w-6xl">
+        <h2 className="text-3xl font-semibold text-purple-800 mb-8">
+          Frequently Asked Questions
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-white bg-opacity-50 p-6 rounded-lg">
+            <h3 className="text-xl font-semibold text-purple-700 mb-3">
+              Is the MBTI test free?
+            </h3>
+            <p className="text-purple-600">
+              Yes, it's free to participate.
+            </p>
+          </div>
+          <div className="bg-white bg-opacity-50 p-6 rounded-lg">
+            <h3 className="text-xl font-semibold text-purple-700 mb-3">
+              How is my growth data stored?
+            </h3>
+            <p className="text-purple-600">
+              All records are securely stored on the blockchain.
+            </p>
+          </div>
+          <div className="bg-white bg-opacity-50 p-6 rounded-lg">
+            <h3 className="text-xl font-semibold text-purple-700 mb-3">
+              What does AI Life Coach do?
+            </h3>
+            <p className="text-purple-600">
+              It provides personalized growth advice and task recommendations.
+            </p>
+          </div>
+          <div className="bg-white bg-opacity-50 p-6 rounded-lg">
+            <h3 className="text-xl font-semibold text-purple-700 mb-3">
+              How are archive trading profits distributed?
+            </h3>
+            <p className="text-purple-600">
+              Profits go to the uploader, with a portion allocated to community development.
+            </p>
+          </div>
+        </div>
       </section>
     </div>
   )

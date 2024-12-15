@@ -1,0 +1,58 @@
+graph TD
+    subgraph Frontend
+        Next[Next.js App]
+        Pages[Pages]
+        Components[Components]
+        Lib[Library]
+        Data[Data]
+        
+        Next --> Pages
+        Next --> Components
+        Pages --> Lib
+        Pages --> Data
+    end
+    
+    subgraph Core_Features
+        PD[Persona Discovery]
+        AC[AI Life Coach]
+        WC[Wellness Corner]
+        
+        PD --> MBTI[MBTI Test]
+        PD --> Results[Test Results]
+        AC --> Chat[AI Chat]
+        AC --> Challenges[Growth Challenges]
+        WC --> Community[Community Posts]
+        WC --> Activities[Wellness Activities]
+    end
+    
+    subgraph Data_Layer
+        IDB[(IndexedDB)]
+        API[External APIs]
+        
+        Results --> IDB
+        Chat --> API
+    end
+    
+    subgraph UI_Components
+        Motion[Framer Motion]
+        Lucide[Lucide Icons]
+        Tailwind[TailwindCSS]
+    end
+    
+    subgraph User_Flow
+        Start((Start))
+        Test{Take Test}
+        ViewResults[View Results]
+        Coaching[AI Coaching]
+        Community[Join Community]
+        
+        Start --> Test
+        Test -->|Complete| ViewResults
+        ViewResults -->|Get Insights| Coaching
+        Coaching -->|Share Experience| Community
+    end
+    
+    Pages --> Core_Features
+    Components --> UI_Components
+    Core_Features --> Data_Layer
+    User_Flow --> Core_Features 

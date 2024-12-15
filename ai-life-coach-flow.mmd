@@ -1,0 +1,42 @@
+flowchart TD
+    A[进入 AI Life Coach 页面] --> B{是否有现有对话?}
+    
+    B -->|否| C[显示欢迎界面]
+    C --> D[显示对话建议按钮]
+    D --> E[用户点击建议或输入消息]
+    
+    B -->|是| F[显示历史对话记录]
+    
+    E --> G[发送用户消息]
+    F --> G
+    
+    G --> H[显示AI正在输入动画]
+    H --> I[从预设回复中选择并显示AI回复]
+    
+    I --> J{对话数量 >= 10?}
+    J -->|是| K[显示挑战提示]
+    J -->|否| L[继续对话]
+    
+    K --> M{用户点击查看挑战?}
+    M -->|是| N[展开挑战列表]
+    M -->|否| L
+    
+    N --> O[显示4个个性化挑战卡片]
+    O --> P{用户选择开始挑战?}
+    
+    P -->|是| Q[检查 MetaMask 钱包]
+    Q --> R[签名确认挑战承诺]
+    R --> S[显示确认消息]
+    
+    P -->|否| T[继续浏览其他挑战]
+    
+    L --> G
+    S --> L
+    T --> L
+
+    style A fill:#e0e7ff
+    style B fill:#ddd6fe
+    style K fill:#c7d2fe
+    style Q fill:#e0e7ff
+    style R fill:#ddd6fe
+    style S fill:#c7d2fe 

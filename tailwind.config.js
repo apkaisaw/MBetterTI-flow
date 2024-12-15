@@ -33,6 +33,12 @@ module.exports = {
           900: '#312e81',
         },
       },
+      width: {
+        '66': '264px',
+      },
+      margin: {
+        '66': '264px',
+      }
     },
   },
   plugins: [],

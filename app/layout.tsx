@@ -1,12 +1,11 @@
 import './globals.css'
-import dynamic from 'next/dynamic'
-import Footer from '../components/Footer'
 import { LanguageProvider } from '../contexts/LanguageContext'
 import I18nClientProvider from './I18nClientProvider'
 import { Inter } from 'next/font/google'
+import RootLayoutContent from './components/RootLayoutContent'
+import { WalletProvider } from '../contexts/WalletContext'
 
 const inter = Inter({ subsets: ['latin'] })
-const Header = dynamic(() => import('../components/Header'), { ssr: false })
 
 export const metadata = {
   title: 'Idealist Garden - Creative and Personal Growth Platform',
@@ -24,13 +23,13 @@ export default function RootLayout({
   return (
     <html lang={defaultLang}>
       <body className={`bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col ${inter.className}`}>
-        <LanguageProvider initialLanguage={defaultLang}>
-          <I18nClientProvider locale={defaultLang} namespaces={['common']}>
-            <Header />
-            <main className="flex-grow container mx-auto px-4 py-8 mt-20">{children}</main>
-            <Footer />
-          </I18nClientProvider>
-        </LanguageProvider>
+        <WalletProvider>
+          <LanguageProvider initialLanguage={defaultLang}>
+            <I18nClientProvider locale={defaultLang} namespaces={['common']}>
+              <RootLayoutContent>{children}</RootLayoutContent>
+            </I18nClientProvider>
+          </LanguageProvider>
+        </WalletProvider>
       </body>
     </html>
   )

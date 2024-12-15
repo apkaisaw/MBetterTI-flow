@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Compass, CheckCircle, ArrowRight, Sparkles, RefreshCcw, Brain, Zap, Target, ChevronDown, ChevronUp } from 'lucide-react'
 import { 
@@ -14,6 +14,8 @@ import {
 import { personalityTest as fullPersonalityTest } from '../../data/personality-test'
 import { personalityTest as quickPersonalityTest } from '../../data/small-personality-test'
 import Image from 'next/image'
+import DashboardLayout from '../components/DashboardLayout'
+import Link from 'next/link'
 
 // MBTI Introduction Card component
 const MbtiIntroCard = () => {
@@ -43,38 +45,6 @@ const MbtiIntroCard = () => {
   );
 };
 
-// Modify ResultCard component
-const ResultCard = ({ titleKey, children, isVisible, isLoading = false }: { titleKey: string; children: React.ReactNode; isVisible: boolean; isLoading?: boolean }) => {
-  return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg shadow-lg rounded-3xl px-8 py-6 mb-8 transition-all duration-300 hover:shadow-xl border border-white border-opacity-30"
-        >
-          <h4 className="text-2xl font-bold mb-4 text-purple-900 flex items-center">
-            <Sparkles className="mr-3 text-purple-700" size={24} />
-            {titleKey}
-          </h4>
-          {isLoading ? (
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              className="text-purple-700 flex justify-center"
-            >
-              <RefreshCcw className="w-10 h-10" />
-            </motion.div>
-          ) : (
-            <div className="text-purple-800">{children}</div>
-          )}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  )
-}
-
 export default function PersonaDiscovery() {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0)
   const [answers, setAnswers] = useState<string[]>([])
@@ -87,6 +57,65 @@ export default function PersonaDiscovery() {
   const [isQuickTest, setIsQuickTest] = useState(true)
   const [viewingType, setViewingType] = useState<PersonalityClassGroup | null>(null)
   const [isHistoryExpanded, setIsHistoryExpanded] = useState(false)
+  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({})
+
+  const ResultCard = ({ 
+    titleKey, 
+    children, 
+    isVisible, 
+    isLongContent = false 
+  }: { 
+    titleKey: string; 
+    children: React.ReactNode; 
+    isVisible: boolean;
+    isLongContent?: boolean;
+  }) => {
+    const isExpanded = expandedCards[titleKey] ?? false;
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    return (
+      <AnimatePresence>
+        {isVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg shadow-lg rounded-3xl px-8 py-6 mb-8 transition-all duration-300 hover:shadow-xl border border-white border-opacity-30 relative"
+          >
+            <div className="flex items-center justify-between">
+              <h4 className="text-2xl font-bold mb-4 text-purple-900 flex items-center">
+                <Sparkles className="mr-3 text-purple-700" size={24} />
+                {titleKey}
+              </h4>
+              {isLongContent && (
+                <button
+                  onClick={() => setExpandedCards(prev => ({...prev, [titleKey]: !isExpanded}))}
+                  className="flex items-center gap-2 text-purple-600 hover:text-purple-800 transition-colors"
+                >
+                  <span className="text-sm">{isExpanded ? 'Show Less' : 'Show More'}</span>
+                  <ChevronDown 
+                    className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
+                    size={20} 
+                  />
+                </button>
+              )}
+            </div>
+            <div
+              ref={contentRef}
+              className={`text-purple-800 overflow-hidden transition-all duration-300 ${
+                isLongContent && !isExpanded ? 'max-h-[200px]' : 'max-h-[2000px]'
+              }`}
+            >
+              {children}
+            </div>
+            {isLongContent && !isExpanded && (
+              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white/60 to-transparent pointer-events-none" />
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    )
+  }
 
   useEffect(() => {
     loadSavedResults()
@@ -183,6 +212,13 @@ export default function PersonaDiscovery() {
         <Brain className="mr-3" size={24} />
         Start Full Test
       </motion.button>
+      <Link
+        href="/mbti-test"
+        className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center text-lg font-semibold"
+      >
+        <Target className="mr-3" size={24} />
+        Take MBTI Test
+      </Link>
       <motion.button
         whileHover={{ scale: 1.03, boxShadow: "0 10px 20px rgba(0, 150, 136, 0.2)" }}
         whileTap={{ scale: 0.98 }}
@@ -248,57 +284,105 @@ export default function PersonaDiscovery() {
 
   const renderResult = (result: PersonalityClassGroup, isViewing: boolean = false) => (
     <div className="space-y-4">
-      {!isViewing && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <ResultCard titleKey="dimensionScores" isVisible={!!result}>
-            <div className="grid grid-cols-2 gap-4 text-purple-700">
-              <div>E: {result.scores?.E || 0} - I: {result.scores?.I || 0}</div>
-              <div>S: {result.scores?.S || 0} - N: {result.scores?.N || 0}</div>
-              <div>T: {result.scores?.T || 0} - F: {result.scores?.F || 0}</div>
-              <div>J: {result.scores?.J || 0} - P: {result.scores?.P || 0}</div>
-            </div>
-          </ResultCard>
+      <div id="type">
+        <ResultCard titleKey="MBTI Type & Description" isVisible={!!result} isLongContent>
+          <h2 className="text-2xl font-bold mb-2 text-purple-800">{result.type}</h2>
+          <h3 className="text-xl mb-2 text-purple-700">{result.name} - {result.epithet}</h3>
+          <p className="text-purple-700">{result.description}</p>
+        </ResultCard>
+      </div>
 
-          <ResultCard titleKey="jungianFunctionalPreference" isVisible={!!result}>
-            <ul className="list-disc list-inside text-purple-700">
-              <li>Dominant Function: {result.jungianFunctionalPreference.dominant}</li>
-              <li>Auxiliary Function: {result.jungianFunctionalPreference.auxiliary}</li>
-              <li>Tertiary Function: {result.jungianFunctionalPreference.tertiary}</li>
-              <li>Inferior Function: {result.jungianFunctionalPreference.inferior}</li>
-            </ul>
-          </ResultCard>
-        </div>
-      )}
+      <div id="traits">
+        <ResultCard titleKey="General Traits" isVisible={!!result} isLongContent>
+          <ul className="list-disc list-inside text-purple-700">
+            {result.generalTraits.map((trait: string, index: number) => (
+              <li key={index}>{trait}</li>
+            ))}
+          </ul>
+        </ResultCard>
+      </div>
 
-      <ResultCard titleKey="mbtiTypeAndDescription" isVisible={!!result}>
-        <h2 className="text-2xl font-bold mb-2 text-purple-800">{result.type}</h2>
-        <h3 className="text-xl mb-2 text-purple-700">{result.name} - {result.epithet}</h3>
-        <p className="text-purple-700">{result.description}</p>
-      </ResultCard>
-
-      <ResultCard titleKey="generalTraits" isVisible={!!result}>
-        <ul className="list-disc list-inside text-purple-700">
-          {result.generalTraits.map((trait: string, index: number) => (
-            <li key={index}>{trait}</li>
-          ))}
-        </ul>
-      </ResultCard>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ResultCard titleKey="relationshipStrengths" isVisible={!!result}>
+      <div id="strengths">
+        <ResultCard titleKey="Relationship Strengths" isVisible={!!result} isLongContent>
           <ul className="list-disc list-inside text-purple-700">
             {result.relationshipStrengths.map((strength: string, index: number) => (
               <li key={index}>{strength}</li>
             ))}
           </ul>
         </ResultCard>
+      </div>
 
-        <ResultCard titleKey="relationshipWeaknesses" isVisible={!!result}>
+      <div id="weaknesses">
+        <ResultCard titleKey="Relationship Weaknesses" isVisible={!!result} isLongContent>
           <ul className="list-disc list-inside text-purple-700">
             {result.relationshipWeaknesses.map((weakness: string, index: number) => (
               <li key={index}>{weakness}</li>
             ))}
           </ul>
+        </ResultCard>
+      </div>
+
+      <div id="success">
+        <ResultCard titleKey="Success Definition" isVisible={!!result} isLongContent>
+          <p className="text-purple-700">{result.successDefinition}</p>
+        </ResultCard>
+      </div>
+
+      <div id="personal-strengths">
+        <ResultCard titleKey="Strengths" isVisible={!!result} isLongContent>
+          <ul className="list-disc list-inside text-purple-700">
+            {result.strengths.map((strength: string, index: number) => (
+              <li key={index}>{strength}</li>
+            ))}
+          </ul>
+        </ResultCard>
+      </div>
+
+      <div id="gifts">
+        <ResultCard titleKey="Gifts" isVisible={!!result} isLongContent>
+          <ul className="list-disc list-inside text-purple-700">
+            {result.gifts.map((gift: string, index: number) => (
+              <li key={index}>{gift}</li>
+            ))}
+          </ul>
+        </ResultCard>
+      </div>
+
+      <div id="problems">
+        <ResultCard titleKey="Potential Problem Areas" isVisible={!!result} isLongContent>
+          <ul className="list-disc list-inside text-purple-700">
+            {result.potentialProblemAreas.map((area: string, index: number) => (
+              <li key={index}>{area}</li>
+            ))}
+          </ul>
+        </ResultCard>
+      </div>
+
+      <div id="explanation">
+        <ResultCard titleKey="Explanation of Problems" isVisible={!!result} isLongContent>
+          <p className="text-purple-700">{result.explanationOfProblems}</p>
+        </ResultCard>
+      </div>
+
+      <div id="solutions">
+        <ResultCard titleKey="Solutions" isVisible={!!result} isLongContent>
+          <p className="text-purple-700">{result.solutions}</p>
+        </ResultCard>
+      </div>
+
+      <div id="tips">
+        <ResultCard titleKey="Living Happily Tips" isVisible={!!result} isLongContent>
+          <p className="text-purple-700">{result.livingHappilyTips}</p>
+        </ResultCard>
+      </div>
+
+      <div id="rules">
+        <ResultCard titleKey="Ten Rules to Live" isVisible={!!result} isLongContent>
+          <ol className="list-decimal list-inside text-purple-700">
+            {result.tenRulesToLive.map((rule: string, index: number) => (
+              <li key={index}>{rule}</li>
+            ))}
+          </ol>
         </ResultCard>
       </div>
     </div>
@@ -346,23 +430,27 @@ export default function PersonaDiscovery() {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-indigo-100 to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto space-y-10">
-        <motion.h1 
-          initial={{ opacity: 0, y: -50 }}
+    <DashboardLayout>
+      <div className="space-y-6">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-5xl font-bold text-center mb-12 text-purple-800 relative"
+          className="relative flex justify-center items-center"
         >
-          MBTI Test
+          <motion.h1 
+            className="text-3xl font-bold text-purple-800/90 bg-white/50 backdrop-blur-sm px-6 py-2 rounded-2xl"
+          >
+            MBTI Test Results
+          </motion.h1>
           <motion.span
-            className="absolute -top-6 -right-6 text-9xl text-purple-400 opacity-70" 
+            className="absolute -top-3 -right-3 text-7xl text-purple-400/50" 
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           >
             <Sparkles />
           </motion.span>
-        </motion.h1>
+        </motion.div>
 
         <motion.div 
           initial={{ opacity: 0, y: 50 }}
@@ -370,132 +458,12 @@ export default function PersonaDiscovery() {
           transition={{ delay: 0.2 }}
           className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg p-8 rounded-3xl shadow-lg border border-white border-opacity-30"
         >
-          <h2 className="text-3xl font-semibold text-purple-800 mb-6 flex items-center">
-            <Compass className="mr-3 text-purple-600" size={32} />
-            MBTI Test
-          </h2>
-          <MbtiIntroCard />
-          {!testStarted && !testResult && !viewingType && renderInitialOptions()}
-          {testStarted && !testResult && renderQuestion(isQuickTest ? quickPersonalityTest[currentQuestion] : fullPersonalityTest[currentQuestion])}
-          {testResult && renderResult(testResult)}
-          {viewingType && renderResult(viewingType, true)}
-          {(viewingType || testResult) && (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => {
-                setViewingType(null)
-                setTestResult(null)
-                setTestStarted(false)
-              }}
-              className="mt-6 bg-purple-600 text-white px-6 py-3 rounded-full hover:bg-purple-700 transition-colors duration-300 shadow-md hover:shadow-lg"
-            >
-              Back to Options
-            </motion.button>
-          )}
+          {renderResult(testResult || getPersonalityClassGroupByTestScores(['I','N','F','P']))}
         </motion.div>
-
-        {/* AI Life Coach Section */}
-        <motion.section
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg p-8 rounded-3xl shadow-xl border border-white border-opacity-40"
-        >
-          <h2 className="text-3xl font-semibold text-purple-800 mb-8 flex items-center justify-center">
-            <Target className="mr-3 text-purple-600" size={32} />
-            Continue Your Growth Journey
-          </h2>
-          <p className="text-purple-700 mb-8 text-center max-w-2xl mx-auto">
-            Take your MBTI insights to the next level with our AI Life Coach. Get personalized guidance and practical strategies tailored to your personality type.
-          </p>
-          
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            className="bg-gradient-to-r from-purple-500 to-indigo-500 p-8 rounded-2xl shadow-lg text-white text-center relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-black opacity-10 z-0"></div>
-            <div className="relative z-10">
-              <h3 className="text-2xl font-semibold mb-4">Meet Your AI Life Coach</h3>
-              <p className="mb-6 opacity-90 max-w-2xl mx-auto">
-                Transform your MBTI knowledge into actionable growth strategies. Our AI coach combines personality insights with cutting-edge coaching techniques to help you achieve your full potential.
-              </p>
-              <motion.a
-                href="/ai-life-coach"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-block bg-white text-purple-600 px-8 py-3 rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-300"
-              >
-                Keep Your Journey <ArrowRight className="inline ml-2" size={20} />
-              </motion.a>
-            </div>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <FeatureCard
-              icon={<Brain size={24} />}
-              title="Personalized Growth Path"
-              description="Get tailored advice and development strategies based on your unique MBTI type and personal goals"
-            />
-            <FeatureCard
-              icon={<Target size={24} />}
-              title="Deep MBTI Integration"
-              description="Leverage your personality insights for better decision-making, relationships, and personal development"
-            />
-            <FeatureCard
-              icon={<Sparkles size={24} />}
-              title="Interactive Growth"
-              description="Engage in dynamic conversations and exercises designed to enhance your self-awareness and capabilities"
-            />
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-purple-50 bg-opacity-50 p-6 rounded-xl">
-              <h4 className="text-lg font-semibold text-purple-800 mb-3 flex items-center">
-                <CheckCircle className="mr-2" size={20} />
-                What You&apos;ll Get
-              </h4>
-              <ul className="space-y-2 text-purple-700">
-                <li className="flex items-center">
-                  <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></div>
-                  Personalized development strategies
-                </li>
-                <li className="flex items-center">
-                  <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></div>
-                  Real-time feedback and guidance
-                </li>
-                <li className="flex items-center">
-                  <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></div>
-                  Practical exercises and challenges
-                </li>
-              </ul>
-            </div>
-            <div className="bg-purple-50 bg-opacity-50 p-6 rounded-xl">
-              <h4 className="text-lg font-semibold text-purple-800 mb-3 flex items-center">
-                <Zap className="mr-2" size={20} />
-                Key Benefits
-              </h4>
-              <ul className="space-y-2 text-purple-700">
-                <li className="flex items-center">
-                  <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></div>
-                  Enhanced self-awareness
-                </li>
-                <li className="flex items-center">
-                  <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></div>
-                  Improved relationship dynamics
-                </li>
-                <li className="flex items-center">
-                  <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2"></div>
-                  Better decision-making skills
-                </li>
-              </ul>
-            </div>
-          </div>
-        </motion.section>
 
         {savedResults.length > 0 && renderSavedResults()}
       </div>
-    </div>
+    </DashboardLayout>
   )
 }
 
