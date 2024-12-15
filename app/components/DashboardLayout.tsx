@@ -257,7 +257,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   </>
                 ) : (
                   <Link
-                    href={item.path}
+                    href={item.path || '/dashboard'}
                     className={`group flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all ${
                       isActive
                         ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md' 
