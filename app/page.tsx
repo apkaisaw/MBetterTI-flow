@@ -223,7 +223,7 @@ export default function Home() {
                   src={module.image}
                   alt={module.title}
                   fill
-                  style={{ objectFit: 'cover' }}
+                  style={{ objectFit: "cover" }}
                   className="hover:scale-105 transition-transform duration-300"
                 />
               </div>
