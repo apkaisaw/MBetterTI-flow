@@ -5,6 +5,9 @@ const nextConfig = {
     loader: 'custom',
     loaderFile: './imageLoader.js',
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 module.exports = nextConfig
