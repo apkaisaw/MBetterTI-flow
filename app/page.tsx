@@ -169,7 +169,7 @@ export default function Home() {
         </div>
 
         <Link href="/persona-discovery" className="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300">
-          {t('startJourney')}
+          {t("startJourney")}
         </Link>
         <div className="mt-4 text-center">
           <span className="inline-flex items-center justify-center space-x-2 text-purple-700 font-medium animate-pulse">
@@ -183,7 +183,7 @@ export default function Home() {
       {/* Main Modules */}
       <section className="w-full max-w-6xl">
         <h2 className="text-3xl font-semibold text-purple-800 mb-8">
-          {t('exploreEcosystem')}
+          {t("exploreEcosystem")}
         </h2>
         <div className="flex flex-col gap-8">
           {modules.map((module, index) => (
@@ -235,7 +235,7 @@ export default function Home() {
       {/* Steps Section */}
       <section className="w-full max-w-6xl">
         <h2 className="text-3xl font-semibold text-purple-800 mb-4">
-          {t('howItWorks')}
+          {t("howItWorks")}
         </h2>
         <p className="text-purple-600 mb-12 text-lg">
           Your journey to self-discovery starts here
@@ -338,13 +338,13 @@ export default function Home() {
       {/* Call to Action */}
       <section className="w-full max-w-4xl bg-purple-100 p-8 rounded-lg">
         <h2 className="text-3xl font-semibold text-purple-800 mb-4">
-          {t('readyToMakeADifference')}
+          {t("readyToMakeADifference")}
         </h2>
         <p className="text-xl text-purple-600 mb-6">
-          {t('joinCommunity')}
+          {t("joinCommunity")}
         </p>
         <Link href="/persona-discovery" className="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300">
-          {t('createPersona')}
+          {t("createPersona")}
         </Link>
       </section>
 
