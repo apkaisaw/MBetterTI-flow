@@ -375,7 +375,7 @@ export default function Home() {
               What does AI Life Coach do?
             </h3>
             <p className="text-purple-600">
-              It provides personalized growth advice and task recommendations.
+              It&apos;s an AI-powered system that provides personalized growth advice and task recommendations.
             </p>
           </div>
           <div className="bg-white bg-opacity-50 p-6 rounded-lg">
