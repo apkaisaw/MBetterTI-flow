@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 const modules = [
   {
-    icon: 'brain', 
+    icon: "brain", 
     title: "MBTI + AI Life Coach",
     description: "Get personalized AI Life Coaching based on your MBTI results to unlock your strengths and improve weaknesses.",
     link: "/ai-life-coach",
@@ -15,7 +15,7 @@ const modules = [
     image: "/persona-discovery.jpg"
   },
   {
-    icon: 'link', 
+    icon: "link", 
     title: "On-Chain Growth Records",
     description: "Store your growth records permanently on the blockchain and earn unique achievement badges (NFTs).",
     link: "/growth-records",
@@ -23,7 +23,7 @@ const modules = [
     image: "/ai-life-coach.jpg"
   },
   {
-    icon: 'target', 
+    icon: "target", 
     title: "Personalized Growth Challenges",
     description: "Take tailored growth challenges designed to elevate you to higher personality levels.",
     link: "/challenges",
@@ -61,28 +61,28 @@ const steps = [
     number: "01",
     title: "MBTI Test",
     description: "Complete our scientifically designed MBTI assessment",
-    icon: 'clipboard-check',
+    icon: "clipboard-check",
     color: "from-purple-100 to-indigo-100"
   },
   {
     number: "02",
     title: "AI Life Coach",
     description: "Get personalized guidance and growth plans",
-    icon: 'robot',
+    icon: "robot",
     color: "from-indigo-100 to-purple-100"
   },
   {
     number: "03",
     title: "Complete Challenges",
     description: "Earn on-chain records and achievement badges",
-    icon: 'trophy',
+    icon: "trophy",
     color: "from-purple-100 to-pink-100"
   },
   {
     number: "04",
     title: "Growth Archive",
     description: "Upload and trade your growth journey",
-    icon: 'archive',
+    icon: "archive",
     color: "from-pink-100 to-purple-100"
   }
 ]
@@ -188,7 +188,7 @@ export default function Home() {
         <div className="flex flex-col gap-8">
           {modules.map((module, index) => (
             <div key={module.title} 
-                 className={`flex flex-col md:flex-row ${index % 2 === 1 ? 'md:flex-row-reverse' : ''} gap-6`}>
+                 className={`flex flex-col md:flex-row ${index % 2 === 1 ? "md:flex-row-reverse" : ""} gap-6`}>
               <Link
                 href={module.link}
                 className={`flex-1 relative overflow-hidden rounded-lg transition-all duration-300 ease-in-out
@@ -204,12 +204,12 @@ export default function Home() {
                       {module.description}
                     </p>
                     <p className={`text-purple-600 text-sm transition-all duration-300 ${
-                      activeIndex === index ? 'opacity-100 max-h-40' : 'opacity-0 max-h-0'
+                      activeIndex === index ? "opacity-100 max-h-40" : "opacity-0 max-h-0"
                     } overflow-hidden`}>
                       {module.description}
                     </p>
                     <div className={`mt-4 inline-flex items-center text-purple-700 transition-all duration-300 ${
-                      activeIndex === index ? 'opacity-100' : 'opacity-0'
+                      activeIndex === index ? "opacity-100" : "opacity-0"
                     }`}>
                       <span className="mr-2">Learn More</span>
                       <i data-lucide="arrow-right" className="w-4 h-4"></i>
