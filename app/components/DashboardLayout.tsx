@@ -50,7 +50,7 @@ const navItems: NavItem[] = [
     path: '/my-growth',
     icon: User,
     subItems: [
-      { name: 'Test Results', path: '/persona-discovery' },
+      { name: 'Persona Discovery', path: '/persona-discovery' },
       { name: 'Growth Records', path: '/persona-discovery/records' },
       { name: 'Badges', path: '/persona-discovery/badges' }
     ]
@@ -84,6 +84,11 @@ const navItems: NavItem[] = [
 const QuickNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+
+  if (pathname !== '/persona-discovery') {
+    return null;
+  }
 
   const sections = [
     { name: 'MBTI Type & Description', id: 'type' },
@@ -115,7 +120,7 @@ const QuickNav = () => {
     <div ref={navRef} className="fixed bottom-8 right-8 z-50">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition-all duration-300"
+        className="bg-purple-600/50 backdrop-blur-xl text-white p-3 rounded-full shadow-lg hover:bg-purple-700/60 hover:shadow-purple-500/25 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 border border-white/20"
       >
         <ChevronUp className={`transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -126,16 +131,16 @@ const QuickNav = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="absolute bottom-16 right-0 bg-white rounded-lg shadow-xl p-4 w-64 max-h-[80vh] overflow-y-auto"
+            className="absolute bottom-16 right-0 bg-white/10 backdrop-blur-md rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgb(124,58,237,0.12)] p-4 w-64 max-h-[80vh] overflow-y-auto border border-white/10 transition-shadow duration-300"
           >
-            <h3 className="text-purple-800 font-semibold mb-2 px-2">Quick Navigation</h3>
+            <h3 className="text-purple-800/90 font-semibold mb-2 px-2">Quick Navigation</h3>
             <div className="space-y-1">
               {sections.map((section) => (
                 <a
                   key={section.id}
                   href={`#${section.id}`}
                   onClick={() => setIsOpen(false)}
-                  className="block px-4 py-2 text-sm text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+                  className="block px-4 py-2 text-sm text-purple-600/90 hover:bg-white/20 hover:translate-x-0.5 rounded-lg transition-all duration-200"
                 >
                   {section.name}
                 </a>
