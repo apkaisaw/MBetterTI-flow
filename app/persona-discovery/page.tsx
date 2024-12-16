@@ -70,8 +70,19 @@ export default function PersonaDiscovery() {
     isVisible: boolean;
     isLongContent?: boolean;
   }) => {
-    const isExpanded = expandedCards[titleKey] ?? false;
+    const [isExpanded, setIsExpanded] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
+    const [shouldShowButton, setShouldShowButton] = useState(false);
+    const [contentHeight, setContentHeight] = useState<number>(0);
+    const [isHovered, setIsHovered] = useState(false);
+
+    useEffect(() => {
+      if (contentRef.current) {
+        const height = contentRef.current.scrollHeight;
+        setContentHeight(height);
+        setShouldShowButton(height > 200);
+      }
+    }, [children]);
 
     return (
       <AnimatePresence>
@@ -80,41 +91,91 @@ export default function PersonaDiscovery() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg shadow-lg rounded-3xl px-8 py-6 mb-8 transition-all duration-300 hover:shadow-xl border border-white border-opacity-30 relative"
+            onHoverStart={() => setIsHovered(true)}
+            onHoverEnd={() => setIsHovered(false)}
+            className="relative group mb-6"
           >
-            <div className="flex items-center justify-between">
-              <h4 className="text-2xl font-bold mb-4 text-purple-900 flex items-center">
-                <Sparkles className="mr-3 text-purple-700" size={24} />
-                {titleKey}
-              </h4>
-              {isLongContent && (
-                <button
-                  onClick={() => setExpandedCards(prev => ({...prev, [titleKey]: !isExpanded}))}
-                  className="flex items-center gap-2 text-purple-600 hover:text-purple-800 transition-colors"
+            {/* 多层背景效果 */}
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 via-white/30 to-purple-50/50 rounded-3xl transform transition-transform duration-500 ease-out group-hover:scale-[1.02]" />
+            <div className="absolute inset-0 bg-white/40 backdrop-blur-sm rounded-3xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] group-hover:bg-white/50 transition-all duration-500" />
+            <div className="absolute inset-0 border border-purple-100/30 rounded-3xl shadow-lg group-hover:shadow-xl transition-all duration-500" />
+            
+            {/* 内容容器 */}
+            <div className="relative px-8 py-6 rounded-3xl">
+              {/* 标题区域 */}
+              <div className="flex justify-center mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 bg-gradient-to-br from-purple-100/80 to-white rounded-xl backdrop-blur-sm border border-purple-100/50 shadow-sm group-hover:shadow-md transition-all duration-500">
+                    <Sparkles className="text-purple-600/90 w-5 h-5" />
+                  </div>
+                  <h4 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-purple-900 to-purple-600">
+                    {titleKey}
+                  </h4>
+                </div>
+              </div>
+              
+              {/* 内容区域 */}
+              <motion.div
+                ref={contentRef}
+                animate={{ 
+                  height: isExpanded ? contentHeight : shouldShowButton ? 200 : 'auto',
+                  opacity: 1 
+                }}
+                initial={false}
+                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                className="relative overflow-hidden"
+              >
+                <div className="text-purple-800/90 prose prose-purple max-w-none prose-li:marker:text-purple-400">
+                  {children}
+                </div>
+              </motion.div>
+
+              {/* 展开/收起按钮 */}
+              {shouldShowButton && (
+                <div 
+                  className={`absolute left-0 right-0 flex flex-col items-center transition-all duration-500 ${
+                    isExpanded ? 'bottom-2' : 'bottom-0'
+                  }`}
                 >
-                  <span className="text-sm">{isExpanded ? 'Show Less' : 'Show More'}</span>
-                  <ChevronDown 
-                    className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
-                    size={20} 
-                  />
-                </button>
+                  {!isExpanded && (
+                    <div className="absolute bottom-0 left-0 right-0 h-28 
+                      bg-gradient-to-t from-white via-white/95 to-transparent 
+                      rounded-b-3xl 
+                      pointer-events-none 
+                      overflow-hidden
+                      after:absolute after:inset-0 
+                      after:border-b after:border-purple-100/30 
+                      after:rounded-b-3xl" 
+                    />
+                  )}
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="px-4 py-1.5 rounded-full bg-white/60 backdrop-blur-sm 
+                      border border-purple-100/50 shadow-sm
+                      hover:bg-white/80 hover:border-purple-200/70 
+                      transition-all duration-300 
+                      flex items-center gap-1.5 
+                      relative z-10
+                      mb-2"
+                  >
+                    <span className="text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-purple-500">
+                      {isExpanded ? 'Show Less' : 'Read More'}
+                    </span>
+                    <ChevronDown 
+                      className={`w-3.5 h-3.5 text-purple-500/80 transition-transform duration-500 ${
+                        isExpanded ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </motion.button>
+                </div>
               )}
             </div>
-            <div
-              ref={contentRef}
-              className={`text-purple-800 overflow-hidden transition-all duration-300 ${
-                isLongContent && !isExpanded ? 'max-h-[200px]' : 'max-h-[2000px]'
-              }`}
-            >
-              {children}
-            </div>
-            {isLongContent && !isExpanded && (
-              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white/60 to-transparent pointer-events-none" />
-            )}
           </motion.div>
         )}
       </AnimatePresence>
-    )
+    );
   }
 
   useEffect(() => {
@@ -141,7 +202,7 @@ export default function PersonaDiscovery() {
     if (currentQuestion < currentQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
     } else {
-      // 测试完成，计算结
+      // 测试完成，计算结果
       const scores = newAnswers.map((answer, index) => 
         getQuestionAnswerScore(currentQuestions[index].no, answer as "A" | "B")
       )
@@ -302,6 +363,26 @@ export default function PersonaDiscovery() {
         </ResultCard>
       </div>
 
+      <div id="personal-strengths">
+        <ResultCard titleKey="Strengths" isVisible={!!result} isLongContent>
+          <ul className="list-disc list-inside text-purple-700">
+            {result.strengths.map((strength: string, index: number) => (
+              <li key={index}>{strength}</li>
+            ))}
+          </ul>
+        </ResultCard>
+      </div>
+
+      <div id="gifts">
+        <ResultCard titleKey="Gifts" isVisible={!!result} isLongContent>
+          <ul className="list-disc list-inside text-purple-700">
+            {result.gifts.map((gift: string, index: number) => (
+              <li key={index}>{gift}</li>
+            ))}
+          </ul>
+        </ResultCard>
+      </div>
+
       <div id="strengths">
         <ResultCard titleKey="Relationship Strengths" isVisible={!!result} isLongContent>
           <ul className="list-disc list-inside text-purple-700">
@@ -328,23 +409,13 @@ export default function PersonaDiscovery() {
         </ResultCard>
       </div>
 
-      <div id="personal-strengths">
-        <ResultCard titleKey="Strengths" isVisible={!!result} isLongContent>
-          <ul className="list-disc list-inside text-purple-700">
-            {result.strengths.map((strength: string, index: number) => (
-              <li key={index}>{strength}</li>
+      <div id="rules">
+        <ResultCard titleKey="Ten Rules" isVisible={!!result} isLongContent>
+          <ol className="list-decimal list-inside text-purple-700">
+            {result.tenRulesToLive.map((rule: string, index: number) => (
+              <li key={index}>{rule}</li>
             ))}
-          </ul>
-        </ResultCard>
-      </div>
-
-      <div id="gifts">
-        <ResultCard titleKey="Gifts" isVisible={!!result} isLongContent>
-          <ul className="list-disc list-inside text-purple-700">
-            {result.gifts.map((gift: string, index: number) => (
-              <li key={index}>{gift}</li>
-            ))}
-          </ul>
+          </ol>
         </ResultCard>
       </div>
 
@@ -371,18 +442,8 @@ export default function PersonaDiscovery() {
       </div>
 
       <div id="tips">
-        <ResultCard titleKey="Living Happily Tips" isVisible={!!result} isLongContent>
+        <ResultCard titleKey="Living Tips" isVisible={!!result} isLongContent>
           <p className="text-purple-700">{result.livingHappilyTips}</p>
-        </ResultCard>
-      </div>
-
-      <div id="rules">
-        <ResultCard titleKey="Ten Rules to Live" isVisible={!!result} isLongContent>
-          <ol className="list-decimal list-inside text-purple-700">
-            {result.tenRulesToLive.map((rule: string, index: number) => (
-              <li key={index}>{rule}</li>
-            ))}
-          </ol>
         </ResultCard>
       </div>
     </div>

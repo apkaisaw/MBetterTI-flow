@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
@@ -16,9 +16,11 @@ import {
   Target,
   UserPlus,
   MessageSquare,
-  Store
+  Store,
+  ChevronUp
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -45,26 +47,10 @@ const navItems: NavItem[] = [
   },
   {
     name: 'My Growth',
+    path: '/my-growth',
     icon: User,
     subItems: [
-      { 
-        name: 'Test Results', 
-        path: '/persona-discovery',
-        subItems: [
-          { name: 'MBTI Type & Description', path: '/persona-discovery#type' },
-          { name: 'General Traits', path: '/persona-discovery#traits' },
-          { name: 'Relationship Strengths', path: '/persona-discovery#strengths' },
-          { name: 'Relationship Weaknesses', path: '/persona-discovery#weaknesses' },
-          { name: 'Success Definition', path: '/persona-discovery#success' },
-          { name: 'Strengths', path: '/persona-discovery#personal-strengths' },
-          { name: 'Gifts', path: '/persona-discovery#gifts' },
-          { name: 'Potential Problem Areas', path: '/persona-discovery#problems' },
-          { name: 'Explanation of Problems', path: '/persona-discovery#explanation' },
-          { name: 'Solutions', path: '/persona-discovery#solutions' },
-          { name: 'Living Happily Tips', path: '/persona-discovery#tips' },
-          { name: 'Ten Rules to Live', path: '/persona-discovery#rules' }
-        ]
-      },
+      { name: 'Test Results', path: '/persona-discovery' },
       { name: 'Growth Records', path: '/persona-discovery/records' },
       { name: 'Badges', path: '/persona-discovery/badges' }
     ]
@@ -95,6 +81,73 @@ const navItems: NavItem[] = [
   }
 ];
 
+const QuickNav = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  const sections = [
+    { name: 'MBTI Type & Description', id: 'type' },
+    { name: 'General Traits', id: 'traits' },
+    { name: 'Strengths', id: 'personal-strengths' },
+    { name: 'Gifts', id: 'gifts' },
+    { name: 'Relationship Strengths', id: 'strengths' },
+    { name: 'Relationship Weaknesses', id: 'weaknesses' },
+    { name: 'Success Definition', id: 'success' },
+    { name: 'Ten Rules', id: 'rules' },
+    { name: 'Problems', id: 'problems' },
+    { name: 'Explanation', id: 'explanation' },
+    { name: 'Solutions', id: 'solutions' },
+    { name: 'Living Tips', id: 'tips' }
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={navRef} className="fixed bottom-8 right-8 z-50">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="bg-purple-600 text-white p-3 rounded-full shadow-lg hover:bg-purple-700 transition-all duration-300"
+      >
+        <ChevronUp className={`transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="absolute bottom-16 right-0 bg-white rounded-lg shadow-xl p-4 w-64 max-h-[80vh] overflow-y-auto"
+          >
+            <h3 className="text-purple-800 font-semibold mb-2 px-2">Quick Navigation</h3>
+            <div className="space-y-1">
+              {sections.map((section) => (
+                <a
+                  key={section.id}
+                  href={`#${section.id}`}
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-2 text-sm text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+                >
+                  {section.name}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const pathname = usePathname();
   const { t } = useTranslation('common');
@@ -102,8 +155,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [address, setAddress] = useState('');
   const [expandedItems, setExpandedItems] = useState<string[]>(() => 
     navItems
-      .filter(item => item.subItems && item.path)
-      .map(item => item.path!)
+      .filter(item => item.subItems)
+      .map(item => item.path || '')
+      .filter(Boolean)
   );
   
   const connectWallet = async () => {
@@ -201,7 +255,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     </button>
 
                     {isExpanded && (
-                      <div className="pl-4 ml-4 border-l border-purple-100">
+                      <div className="mt-1">
                         {item.subItems?.map((subItem) => {
                           const isSubActive = pathname === subItem.path;
                           const hasThirdLevel = subItem.subItems && subItem.subItems.length > 0;
@@ -224,12 +278,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                                   </button>
 
                                   {isSubExpanded && (
-                                    <div className="pl-4 ml-4 border-l border-purple-100">
+                                    <div className="mt-0.5 bg-purple-50/50">
                                       {subItem.subItems?.map((thirdItem) => (
                                         <Link
                                           key={thirdItem.path}
                                           href={thirdItem.path}
-                                          className="block py-0.5 px-4 text-[10px] text-purple-600/60 hover:text-purple-800 hover:bg-purple-50/50 rounded-lg transition-colors"
+                                          className="block py-1.5 px-4 text-[11px] text-purple-600/80 hover:text-purple-800 hover:bg-purple-100/50 transition-colors"
                                         >
                                           {thirdItem.name}
                                         </Link>
@@ -328,6 +382,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="p-8">
           {children}
         </div>
+        <QuickNav />
       </main>
     </div>
   );

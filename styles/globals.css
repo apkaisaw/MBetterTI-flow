@@ -1,0 +1,15 @@
+/* 添加本地字体声明 */
+@font-face {
+  font-family: 'Inter';
+  src: local('Inter'),
+       url('/fonts/Inter-Regular.woff2') format('woff2'),
+       url('/fonts/Inter-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+} 
+
+/* 添加备用字体 */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+} 
