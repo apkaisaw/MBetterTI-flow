@@ -17,7 +17,10 @@ import {
   UserPlus,
   MessageSquare,
   Store,
-  ChevronUp
+  Plus,
+  Minus,
+  ChevronUp,
+  Vote
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -29,6 +32,7 @@ interface DashboardLayoutProps {
 interface NavSubItem {
   name: string;
   path: string;
+  icon?: any;
   subItems?: NavSubItem[];
 }
 
@@ -41,7 +45,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    name: 'Home',
+    name: 'Overview',
     path: '/dashboard',
     icon: Home
   },
@@ -50,9 +54,9 @@ const navItems: NavItem[] = [
     path: '/my-growth',
     icon: User,
     subItems: [
-      { name: 'Persona Discovery', path: '/persona-discovery' },
-      { name: 'Growth Records', path: '/persona-discovery/records' },
-      { name: 'Badges', path: '/persona-discovery/badges' }
+      { name: 'My Growth', path: '/persona-discovery/growth', icon: User },
+      { name: 'Persona Discovery', path: '/persona-discovery', icon: ClipboardList },
+      { name: 'AchieveMint', path: '/persona-discovery/badges', icon: Award }
     ]
   },
   {
@@ -62,17 +66,17 @@ const navItems: NavItem[] = [
   },
   {
     name: 'Challenges',
-    path: '/personal-challenges',
-    icon: Trophy
+    path: '/challenges',
+    icon: Trophy,
+    subItems: [
+      { name: 'Challenges', path: '/challenges/personal', icon: Trophy },
+      { name: 'Rater DAO', path: '/challenges/rater-dao', icon: Vote }
+    ]
   },
   {
     name: 'Community',
-    path: '/community',
+    path: '/community/social',
     icon: Users,
-    subItems: [
-      { name: 'Partner Network', path: '/community/partners' },
-      { name: 'Social Hub', path: '/community/social' }
-    ]
   },
   {
     name: 'Agent Market',
@@ -222,18 +226,27 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="flex min-h-screen bg-white">
       <div className="fixed top-0 left-0 h-screen w-66 flex flex-col bg-purple-50/80 backdrop-blur-lg border-r border-purple-100">
-        <div className="p-6">
+        <div className="pt-8 pb-2 flex justify-center">
           <Link href="/" className="block">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent text-center">
               MBetterTI
             </h1>
-            <p className="text-sm text-purple-600 mt-1">
-              Discover Your Potential with MBTI and AI Coaching
-            </p>
           </Link>
         </div>
         
-        <nav className="flex-1 mt-0 px-3 overflow-y-auto">
+        <div className="px-4 py-3 mt-6 flex flex-col items-center gap-3">
+          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-indigo-500 flex items-center justify-center">
+            <User size={48} className="text-white" />
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-lg font-medium text-purple-900">Keith</span>
+            <span className="text-sm font-medium px-3 py-1 rounded-full bg-purple-100 text-purple-700">
+              INFP
+            </span>
+          </div>
+        </div>
+        
+        <nav className="flex-1 mt-6 px-3 overflow-y-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = !item.subItems && pathname === item.path;
@@ -246,21 +259,29 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <>
                     <button
                       onClick={() => toggleExpand(item.path)}
-                      className={`group flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all ${
+                      className={`group relative flex items-center justify-center w-full px-4 py-3 rounded-xl transition-all ${
                         isActive
                           ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md' 
                           : 'text-purple-600 hover:bg-purple-50'
                       }`}
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
                         <Icon size={20} className={isActive ? 'text-white' : 'text-purple-600 group-hover:text-purple-700'} />
-                        <span className="font-medium">{item.name}</span>
+                        <span className="font-medium text-base">{item.name}</span>
                       </div>
-                      <span className={`text-xs transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}>▼</span>
+                      <div className={`absolute right-4 w-4 h-4 rounded-full flex items-center justify-center ${
+                        isActive ? 'bg-white/20' : 'bg-purple-100'
+                      }`}>
+                        {isExpanded ? (
+                          <Minus size={12} className={isActive ? 'text-white' : 'text-purple-600'} />
+                        ) : (
+                          <Plus size={12} className={isActive ? 'text-white' : 'text-purple-600'} />
+                        )}
+                      </div>
                     </button>
 
                     {isExpanded && (
-                      <div className="mt-1">
+                      <div className="mt-1 flex flex-col items-center">
                         {item.subItems?.map((subItem) => {
                           const isSubActive = pathname === subItem.path;
                           const hasThirdLevel = subItem.subItems && subItem.subItems.length > 0;
@@ -299,13 +320,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                               ) : (
                                 <Link
                                   href={subItem.path}
-                                  className={`block py-2 px-4 text-sm rounded-lg transition-colors ${
+                                  className={`block py-2 px-4 text-base rounded-lg transition-colors w-48 text-center ${
                                     isSubActive
                                       ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md'
-                                      : 'text-purple-600 hover:bg-purple-50/50'
+                                      : 'text-purple-500/70 hover:bg-purple-50/50 hover:text-purple-600'
                                   }`}
                                 >
-                                  {subItem.name}
+                                  <div className="flex items-center justify-center gap-2">
+                                    {subItem.icon && <subItem.icon size={18} className={isSubActive ? 'text-white' : 'text-purple-500/70'} />}
+                                    <span>{subItem.name}</span>
+                                  </div>
                                 </Link>
                               )}
                             </div>
@@ -317,15 +341,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 ) : (
                   <Link
                     href={item.path || '/dashboard'}
-                    className={`group flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all ${
+                    className={`group flex items-center justify-center w-full px-4 py-3 rounded-xl transition-all ${
                       isActive
                         ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md' 
                         : 'text-purple-600 hover:bg-purple-50'
                     }`}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       <Icon size={20} className={isActive ? 'text-white' : 'text-purple-600 group-hover:text-purple-700'} />
-                      <span className="font-medium">{item.name}</span>
+                      <span className="font-medium text-base">{item.name}</span>
                     </div>
                   </Link>
                 )}
@@ -334,52 +358,23 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           })}
         </nav>
 
-        <div className="px-3 py-4 border-t border-purple-100 bg-purple-50/80 backdrop-blur-lg">
-          <div className="flex items-center justify-between mb-3 px-2">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-indigo-500 flex items-center justify-center">
-                <User size={16} className="text-white" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-medium text-purple-900">Keith</span>
-                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
-                  INFP
-                </span>
-              </div>
-            </div>
-            <button 
-              className="p-2 hover:bg-purple-50 rounded-lg transition-colors"
-              aria-label="Settings"
-            >
-              <Settings size={18} className="text-purple-600" />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              onClick={connectWallet}
-              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-all ${
-                isConnected 
-                  ? 'bg-purple-50 text-purple-700' 
-                  : 'bg-purple-600 text-white hover:bg-purple-700'
-              }`}
-            >
-              {isConnected ? <Wallet size={16} /> : <WalletCards size={16} />}
-              <span className="truncate">
-                {isConnected 
-                  ? `${address.slice(0, 6)}...${address.slice(-4)}`
-                  : 'Connect'
-                }
-              </span>
-            </button>
-            
-            <button 
-              className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-purple-600 hover:bg-purple-50 transition-all"
-            >
-              <LogOut size={16} />
-              <span>Logout</span>
-            </button>
-          </div>
+        <div className="px-3 py-4 bg-purple-50/80 backdrop-blur-lg">
+          <button
+            onClick={connectWallet}
+            className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg transition-all w-48 mx-auto ${
+              isConnected 
+                ? 'bg-purple-50 text-purple-700' 
+                : 'bg-purple-600 text-white hover:bg-purple-700'
+            }`}
+          >
+            {isConnected ? <Wallet size={16} /> : <WalletCards size={16} />}
+            <span className="truncate text-base">
+              {isConnected 
+                ? `${address.slice(0, 6)}...${address.slice(-4)}`
+                : 'Connect Wallet'
+              }
+            </span>
+          </button>
         </div>
       </div>
 
