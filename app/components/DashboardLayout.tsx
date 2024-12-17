@@ -20,7 +20,9 @@ import {
   Plus,
   Minus,
   ChevronUp,
-  Vote
+  Vote,
+  Layers,
+  Hammer
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -54,9 +56,9 @@ const navItems: NavItem[] = [
     path: '/my-growth',
     icon: User,
     subItems: [
-      { name: 'My Growth', path: '/persona-discovery/growth', icon: User },
-      { name: 'Persona Discovery', path: '/persona-discovery', icon: ClipboardList },
-      { name: 'AchieveMint', path: '/persona-discovery/badges', icon: Award }
+      { name: 'Growth Chain', path: '/persona-discovery/growth', icon: Layers },
+      { name: 'Soul Mint', path: '/persona-discovery/badges', icon: Hammer },
+      { name: 'Persona Discovery', path: '/persona-discovery', icon: ClipboardList }
     ]
   },
   {
@@ -66,17 +68,13 @@ const navItems: NavItem[] = [
   },
   {
     name: 'Challenges',
-    path: '/challenges',
-    icon: Trophy,
-    subItems: [
-      { name: 'Challenges', path: '/challenges/personal', icon: Trophy },
-      { name: 'Rater DAO', path: '/challenges/rater-dao', icon: Vote }
-    ]
+    path: '/personal-challenges',
+    icon: Trophy
   },
   {
-    name: 'Community',
-    path: '/community/social',
-    icon: Users,
+    name: 'Rater DAO',
+    path: '/challenges/rater-dao',
+    icon: Users
   },
   {
     name: 'Agent Market',
@@ -226,7 +224,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="flex min-h-screen bg-white">
       <div className="fixed top-0 left-0 h-screen w-66 flex flex-col bg-purple-50/80 backdrop-blur-lg border-r border-purple-100">
-        <div className="pt-8 pb-2 flex justify-center">
+        <div className="pt-6 pb-2 flex justify-center">
           <Link href="/" className="block">
             <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent text-center">
               MBetterTI
@@ -234,13 +232,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </Link>
         </div>
         
-        <div className="px-4 py-3 mt-6 flex flex-col items-center gap-3">
-          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-indigo-500 flex items-center justify-center">
-            <User size={48} className="text-white" />
+        <div className="px-4 py-3 mt-0 flex flex-col items-center gap-3">
+          <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-indigo-500 flex items-center justify-center">
+            <User size={64} className="text-white" />
           </div>
-          <div className="flex flex-col items-center">
-            <span className="text-lg font-medium text-purple-900">Keith</span>
-            <span className="text-sm font-medium px-3 py-1 rounded-full bg-purple-100 text-purple-700">
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-2xl font-bold text-purple-900">Keith</span>
+            <span className="text-sm font-medium px-4 py-1.5 rounded-full 
+              bg-gradient-to-r from-purple-100 to-indigo-100 
+              text-purple-700 shadow-sm border border-purple-200/50
+              hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
               INFP
             </span>
           </div>
@@ -259,9 +260,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <>
                     <button
                       onClick={() => toggleExpand(item.path)}
-                      className={`group relative flex items-center justify-center w-full px-4 py-3 rounded-xl transition-all ${
+                      className={`group relative flex items-center justify-center w-full px-4 py-3 rounded-full transition-all ${
                         isActive
-                          ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md' 
+                          ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50' 
                           : 'text-purple-600 hover:bg-purple-50'
                       }`}
                     >
@@ -320,9 +321,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                               ) : (
                                 <Link
                                   href={subItem.path}
-                                  className={`block py-2 px-4 text-base rounded-lg transition-colors w-48 text-center ${
+                                  className={`block py-2 px-4 text-base rounded-full transition-colors w-48 text-center ${
                                     isSubActive
-                                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md'
+                                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50'
                                       : 'text-purple-500/70 hover:bg-purple-50/50 hover:text-purple-600'
                                   }`}
                                 >
@@ -341,9 +342,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 ) : (
                   <Link
                     href={item.path || '/dashboard'}
-                    className={`group flex items-center justify-center w-full px-4 py-3 rounded-xl transition-all ${
+                    className={`group flex items-center justify-center w-full px-4 py-3 rounded-full transition-all ${
                       isActive
-                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md' 
+                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50' 
                         : 'text-purple-600 hover:bg-purple-50'
                     }`}
                   >
@@ -361,10 +362,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="px-3 py-4 bg-purple-50/80 backdrop-blur-lg">
           <button
             onClick={connectWallet}
-            className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg transition-all w-48 mx-auto ${
+            className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full transition-all w-48 mx-auto ${
               isConnected 
                 ? 'bg-purple-50 text-purple-700' 
-                : 'bg-purple-600 text-white hover:bg-purple-700'
+                : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50'
             }`}
           >
             {isConnected ? <Wallet size={16} /> : <WalletCards size={16} />}

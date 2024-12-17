@@ -1,9 +1,0 @@
-/* 添加以下样式来居中标题 */
-.sidebar-title {
-  text-align: center;
-}
-
-/* 如果有副标题相关的样式，可以移除或注释掉 */
-.sidebar-subtitle {
-  display: none;
-} 
