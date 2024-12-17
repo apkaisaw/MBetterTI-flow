@@ -24,7 +24,6 @@ import {
   Layers,
   Hammer
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface DashboardLayoutProps {
@@ -157,7 +156,6 @@ const QuickNav = () => {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const pathname = usePathname();
-  const { t } = useTranslation('common');
   const [isConnected, setIsConnected] = useState(false);
   const [address, setAddress] = useState('');
   const [expandedItems, setExpandedItems] = useState<string[]>(() => 
@@ -178,7 +176,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         console.error('Failed to connect wallet:', error);
       }
     } else {
-      alert(t('installMetaMask'));
+      alert('Please install MetaMask!');
     }
   };
 

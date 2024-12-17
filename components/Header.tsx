@@ -3,11 +3,8 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 
 const Header = () => {
-  const { t } = useTranslation('common')
-
   return (
     <header className="bg-gradient-to-r from-purple-300/70 via-purple-400/70 to-indigo-400/70 backdrop-blur-md text-purple-900 py-4 px-6 shadow-lg fixed w-full top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">

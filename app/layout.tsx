@@ -1,6 +1,4 @@
 import './globals.css'
-import { LanguageProvider } from '../contexts/LanguageContext'
-import I18nClientProvider from './I18nClientProvider'
 import { Inter } from 'next/font/google'
 import RootLayoutContent from './components/RootLayoutContent'
 import { WalletProvider } from '../contexts/WalletContext'
@@ -18,17 +16,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const defaultLang = 'en';
-
   return (
-    <html lang={defaultLang}>
+    <html lang="en">
       <body className={`bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col ${inter.className}`}>
         <WalletProvider>
-          <LanguageProvider initialLanguage={defaultLang}>
-            <I18nClientProvider locale={defaultLang} namespaces={['common']}>
-              <RootLayoutContent>{children}</RootLayoutContent>
-            </I18nClientProvider>
-          </LanguageProvider>
+          <RootLayoutContent>{children}</RootLayoutContent>
         </WalletProvider>
       </body>
     </html>

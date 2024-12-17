@@ -1,6 +1,5 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import DashboardLayout from '../components/DashboardLayout'
 
 // 预设的AI回复
@@ -26,7 +25,6 @@ export default function SoulBecoming() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [responseIndex, setResponseIndex] = useState(0);
-  const { t } = useTranslation('common');
   const messageContainerRef = useRef<HTMLDivElement>(null);
   const [isTyping, setIsTyping] = useState(false);
 

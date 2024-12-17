@@ -527,7 +527,6 @@ export default function PersonaDiscovery() {
     </DashboardLayout>
   )
 }
-
 const FeatureCard = ({ 
   icon, 
   title, 
@@ -546,3 +545,4 @@ const FeatureCard = ({
     <p className="text-purple-600 text-sm">{description}</p>
   </motion.div>
 )
+

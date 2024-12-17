@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  images: {
-    loader: 'custom',
-    loaderFile: './imageLoader.js',
-  },
   eslint: {
     ignoreDuringBuilds: true
+  },
+  images: {
+    domains: ['i.pravatar.cc', 'source.unsplash.com'],
+    unoptimized: true
   }
 }
 

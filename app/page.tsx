@@ -3,7 +3,6 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useTranslation } from 'react-i18next'
 import Image from 'next/image'
 
 const modules = [
@@ -13,7 +12,7 @@ const modules = [
     description: "Get personalized AI Life Coaching based on your MBTI results to unlock your strengths and improve weaknesses.",
     link: "/ai-life-coach",
     color: "from-purple-200 to-indigo-200",
-    image: "/persona-discovery.jpg"
+    image: "/images/persona-discovery.jpg"
   },
   {
     icon: "link", 
@@ -21,7 +20,7 @@ const modules = [
     description: "Store your growth records permanently on the blockchain and earn unique achievement badges (NFTs).",
     link: "/growth-records",
     color: "from-indigo-200 to-purple-200",
-    image: "/ai-life-coach.jpg"
+    image: "/images/ai-life-coach.jpg"
   },
   {
     icon: "target", 
@@ -29,7 +28,7 @@ const modules = [
     description: "Take tailored growth challenges designed to elevate you to higher personality levels.",
     link: "/challenges",
     color: "from-purple-200 to-pink-200",
-    image: "/wellness-corner.jpg"
+    image: "/images/wellness-corner.jpg"
   }
 ]
 
@@ -90,7 +89,6 @@ const steps = [
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const { t } = useTranslation('common');
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.lucide) {
@@ -158,7 +156,7 @@ export default function Home() {
         {/* Hero Image */}
         <div className="relative w-full h-[400px] mb-8 rounded-2xl overflow-hidden">
           <Image
-            src="/back.jpg"
+            src="/images/back.jpg"
             alt="Hero background"
             fill
             style={{ objectFit: 'cover' }}
@@ -170,7 +168,7 @@ export default function Home() {
         </div>
 
         <Link href="/persona-discovery" className="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300">
-          {t("startJourney")}
+          Start Your Journey
         </Link>
         <div className="mt-4 text-center">
           <span className="inline-flex items-center justify-center space-x-2 text-purple-700 font-medium animate-pulse">
@@ -184,7 +182,7 @@ export default function Home() {
       {/* Main Modules */}
       <section className="w-full max-w-6xl">
         <h2 className="text-3xl font-semibold text-purple-800 mb-8">
-          {t("exploreEcosystem")}
+          Explore Our Ecosystem
         </h2>
         <div className="flex flex-col gap-8">
           {modules.map((module, index) => (
@@ -236,7 +234,7 @@ export default function Home() {
       {/* Steps Section */}
       <section className="w-full max-w-6xl">
         <h2 className="text-3xl font-semibold text-purple-800 mb-4">
-          {t("howItWorks")}
+          How It Works
         </h2>
         <p className="text-purple-600 mb-12 text-lg">
           Your journey to self-discovery starts here
@@ -339,13 +337,13 @@ export default function Home() {
       {/* Call to Action */}
       <section className="w-full max-w-4xl bg-purple-100 p-8 rounded-lg">
         <h2 className="text-3xl font-semibold text-purple-800 mb-4">
-          {t("readyToMakeADifference")}
+          Ready to Make a Difference?
         </h2>
         <p className="text-xl text-purple-600 mb-6">
-          {t("joinCommunity")}
+          Join our community of creative idealists and start shaping a better future today.
         </p>
         <Link href="/persona-discovery" className="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300">
-          {t("createPersona")}
+          Create Your Persona
         </Link>
       </section>
 

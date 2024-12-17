@@ -15,7 +15,6 @@ import { personalityTest as quickPersonalityTest } from '../../data/small-person
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useTranslation } from 'react-i18next'
 
 // 添加类型定义
 declare global {
@@ -290,7 +289,6 @@ export default function MbtiTest() {
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
   const [walletAddress, setWalletAddress] = useState<string>('')
   const router = useRouter()
-  const { t } = useTranslation()
 
   const handleAccountsChanged = (accounts: unknown[]) => {
     console.log('Accounts changed:', accounts)

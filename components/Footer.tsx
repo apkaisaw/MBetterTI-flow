@@ -3,44 +3,39 @@
 import React from 'react'
 import Link from 'next/link'
 import { Mail, Twitter, Facebook, Instagram } from 'lucide-react'
-import { useLanguage } from '../contexts/LanguageContext'
-import { useTranslation } from 'react-i18next'
 
 const Footer: React.FC = () => {
-  const { language } = useLanguage();
-  const { t } = useTranslation('common');
-
   const sections = [
     {
-      title: t('footer.products'),
+      title: 'Products',
       items: [
-        { name: t('footerPremiumSuite'), link: "/premium" },
-        { name: t('footerTeamAssessment'), link: "/team" },
-        { name: t('footerProfessionalTests'), link: "/tests" }
+        { name: 'Premium Suite', link: "/premium" },
+        { name: 'Team Assessment', link: "/team" },
+        { name: 'Professional Tests', link: "/tests" }
       ]
     },
     {
-      title: t('footerResources'),
+      title: 'Resources',
       items: [
-        { name: t('footerPersonalityTest'), link: "/personality-test" },
-        { name: t('footerPersonalityTypes'), link: "/types" },
-        { name: t('footerArticles'), link: "/articles" }
+        { name: 'Personality Test', link: "/personality-test" },
+        { name: 'Personality Types', link: "/types" },
+        { name: 'Articles', link: "/articles" }
       ]
     },
     {
-      title: t('footerHelp'),
+      title: 'Help',
       items: [
-        { name: t('footerContactUs'), link: "/contact" },
-        { name: t('footerFAQ'), link: "/faq" },
-        { name: t('footerProfile'), link: "/profile" }
+        { name: 'Contact Us', link: "/contact" },
+        { name: 'FAQ', link: "/faq" },
+        { name: 'Profile', link: "/profile" }
       ]
     },
     {
-      title: t('footerOtherCreations'),
+      title: 'Other Creations',
       items: [
-        { name: t('footerBlog'), link: "#" },
-        { name: t('footerPodcast'), link: "#" },
-        { name: t('footerCommunity'), link: "#" }
+        { name: 'Blog', link: "#" },
+        { name: 'Podcast', link: "#" },
+        { name: 'Community', link: "#" }
       ]
     }
   ];
@@ -66,14 +61,14 @@ const Footer: React.FC = () => {
         </nav>
         <div className="md:flex md:justify-between md:items-center text-sm">
           <div>
-            <p className="text-purple-700 mb-1">{t('footerCopyright')}</p>
+            <p className="text-purple-700 mb-1">© 2024 Idealist Garden. All rights reserved.</p>
             <ul className="flex space-x-4">
-              <li><Link href="/terms" className="text-purple-600 hover:text-purple-800">{t('footerTerms')}</Link></li>
-              <li><Link href="/privacy" className="text-purple-600 hover:text-purple-800">{t('footerPrivacy')}</Link></li>
+              <li><Link href="/terms" className="text-purple-600 hover:text-purple-800">Terms of Service</Link></li>
+              <li><Link href="/privacy" className="text-purple-600 hover:text-purple-800">Privacy Policy</Link></li>
             </ul>
           </div>
           <div className="mt-3 md:mt-0 flex space-x-4">
-            <a href="#" className="text-purple-600 hover:text-purple-800" aria-label={t('footerEmail')}>
+            <a href="#" className="text-purple-600 hover:text-purple-800" aria-label="Email">
               <Mail size={18} />
             </a>
             <a href="#" className="text-purple-600 hover:text-purple-800" aria-label="Twitter">

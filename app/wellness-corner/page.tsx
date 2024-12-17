@@ -2,9 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { useLanguage } from '../../contexts/LanguageContext'
 import { Search, PenTool, Heart, MessageCircle, Repeat2, Share2, TrendingUp, Filter, User, BookOpen, BarChart2, Sparkles, LucideIcon, Star, Trophy, Users, CreditCard } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 
@@ -112,8 +110,6 @@ function isWalletError(error: unknown): error is WalletError {
 export default function BlogGarden() {
   const [totalPoints, setTotalPoints] = useState(0)
   const [postRatings, setPostRatings] = useState<{[key: number]: number}>({})
-  const { language } = useLanguage()
-  const { t } = useTranslation('common')
 
   const handleRate = (postId: number, rating: number) => {
     if (!postRatings[postId]) {
@@ -201,19 +197,19 @@ This signature does not authorize any blockchain transaction.
           <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 bg-opacity-80 backdrop-blur-lg">
             <h2 className="text-2xl font-semibold mb-4 flex items-center text-purple-800">
               <BarChart2 className="mr-2" size={24} />
-              {t('personalStats')}
+              Personal Stats
             </h2>
             <div className="space-y-2">
-              <p className="text-purple-700">{t('meditationMinutes')}: <span className="font-bold">420</span></p>
-              <p className="text-purple-700">{t('wellnessScore')}: <span className="font-bold">85</span></p>
-              <p className="text-purple-700">{t('streakDays')}: <span className="font-bold">12</span></p>
+              <p className="text-purple-700">Meditation Minutes: <span className="font-bold">420</span></p>
+              <p className="text-purple-700">Wellness Score: <span className="font-bold">85</span></p>
+              <p className="text-purple-700">Streak Days: <span className="font-bold">12</span></p>
             </div>
           </div>
 
           <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-semibold mb-4 flex items-center text-purple-800">
               <BarChart2 className="mr-2" size={24} />
-              {t('wellnessActivityBoard')}
+              Wellness Activity Board
             </h2>
             <div className="grid grid-cols-4 gap-2">
               {categoryActivityData.map((mbti) => (
@@ -354,7 +350,7 @@ This signature does not authorize any blockchain transaction.
           <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-semibold mb-4 flex items-center text-purple-800">
               <User className="mr-2" size={24} />
-              {t('interestedPeople')}
+              People You May Be Interested In
             </h2>
             {interestedPeople.map((person) => (
               <div key={person.id} className="flex items-center justify-between mb-4 last:mb-0">
@@ -370,7 +366,7 @@ This signature does not authorize any blockchain transaction.
                   whileTap={{ scale: 0.95 }}
                   className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm hover:bg-purple-200 transition duration-300"
                 >
-                  {t('follow')}
+                  Follow
                 </motion.button>
               </div>
             ))}
@@ -379,7 +375,7 @@ This signature does not authorize any blockchain transaction.
           <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-semibold mb-4 flex items-center text-purple-800">
               <TrendingUp className="mr-2" size={24} />
-              {t('trendingTopics')}
+              Trending Topics
             </h2>
             <ul className="space-y-2">
               {trendingTopics.map((topic, index) => (
@@ -397,7 +393,7 @@ This signature does not authorize any blockchain transaction.
           <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-2xl font-semibold mb-4 flex items-center text-purple-800">
               <BookOpen className="mr-2" size={24} />
-              {t('recommendedPosts')}
+              Recommended Posts
             </h2>
             {mockPosts.slice(0, 3).map((post) => (
               <div key={post.id} className="mb-4 pb-4 border-b border-purple-100 last:border-b-0">
@@ -410,7 +406,7 @@ This signature does not authorize any blockchain transaction.
               whileTap={{ scale: 0.95 }}
               className="text-purple-600 hover:text-purple-800 font-semibold transition duration-300"
             >
-              {t('viewMore')}
+              View More
             </motion.button>
           </div>
         </motion.div>
