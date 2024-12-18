@@ -10,11 +10,10 @@ import {
   saveTestResult, 
   getQuestionAnswerScore, 
   getPersonalityClassGroupByTestScores 
-} from '../../lib/personality-test'
-import { personalityTest as fullPersonalityTest } from '../../data/personality-test'
-import { personalityTest as quickPersonalityTest } from '../../data/small-personality-test'
+} from '../../../../lib/personality-test'
+import { personalityTest as fullPersonalityTest } from '../../../../data/personality-test'
+import { personalityTest as quickPersonalityTest } from '../../../../data/small-personality-test'
 import Image from 'next/image'
-import DashboardLayout from '../components/DashboardLayout'
 import Link from 'next/link'
 
 // MBTI Introduction Card component
@@ -274,7 +273,7 @@ export default function PersonaDiscovery() {
         Start Full Test
       </motion.button>
       <Link
-        href="/mbti-test"
+        href="/my-growth/mbti-test"
         className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center text-lg font-semibold"
       >
         <Target className="mr-3" size={24} />
@@ -491,40 +490,38 @@ export default function PersonaDiscovery() {
   )
 
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="relative flex justify-center items-center"
+    <div className="space-y-6">
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative flex justify-center items-center"
+      >
+        <motion.h1 
+          className="text-3xl font-bold text-purple-800/90 bg-white/50 backdrop-blur-sm px-6 py-2 rounded-2xl"
         >
-          <motion.h1 
-            className="text-3xl font-bold text-purple-800/90 bg-white/50 backdrop-blur-sm px-6 py-2 rounded-2xl"
-          >
-            MBTI Test Results
-          </motion.h1>
-          <motion.span
-            className="absolute -top-3 -right-3 text-7xl text-purple-400/50" 
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          >
-            <Sparkles />
-          </motion.span>
-        </motion.div>
-
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg p-8 rounded-3xl shadow-lg border border-white border-opacity-30"
+          MBTI Test Results
+        </motion.h1>
+        <motion.span
+          className="absolute -top-3 -right-3 text-7xl text-purple-400/50" 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         >
-          {renderResult(testResult || getPersonalityClassGroupByTestScores(['I','N','F','P']))}
-        </motion.div>
+          <Sparkles />
+        </motion.span>
+      </motion.div>
 
-        {savedResults.length > 0 && renderSavedResults()}
-      </div>
-    </DashboardLayout>
+      <motion.div 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg p-8 rounded-3xl shadow-lg border border-white border-opacity-30"
+      >
+        {renderResult(testResult || getPersonalityClassGroupByTestScores(['I','N','F','P']))}
+      </motion.div>
+
+      {savedResults.length > 0 && renderSavedResults()}
+    </div>
   )
 }
 const FeatureCard = ({ 

@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -26,7 +28,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface DashboardLayoutProps {
+interface LayoutProps {
   children: React.ReactNode;
 }
 
@@ -47,7 +49,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   {
     name: 'Overview',
-    path: '/dashboard',
+    path: '/overview',
     icon: Home
   },
   {
@@ -55,9 +57,9 @@ const navItems: NavItem[] = [
     path: '/my-growth',
     icon: User,
     subItems: [
-      { name: 'Growth Chain', path: '/persona-discovery/growth', icon: Layers },
-      { name: 'Soul Mint', path: '/persona-discovery/badges', icon: Hammer },
-      { name: 'Persona Discovery', path: '/persona-discovery', icon: ClipboardList }
+      { name: 'Growth Chain', path: '/my-growth/growth-chain', icon: Layers },
+      { name: 'Soul Mint', path: '/my-growth/soul-mint', icon: Hammer },
+      { name: 'Persona Discovery', path: '/my-growth/persona-discovery', icon: ClipboardList }
     ]
   },
   {
@@ -67,17 +69,17 @@ const navItems: NavItem[] = [
   },
   {
     name: 'Challenges',
-    path: '/personal-challenges',
+    path: '/challenges',
     icon: Trophy
   },
   {
     name: 'Rater DAO',
-    path: '/challenges/rater-dao',
+    path: '/rater-dao',
     icon: Users
   },
   {
     name: 'Agent Market',
-    path: '/profile',
+    path: '/agent-market',
     icon: Store
   }
 ];
@@ -87,7 +89,18 @@ const QuickNav = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  if (pathname !== '/persona-discovery') {
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  if (!pathname.includes('persona-discovery')) {
     return null;
   }
 
@@ -105,17 +118,6 @@ const QuickNav = () => {
     { name: 'Solutions', id: 'solutions' },
     { name: 'Living Tips', id: 'tips' }
   ];
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   return (
     <div ref={navRef} className="fixed bottom-8 right-8 z-50">
@@ -154,7 +156,7 @@ const QuickNav = () => {
   );
 };
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
+export default function Layout({ children }: LayoutProps) {
   const pathname = usePathname();
   const [isConnected, setIsConnected] = useState(false);
   const [address, setAddress] = useState('');
@@ -319,7 +321,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                               ) : (
                                 <Link
                                   href={subItem.path}
-                                  className={`block py-2 px-4 text-base rounded-full transition-colors w-48 text-center ${
+                                  className={`block py-2 px-6 text-base rounded-full transition-colors w-56 text-center ${
                                     isSubActive
                                       ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50'
                                       : 'text-purple-500/70 hover:bg-purple-50/50 hover:text-purple-600'

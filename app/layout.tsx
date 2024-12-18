@@ -1,6 +1,5 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import RootLayoutContent from './components/RootLayoutContent'
 import { WalletProvider } from '../contexts/WalletContext'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -20,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col ${inter.className}`}>
         <WalletProvider>
-          <RootLayoutContent>{children}</RootLayoutContent>
+          {children}
         </WalletProvider>
       </body>
     </html>

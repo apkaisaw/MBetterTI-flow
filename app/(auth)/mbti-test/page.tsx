@@ -9,24 +9,13 @@ import {
   saveTestResult, 
   getQuestionAnswerScore, 
   getPersonalityClassGroupByTestScores 
-} from '../../lib/personality-test'
-import { personalityTest as fullPersonalityTest } from '../../data/personality-test'
-import { personalityTest as quickPersonalityTest } from '../../data/small-personality-test'
+} from '../../../lib/personality-test'
+import { personalityTest as fullPersonalityTest } from '../../../data/personality-test'
+import { personalityTest as quickPersonalityTest } from '../../../data/small-personality-test'
+import { useWallet } from '../../../contexts/WalletContext'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-
-// 添加类型定义
-declare global {
-  interface Window {
-    ethereum?: {
-      request: (args: { method: string; }) => Promise<unknown>;
-      on: (eventName: string, callback: (...args: unknown[]) => void) => void;
-      removeListener?: (eventName: string, callback: (...args: unknown[]) => void) => void;
-      isMetaMask?: boolean;
-    };
-  }
-}
 
 // ResultCard component
 const ResultCard = ({ titleKey, children, isVisible, isLoading = false }: { titleKey: string; children: React.ReactNode; isVisible: boolean; isLoading?: boolean }) => {
@@ -60,7 +49,7 @@ const ResultCard = ({ titleKey, children, isVisible, isLoading = false }: { titl
   )
 }
 
-// 添加新的引导组件
+// TestInstructions component
 const TestInstructions = () => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -115,7 +104,7 @@ const TestInstructions = () => (
   </motion.div>
 )
 
-// 添加 WalletModal 组件
+// Updated WalletModal component
 const WalletModal = ({ 
   isOpen, 
   onClose,
@@ -125,47 +114,19 @@ const WalletModal = ({
   onClose: () => void;
   onConnect: (address: string) => void;
 }) => {
+  const { connectWallet } = useWallet()
   const [step, setStep] = useState<'select' | 'confirm'>('select')
   
   const connectMetaMask = async () => {
-    setStep('confirm') // 先切换到确认步骤
+    setStep('confirm')
   }
 
   const confirmConnection = async () => {
-    console.log('Attempting to connect to MetaMask...')
-    
     try {
-      if (typeof window === 'undefined') {
-        console.log('Not in browser environment')
-        return
-      }
-
-      if (!window.ethereum) {
-        console.log('MetaMask not found, redirecting to install page...')
-        window.open('https://metamask.io/download/', '_blank')
-        return
-      }
-
-      console.log('MetaMask found, requesting accounts...')
-
-      const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts'
-      }) as unknown[]
-
-      if (Array.isArray(accounts) && accounts.length > 0 && typeof accounts[0] === 'string') {
-        console.log('Successfully connected to account:', accounts[0])
-        onConnect(accounts[0])
-      } else {
-        console.log('No accounts received')
-        setStep('select')
-      }
-    } catch (error: any) {
-      console.error('Failed to connect to MetaMask:', error)
-      if (error.code === 4001) {
-        console.log('User rejected the connection request')
-      } else if (error.code === -32002) {
-        console.log('MetaMask is already processing a request')
-      }
+      await connectWallet()
+      onClose()
+    } catch (error) {
+      console.error('Failed to connect:', error)
       setStep('select')
     }
   }
@@ -214,7 +175,6 @@ const WalletModal = ({
           <span className="font-medium">MetaMask</span>
         </button>
         
-        {/* 其他钱包选项保持不变 */}
         <button
           className="w-full bg-white/30 text-purple-900/50 px-4 py-3 rounded-xl flex items-center gap-3 border border-purple-100/20 cursor-not-allowed"
           disabled
@@ -280,56 +240,16 @@ const WalletModal = ({
   )
 }
 
+// Updated MbtiTest component
 export default function MbtiTest() {
+  const { walletAddress, isConnected } = useWallet()
   const [currentQuestion, setCurrentQuestion] = useState<number>(0)
   const [answers, setAnswers] = useState<string[]>([])
   const [testResult, setTestResult] = useState<PersonalityClassGroup | null>(null)
   const [isQuickTest, setIsQuickTest] = useState(true)
   const [testStarted, setTestStarted] = useState(false)
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
-  const [walletAddress, setWalletAddress] = useState<string>('')
   const router = useRouter()
-
-  const handleAccountsChanged = (accounts: unknown[]) => {
-    console.log('Accounts changed:', accounts)
-    if (Array.isArray(accounts) && accounts.length > 0 && typeof accounts[0] === 'string') {
-      setWalletAddress(accounts[0])
-    } else {
-      setWalletAddress('')
-    }
-  }
-
-  useEffect(() => {
-    const checkConnection = async () => {
-      if (typeof window !== 'undefined' && window.ethereum) {
-        try {
-          const accounts = await window.ethereum.request({ 
-            method: 'eth_accounts' 
-          }) as unknown[]
-          
-          console.log('Current accounts:', accounts)
-          if (Array.isArray(accounts) && accounts.length > 0 && typeof accounts[0] === 'string') {
-            setWalletAddress(accounts[0])
-          }
-        } catch (error) {
-          console.error('Error checking wallet connection:', error)
-        }
-      }
-    }
-
-    // 立即检查连接状态
-    checkConnection()
-
-    // 添加事件监听
-    if (typeof window !== 'undefined' && window.ethereum) {
-      window.ethereum.on('accountsChanged', handleAccountsChanged)
-
-      // 清理函数
-      return () => {
-        window.ethereum?.removeListener?.('accountsChanged', handleAccountsChanged)
-      }
-    }
-  }, [])
 
   const handleAnswer = (answer: "A" | "B") => {
     const newAnswers = [...answers, answer]
@@ -340,14 +260,13 @@ export default function MbtiTest() {
     if (currentQuestion < currentQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
     } else {
-      // 测试完成，计算结果
+      // Test complete, calculate result
       const scores = newAnswers.map((answer, index) => 
         getQuestionAnswerScore(currentQuestions[index].no, answer as "A" | "B")
       )
 
       const result = getPersonalityClassGroupByTestScores(scores)
       
-      // 统计每个维度的得分
       const dimensionScores = scores.reduce((acc, score) => {
         acc[score] = (acc[score] || 0) + 1
         return acc
@@ -358,7 +277,6 @@ export default function MbtiTest() {
         scores: dimensionScores
       })
 
-      // 保存测试结果
       saveTestResult({
         timestamp: Date.now(),
         testAnswers: newAnswers as ("A" | "B")[],
@@ -407,7 +325,7 @@ export default function MbtiTest() {
 
     return (
       <div className="min-h-screen flex flex-col relative">
-        {/* 景渐变 */}
+        {/* Background gradient */}
         <div 
           className="absolute inset-0 bg-gradient-to-br from-purple-100/80 via-indigo-100/80 to-blue-100/80 backdrop-blur-sm"
           style={{
@@ -415,7 +333,7 @@ export default function MbtiTest() {
           }}
         />
 
-        {/* 进度指示器 */}
+        {/* Progress indicator */}
         <div className="absolute top-8 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4">
           <div className="flex justify-between items-center text-sm text-purple-600 font-medium mb-2">
             <span className="bg-white/50 backdrop-blur-md px-3 py-1 rounded-full">
@@ -435,7 +353,7 @@ export default function MbtiTest() {
           </div>
         </div>
 
-        {/* 问题内容 */}
+        {/* Question content */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -466,30 +384,7 @@ export default function MbtiTest() {
                     boxShadow: "0 0 20px rgba(139, 92, 246, 0.3)",
                     transition: { duration: 0.1 } 
                   }}
-                  onClick={(e) => {
-                    const button = e.currentTarget;
-                    const rect = button.getBoundingClientRect();
-                    const circle = document.createElement('div');
-                    const diameter = Math.max(button.clientWidth, button.clientHeight);
-                    const radius = diameter / 2;
-
-                    // 修正点击坐标的计算
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-
-                    circle.style.width = circle.style.height = `${diameter}px`;
-                    circle.style.left = `${x - radius}px`;
-                    circle.style.top = `${y - radius}px`;
-                    circle.className = 'ripple-purple';
-
-                    const ripple = button.getElementsByClassName('ripple-purple')[0];
-                    if (ripple) {
-                      ripple.remove();
-                    }
-
-                    button.appendChild(circle);
-                    handleAnswer(option.type);
-                  }}
+                  onClick={() => handleAnswer(option.type as "A" | "B")}
                   className="relative overflow-hidden w-full bg-white/60 hover:bg-white/80 backdrop-blur-md text-purple-900 px-8 py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-between border border-purple-100/50 group"
                 >
                   <span className="text-left flex-1 text-lg group-hover:text-purple-900">
@@ -547,6 +442,7 @@ export default function MbtiTest() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <ResultCard titleKey="Dimension Scores" isVisible={!!result}>
           <div className="space-y-3">
+            {/* E-I */}
             <div className="space-y-2">
               <div className="flex justify-between text-sm font-medium mb-2">
                 <span className="text-purple-600">E</span>
@@ -577,6 +473,7 @@ export default function MbtiTest() {
               </div>
             </div>
 
+            {/* S-N */}
             <div className="space-y-2">
               <div className="flex justify-between text-sm font-medium mb-2">
                 <span className="text-purple-600">S</span>
@@ -607,6 +504,7 @@ export default function MbtiTest() {
               </div>
             </div>
 
+            {/* T-F */}
             <div className="space-y-2">
               <div className="flex justify-between text-sm font-medium mb-2">
                 <span className="text-purple-600">T</span>
@@ -637,6 +535,7 @@ export default function MbtiTest() {
               </div>
             </div>
 
+            {/* J-P */}
             <div className="space-y-2">
               <div className="flex justify-between text-sm font-medium mb-2">
                 <span className="text-purple-600">J</span>
@@ -705,7 +604,7 @@ export default function MbtiTest() {
           <div className="mt-3 relative">
             <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-white/10 to-transparent" />
             <p className="text-purple-800/80 text-center text-sm font-medium tracking-wide pt-1">
-              {walletAddress ? 'Click to continue your journey' : 'Explore Further and Make Yourself Better'}
+              {isConnected ? 'Click to continue your journey' : 'Explore Further and Make Yourself Better'}
             </p>
           </div>
         </div>
@@ -714,16 +613,14 @@ export default function MbtiTest() {
   )
 
   const handleWalletConnected = (address: string) => {
-    console.log('Wallet connected:', address) // 添加调试日志
-    setWalletAddress(address)
     setIsWalletModalOpen(false)
   }
 
   const renderWalletButton = () => {
-    if (walletAddress) {
+    if (isConnected) {
       return (
         <Link 
-          href="/persona-discovery"
+          href="/overview"
           className="group relative bg-white/30 backdrop-blur-md text-purple-800 px-8 py-3 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg flex items-center gap-2 border border-purple-200/30 hover:bg-white/40"
         >
           <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-sm" />
@@ -741,7 +638,6 @@ export default function MbtiTest() {
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
-          console.log('Connect button clicked')
           setIsWalletModalOpen(true)
         }}
         className="group relative bg-gradient-to-r from-purple-600/90 to-indigo-600/90 hover:from-purple-600 hover:to-indigo-600 backdrop-blur-md text-white px-8 py-3 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-300/30 flex items-center gap-2 border border-white/10"
@@ -755,7 +651,7 @@ export default function MbtiTest() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* 动态背景 */}
+      {/* Dynamic background */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-100 via-indigo-100 to-blue-100">
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-0 -left-1/4 w-1/2 h-1/2 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
@@ -822,7 +718,7 @@ export default function MbtiTest() {
           </motion.div>
         )}
       </AnimatePresence>
-
+      
       <WalletModal 
         isOpen={isWalletModalOpen}
         onClose={() => setIsWalletModalOpen(false)}
@@ -830,4 +726,4 @@ export default function MbtiTest() {
       />
     </div>
   )
-} 
+}

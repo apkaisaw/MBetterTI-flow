@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect } from 'react'
-import DashboardLayout from '../components/DashboardLayout'
 import { ethers } from 'ethers'
 
 const challenges = [
@@ -99,61 +98,59 @@ export default function PersonalChallenges() {
   }, []);
 
   return (
-    <DashboardLayout>
-      <div className="p-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-3xl font-semibold bg-gradient-to-r from-purple-800 to-indigo-800 bg-clip-text text-transparent">
-              Personal Growth Challenges
-            </h1>
-          </div>
+    <div className="p-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl font-semibold bg-gradient-to-r from-purple-800 to-indigo-800 bg-clip-text text-transparent">
+            Personal Growth Challenges
+          </h1>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {challenges.map((challenge) => (
-              <div
-                key={challenge.title}
-                className="group bg-white/90 backdrop-blur-lg rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 hover:scale-[1.02]"
-              >
-                <div className="p-6 flex flex-col h-full">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${challenge.bgColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                      <i data-lucide={challenge.icon} className={`w-6 h-6 bg-gradient-to-r ${challenge.color} bg-clip-text text-transparent`}></i>
-                    </div>
-                    <div className="flex gap-2">
-                      <span className="px-3 py-1 bg-purple-50/80 text-purple-600 text-sm rounded-lg font-medium">
-                        {challenge.duration}
-                      </span>
-                      <span className="px-3 py-1 bg-indigo-50/80 text-indigo-600 text-sm rounded-lg font-medium">
-                        {challenge.difficulty}
-                      </span>
-                    </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {challenges.map((challenge) => (
+            <div
+              key={challenge.title}
+              className="group bg-white/90 backdrop-blur-lg rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 hover:scale-[1.02]"
+            >
+              <div className="p-6 flex flex-col h-full">
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${challenge.bgColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                    <i data-lucide={challenge.icon} className={`w-6 h-6 bg-gradient-to-r ${challenge.color} bg-clip-text text-transparent`}></i>
                   </div>
-                  
-                  <h3 className="text-xl font-semibold text-purple-800 mb-2 group-hover:text-purple-900 transition-colors">
-                    {challenge.title}
-                  </h3>
-                  <p className="text-purple-600/90 mb-6 flex-grow">
-                    {challenge.description}
-                  </p>
-                  
-                  <div className="flex justify-between items-center mt-auto pt-4">
-                    <button 
-                      className={`px-6 py-2.5 bg-gradient-to-r ${challenge.color} text-white rounded-xl hover:opacity-90 transition-all flex items-center gap-2 shadow-sm hover:shadow-md group-hover:scale-105`}
-                      onClick={() => handleStartChallenge(challenge)}
-                    >
-                      <span>Start Challenge</span>
-                      <i data-lucide="arrow-right" className="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                    </button>
-                    <button className="p-2 text-purple-400 hover:text-purple-600 transition-colors hover:bg-purple-50 rounded-lg">
-                      <i data-lucide="bookmark" className="w-5 h-5"></i>
-                    </button>
+                  <div className="flex gap-2">
+                    <span className="px-3 py-1 bg-purple-50/80 text-purple-600 text-sm rounded-lg font-medium">
+                      {challenge.duration}
+                    </span>
+                    <span className="px-3 py-1 bg-indigo-50/80 text-indigo-600 text-sm rounded-lg font-medium">
+                      {challenge.difficulty}
+                    </span>
                   </div>
                 </div>
+                
+                <h3 className="text-xl font-semibold text-purple-800 mb-2 group-hover:text-purple-900 transition-colors">
+                  {challenge.title}
+                </h3>
+                <p className="text-purple-600/90 mb-6 flex-grow">
+                  {challenge.description}
+                </p>
+                
+                <div className="flex justify-between items-center mt-auto pt-4">
+                  <button 
+                    className={`px-6 py-2.5 bg-gradient-to-r ${challenge.color} text-white rounded-xl hover:opacity-90 transition-all flex items-center gap-2 shadow-sm hover:shadow-md group-hover:scale-105`}
+                    onClick={() => handleStartChallenge(challenge)}
+                  >
+                    <span>Start Challenge</span>
+                    <i data-lucide="arrow-right" className="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                  </button>
+                  <button className="p-2 text-purple-400 hover:text-purple-600 transition-colors hover:bg-purple-50 rounded-lg">
+                    <i data-lucide="bookmark" className="w-5 h-5"></i>
+                  </button>
+                </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
-    </DashboardLayout>
+    </div>
   )
 } 
