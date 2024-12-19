@@ -360,12 +360,12 @@ export default function MbtiTest() {
           exit={{ opacity: 0 }}
           className="flex-grow flex flex-col items-center justify-center px-4 py-20 relative z-10"
         >
-          <div className="max-w-3xl w-full space-y-12">
+          <div className="max-w-4xl w-full space-y-12">
             <motion.h2 
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="text-3xl md:text-4xl font-bold text-purple-900 text-center leading-relaxed"
+              className="text-2xl md:text-3xl font-bold text-purple-900 text-center leading-relaxed"
             >
               {question.question}
             </motion.h2>
@@ -376,23 +376,27 @@ export default function MbtiTest() {
                   key={option.type}
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: index * 0.1 + 0.2 }}
+                  transition={{ 
+                    duration: 0.05,
+                    delay: index * 0.1 + 0.2
+                  }}
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ 
                     scale: 0.98,
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                    boxShadow: "0 0 20px rgba(139, 92, 246, 0.3)",
-                    transition: { duration: 0.1 } 
+                    backgroundColor: "rgba(255, 255, 255, 0.4)",
+                    boxShadow: "0 0 10px rgba(139, 92, 246, 0.15)",
+                    transition: { duration: 0.02 } 
                   }}
                   onClick={() => handleAnswer(option.type as "A" | "B")}
-                  className="relative overflow-hidden w-full bg-white/60 hover:bg-white/80 backdrop-blur-md text-purple-900 px-8 py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-between border border-purple-100/50 group"
+                  className="relative overflow-hidden w-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-purple-900 px-8 py-4 rounded-2xl transition-all duration-50 shadow hover:shadow-md flex items-center justify-center border border-white/30 group"
                 >
-                  <span className="text-left flex-1 text-lg group-hover:text-purple-900">
+                  <span className="text-center text-xl group-hover:text-purple-900">
                     {option.answer}
                   </span>
                   <motion.div
                     whileHover={{ x: 4 }}
-                    className="text-purple-500"
+                    transition={{ duration: 0.05 }}
+                    className="text-purple-500 absolute right-6"
                   >
                     <ArrowRight size={24} />
                   </motion.div>
