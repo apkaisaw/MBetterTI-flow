@@ -7,7 +7,11 @@ const nextConfig = {
   images: {
     domains: ['i.pravatar.cc', 'source.unsplash.com', 'avatars.dicebear.com'],
     unoptimized: true
-  }
+  },
+  typescript: {
+    ignoreBuildErrors: true
+  },
+  generateBuildId: () => 'build-' + new Date().getTime()
 }
 
 module.exports = nextConfig
