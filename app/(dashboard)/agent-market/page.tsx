@@ -188,7 +188,15 @@ const templates: Template[] = [
 ];
 
 // 模板卡片组件
-function TemplateCard({ template }: { template: Template }) {
+function TemplateCard({ 
+  template,
+  onGetStarted,
+  onPreview 
+}: { 
+  template: Template;
+  onGetStarted: () => void;
+  onPreview: () => void;
+}) {
   return (
     <motion.div
       key={template.id}
@@ -296,13 +304,13 @@ function TemplateCard({ template }: { template: Template }) {
 
         <div className="flex gap-2">
           <button 
-            onClick={handleGetStarted}
+            onClick={onGetStarted}
             className="flex-1 px-3 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-all text-sm"
           >
             Get Started
           </button>
           <button 
-            onClick={handlePreview}
+            onClick={onPreview}
             className="px-3 py-2 text-purple-600 hover:bg-purple-50 rounded-xl transition-all text-sm"
           >
             Preview
@@ -363,7 +371,12 @@ export default function AgentMarket() {
             {templates
               .filter(template => template.type === 'pro')
               .map((template) => (
-                <TemplateCard key={template.id} template={template} />
+                <TemplateCard 
+                  key={template.id} 
+                  template={template}
+                  onGetStarted={handleGetStarted}
+                  onPreview={handlePreview}
+                />
               ))}
           </div>
         </div>
@@ -378,7 +391,12 @@ export default function AgentMarket() {
             {templates
               .filter(template => template.type === 'experience')
               .map((template) => (
-                <TemplateCard key={template.id} template={template} />
+                <TemplateCard 
+                  key={template.id} 
+                  template={template}
+                  onGetStarted={handleGetStarted}
+                  onPreview={handlePreview}
+                />
               ))}
           </div>
         </div>
