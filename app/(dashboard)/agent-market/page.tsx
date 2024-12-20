@@ -187,6 +187,132 @@ const templates: Template[] = [
   }
 ];
 
+// 模板卡片组件
+function TemplateCard({ template }: { template: Template }) {
+  return (
+    <motion.div
+      key={template.id}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 group hover:scale-[1.02]"
+    >
+      <div className="p-6">
+        <h3 className="text-xl font-semibold text-purple-800 mb-3 group-hover:text-purple-900 transition-colors">
+          {template.title}
+        </h3>
+        <p className="text-purple-600/80 mb-4 text-sm">
+          {template.description}
+        </p>
+
+        {template.type === 'pro' && (
+          // 专业教练模板内容
+          <>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {(template as ProTemplate).specialties.map((specialty) => (
+                <span 
+                  key={specialty}
+                  className="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-lg"
+                >
+                  {specialty}
+                </span>
+              ))}
+            </div>
+            <div className="flex items-center justify-between text-sm text-purple-600/70 mb-4">
+              <div className="flex items-center gap-2">
+                <img 
+                  src={`https://avatars.dicebear.com/api/initials/${(template as ProTemplate).author}.svg`}
+                  alt={(template as ProTemplate).author}
+                  className="w-6 h-6 rounded-full"
+                />
+                <span>{(template as ProTemplate).author}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Star size={14} className="text-yellow-400" />
+                <span>{(template as ProTemplate).rating} ({(template as ProTemplate).reviews} reviews)</span>
+              </div>
+            </div>
+          </>
+        )}
+        {template.type === 'experience' && (
+          // 用户经验教练内容
+          <>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {(template as ExperienceTemplate).growthPath.map((path: string) => (
+                <span 
+                  key={path}
+                  className="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-lg"
+                >
+                  {path}
+                </span>
+              ))}
+            </div>
+            <div className="bg-purple-50/50 rounded-xl p-3 mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <img 
+                  src={`https://avatars.dicebear.com/api/initials/${(template as ExperienceTemplate).creator.name}.svg`}
+                  alt={(template as ExperienceTemplate).creator.name}
+                  className="w-6 h-6 rounded-full"
+                />
+                <span className="text-sm font-medium text-purple-900">{(template as ExperienceTemplate).creator.name}</span>
+                <span className="px-2 py-0.5 bg-purple-100 text-purple-600 text-xs rounded-full">
+                  {(template as ExperienceTemplate).creator.mbti}
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {(template as ExperienceTemplate).creator.achievements.map((achievement: string, index: number) => (
+                  <span key={index} className="text-xs text-purple-600/80">
+                    • {achievement}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center justify-between text-sm text-purple-600/70 mb-4">
+              <div className="flex items-center gap-2">
+                <Clock size={14} />
+                <span>{(template as ExperienceTemplate).creator.yearsOfGrowth} Years Journey</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Target size={14} />
+                <span>{(template as ExperienceTemplate).successRate}% Success Rate</span>
+              </div>
+            </div>
+          </>
+        )}
+
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl font-bold text-purple-900">
+              {template.price.amount}
+            </span>
+            <span className="text-sm font-medium text-purple-600">
+              {template.price.currency}
+            </span>
+          </div>
+          <span className="text-sm text-purple-600/70">
+            {template.type === 'experience' ? `${(template as ExperienceTemplate).users} Users` : 'Lifetime Access'}
+          </span>
+        </div>
+
+        <div className="flex gap-2">
+          <button 
+            onClick={handleGetStarted}
+            className="flex-1 px-3 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-all text-sm"
+          >
+            Get Started
+          </button>
+          <button 
+            onClick={handlePreview}
+            className="px-3 py-2 text-purple-600 hover:bg-purple-50 rounded-xl transition-all text-sm"
+          >
+            Preview
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function AgentMarket() {
   const handleGetStarted = () => {
     alert('This is a demo version. Payment and coach activation features will be available in the full release.');
@@ -237,125 +363,7 @@ export default function AgentMarket() {
             {templates
               .filter(template => template.type === 'pro')
               .map((template) => (
-                <motion.div
-                  key={template.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 group hover:scale-[1.02]"
-                >
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-purple-800 mb-3 group-hover:text-purple-900 transition-colors">
-                      {template.title}
-                    </h3>
-                    <p className="text-purple-600/80 mb-4 text-sm">
-                      {template.description}
-                    </p>
-
-                    {template.type === 'pro' ? (
-                      // 专业教练模板内容
-                      <>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {template.specialties.map((specialty) => (
-                            <span 
-                              key={specialty}
-                              className="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-lg"
-                            >
-                              {specialty}
-                            </span>
-                          ))}
-                        </div>
-                        <div className="flex items-center justify-between text-sm text-purple-600/70 mb-4">
-                          <div className="flex items-center gap-2">
-                            <img 
-                              src={`https://avatars.dicebear.com/api/initials/${template.author}.svg`}
-                              alt={template.author}
-                              className="w-6 h-6 rounded-full"
-                            />
-                            <span>{template.author}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Star size={14} className="text-yellow-400" />
-                            <span>{template.rating} ({template.reviews} reviews)</span>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      // 用户经验教练内容
-                      <>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {template.growthPath.map((path) => (
-                            <span 
-                              key={path}
-                              className="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-lg"
-                            >
-                              {path}
-                            </span>
-                          ))}
-                        </div>
-                        <div className="bg-purple-50/50 rounded-xl p-3 mb-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <img 
-                              src={`https://avatars.dicebear.com/api/initials/${template.creator.name}.svg`}
-                              alt={template.creator.name}
-                              className="w-6 h-6 rounded-full"
-                            />
-                            <span className="text-sm font-medium text-purple-900">{template.creator.name}</span>
-                            <span className="px-2 py-0.5 bg-purple-100 text-purple-600 text-xs rounded-full">
-                              {template.creator.mbti}
-                            </span>
-                          </div>
-                          <div className="flex flex-wrap gap-2">
-                            {template.creator.achievements.map((achievement, index) => (
-                              <span key={index} className="text-xs text-purple-600/80">
-                                • {achievement}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between text-sm text-purple-600/70 mb-4">
-                          <div className="flex items-center gap-2">
-                            <Clock size={14} />
-                            <span>{template.creator.yearsOfGrowth} Years Journey</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Target size={14} />
-                            <span>{template.successRate}% Success Rate</span>
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold text-purple-900">
-                          {template.price.amount}
-                        </span>
-                        <span className="text-sm font-medium text-purple-600">
-                          {template.price.currency}
-                        </span>
-                      </div>
-                      <span className="text-sm text-purple-600/70">
-                        {template.type === 'experience' ? `${template.users} Users` : 'Lifetime Access'}
-                      </span>
-                    </div>
-
-                    <div className="flex gap-2">
-                      <button 
-                        onClick={handleGetStarted}
-                        className="flex-1 px-3 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-all text-sm"
-                      >
-                        Get Started
-                      </button>
-                      <button 
-                        onClick={handlePreview}
-                        className="px-3 py-2 text-purple-600 hover:bg-purple-50 rounded-xl transition-all text-sm"
-                      >
-                        Preview
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
+                <TemplateCard key={template.id} template={template} />
               ))}
           </div>
         </div>
@@ -370,125 +378,7 @@ export default function AgentMarket() {
             {templates
               .filter(template => template.type === 'experience')
               .map((template) => (
-                <motion.div
-                  key={template.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 group hover:scale-[1.02]"
-                >
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-purple-800 mb-3 group-hover:text-purple-900 transition-colors">
-                      {template.title}
-                    </h3>
-                    <p className="text-purple-600/80 mb-4 text-sm">
-                      {template.description}
-                    </p>
-
-                    {template.type === 'pro' ? (
-                      // 专业教练模板内容
-                      <>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {template.specialties.map((specialty) => (
-                            <span 
-                              key={specialty}
-                              className="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-lg"
-                            >
-                              {specialty}
-                            </span>
-                          ))}
-                        </div>
-                        <div className="flex items-center justify-between text-sm text-purple-600/70 mb-4">
-                          <div className="flex items-center gap-2">
-                            <img 
-                              src={`https://avatars.dicebear.com/api/initials/${template.author}.svg`}
-                              alt={template.author}
-                              className="w-6 h-6 rounded-full"
-                            />
-                            <span>{template.author}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Star size={14} className="text-yellow-400" />
-                            <span>{template.rating} ({template.reviews} reviews)</span>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      // 用户经验教练内容
-                      <>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {template.growthPath.map((path) => (
-                            <span 
-                              key={path}
-                              className="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-lg"
-                            >
-                              {path}
-                            </span>
-                          ))}
-                        </div>
-                        <div className="bg-purple-50/50 rounded-xl p-3 mb-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <img 
-                              src={`https://avatars.dicebear.com/api/initials/${template.creator.name}.svg`}
-                              alt={template.creator.name}
-                              className="w-6 h-6 rounded-full"
-                            />
-                            <span className="text-sm font-medium text-purple-900">{template.creator.name}</span>
-                            <span className="px-2 py-0.5 bg-purple-100 text-purple-600 text-xs rounded-full">
-                              {template.creator.mbti}
-                            </span>
-                          </div>
-                          <div className="flex flex-wrap gap-2">
-                            {template.creator.achievements.map((achievement, index) => (
-                              <span key={index} className="text-xs text-purple-600/80">
-                                • {achievement}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between text-sm text-purple-600/70 mb-4">
-                          <div className="flex items-center gap-2">
-                            <Clock size={14} />
-                            <span>{template.creator.yearsOfGrowth} Years Journey</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Target size={14} />
-                            <span>{template.successRate}% Success Rate</span>
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold text-purple-900">
-                          {template.price.amount}
-                        </span>
-                        <span className="text-sm font-medium text-purple-600">
-                          {template.price.currency}
-                        </span>
-                      </div>
-                      <span className="text-sm text-purple-600/70">
-                        {template.type === 'experience' ? `${template.users} Users` : 'Lifetime Access'}
-                      </span>
-                    </div>
-
-                    <div className="flex gap-2">
-                      <button 
-                        onClick={handleGetStarted}
-                        className="flex-1 px-3 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-all text-sm"
-                      >
-                        Get Started
-                      </button>
-                      <button 
-                        onClick={handlePreview}
-                        className="px-3 py-2 text-purple-600 hover:bg-purple-50 rounded-xl transition-all text-sm"
-                      >
-                        Preview
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
+                <TemplateCard key={template.id} template={template} />
               ))}
           </div>
         </div>
@@ -503,5 +393,5 @@ export default function AgentMarket() {
         </div>
       </div>
     </div>
-  )
+  );
 } 
