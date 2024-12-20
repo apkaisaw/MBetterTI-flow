@@ -5,9 +5,9 @@ import { WalletProvider } from '../contexts/WalletContext'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Idealist Garden - Creative and Personal Growth Platform',
-  description: 'Explore your creativity, discover your potential, and connect with like-minded individuals. A decentralized platform for creativity and personal growth.',
-  keywords: 'MBTI, NFT, Blog, Personal Growth, Creativity, Web3',
+  title: 'MBetterTI - AI Powered MBTI Growth Platform',
+  description: 'Discover and develop your MBTI personality type with AI assistance. A decentralized platform for personal growth and self-discovery.',
+  keywords: 'MBTI, AI, Personal Growth, Self Discovery, Web3, Personality Development',
 }
 
 export default function RootLayout({
