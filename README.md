@@ -1,6 +1,7 @@
 # MBetterTI
 
 **MBetterTI** is a personalized growth platform that combines MBTI testing, AI Life Coach, and Web3 technologies. By providing customized growth paths for different MBTI personality types, it helps users achieve personal growth and self-improvement. The core goal of the platform is to support users' growth through challenges and on-chain records, while leveraging NFT and DAO technologies to stimulate community interaction and personalized development.
+![MBetterTI Demo](public/images/demo.png)
 
 ## Key Features
 
