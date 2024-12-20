@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, type HTMLMotionProps } from 'framer-motion'
 import { FileCode, Star, GitFork, Download, Users, Award, Clock, Target } from 'lucide-react'
+import Image from 'next/image'
 
 // 专业教练模板接口
 interface ProTemplate {
@@ -187,19 +188,21 @@ const templates: Template[] = [
   }
 ];
 
-// 模板卡片组件
-function TemplateCard({ 
-  template,
-  onGetStarted,
-  onPreview 
-}: { 
+// 模板卡片组件接口
+interface TemplateCardProps {
   template: Template;
   onGetStarted: () => void;
   onPreview: () => void;
-}) {
+}
+
+// 模板卡片组件
+const TemplateCard = ({ 
+  template,
+  onGetStarted,
+  onPreview 
+}: TemplateCardProps & HTMLMotionProps<"div">): JSX.Element => {
   return (
     <motion.div
-      key={template.id}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -228,10 +231,12 @@ function TemplateCard({
             </div>
             <div className="flex items-center justify-between text-sm text-purple-600/70 mb-4">
               <div className="flex items-center gap-2">
-                <img 
+                <Image 
                   src={`https://avatars.dicebear.com/api/initials/${(template as ProTemplate).author}.svg`}
                   alt={(template as ProTemplate).author}
-                  className="w-6 h-6 rounded-full"
+                  width={24}
+                  height={24}
+                  className="rounded-full"
                 />
                 <span>{(template as ProTemplate).author}</span>
               </div>
@@ -257,10 +262,12 @@ function TemplateCard({
             </div>
             <div className="bg-purple-50/50 rounded-xl p-3 mb-4">
               <div className="flex items-center gap-2 mb-2">
-                <img 
+                <Image 
                   src={`https://avatars.dicebear.com/api/initials/${(template as ExperienceTemplate).creator.name}.svg`}
                   alt={(template as ExperienceTemplate).creator.name}
-                  className="w-6 h-6 rounded-full"
+                  width={24}
+                  height={24}
+                  className="rounded-full"
                 />
                 <span className="text-sm font-medium text-purple-900">{(template as ExperienceTemplate).creator.name}</span>
                 <span className="px-2 py-0.5 bg-purple-100 text-purple-600 text-xs rounded-full">
