@@ -72,6 +72,34 @@ const badges: Badge[] = [
       'Define life purpose',
       'Create action plan'
     ]
+  },
+  {
+    id: '5',
+    title: 'Knowledge Explorer',
+    description: 'Recognition for continuous learning and intellectual curiosity.',
+    category: 'Education',
+    rarity: 'Rare',
+    progress: 60,
+    isLocked: false,
+    requirements: [
+      'Complete 3 online courses',
+      'Share learning insights',
+      'Apply knowledge in projects'
+    ]
+  },
+  {
+    id: '6',
+    title: 'Resilience Warrior',
+    description: 'Badge for demonstrating strength and adaptability in challenges.',
+    category: 'Personal Growth',
+    rarity: 'Legendary',
+    progress: 25,
+    isLocked: false,
+    requirements: [
+      'Overcome major obstacles',
+      'Maintain positive mindset',
+      'Help others through difficulties'
+    ]
   }
 ];
 

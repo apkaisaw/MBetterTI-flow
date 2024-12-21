@@ -498,9 +498,9 @@ export default function PersonaDiscovery() {
         className="relative flex justify-center items-center"
       >
         <motion.h1 
-          className="text-3xl font-bold text-purple-800/90 bg-white/50 backdrop-blur-sm px-6 py-2 rounded-2xl"
+          className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 px-8 py-3 rounded-2xl shadow-lg backdrop-blur-sm border border-purple-200/30 hover:shadow-purple-300/30 transition-all duration-500"
         >
-          MBTI Test Results
+          Personality Insights
         </motion.h1>
         <motion.span
           className="absolute -top-3 -right-3 text-7xl text-purple-400/50" 
