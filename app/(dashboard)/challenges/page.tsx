@@ -10,7 +10,8 @@ const challenges = [
     duration: "7 days",
     difficulty: "Easy",
     color: "from-pink-500 to-rose-500",
-    bgColor: "from-pink-100 to-rose-100"
+    bgColor: "from-pink-100 to-rose-100",
+    traits: ["Emotional Intelligence", "Self-awareness", "Authenticity"]
   },
   {
     icon: 'pen-tool',
@@ -19,7 +20,8 @@ const challenges = [
     duration: "5 days",
     difficulty: "Medium",
     color: "from-purple-500 to-indigo-500",
-    bgColor: "from-purple-100 to-indigo-100"
+    bgColor: "from-purple-100 to-indigo-100",
+    traits: ["Creativity", "Self-expression", "Imagination"]
   },
   {
     icon: 'heart-handshake',
@@ -28,7 +30,8 @@ const challenges = [
     duration: "3 days",
     difficulty: "Easy",
     color: "from-amber-500 to-orange-500",
-    bgColor: "from-amber-100 to-orange-100"
+    bgColor: "from-amber-100 to-orange-100",
+    traits: ["Empathy", "Compassion", "Social Connection"]
   },
   {
     icon: 'lotus',
@@ -37,7 +40,8 @@ const challenges = [
     duration: "10 days",
     difficulty: "Advanced",
     color: "from-teal-500 to-emerald-500",
-    bgColor: "from-teal-100 to-emerald-100"
+    bgColor: "from-teal-100 to-emerald-100",
+    traits: ["Mindfulness", "Inner Peace", "Emotional Balance"]
   }
 ];
 
@@ -130,9 +134,23 @@ export default function PersonalChallenges() {
                 <h3 className="text-xl font-semibold text-purple-800 mb-2 group-hover:text-purple-900 transition-colors">
                   {challenge.title}
                 </h3>
-                <p className="text-purple-600/90 mb-6 flex-grow">
+                <p className="text-purple-600/90 mb-4 flex-grow">
                   {challenge.description}
                 </p>
+                
+                <div className="mb-6">
+                  <div className="text-sm font-medium text-purple-700 mb-2">Traits you'll develop:</div>
+                  <div className="flex flex-wrap gap-2">
+                    {challenge.traits.map((trait, index) => (
+                      <span
+                        key={index}
+                        className={`px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r ${challenge.bgColor} text-gray-700`}
+                      >
+                        {trait}
+                      </span>
+                    ))}
+                  </div>
+                </div>
                 
                 <div className="flex justify-between items-center mt-auto pt-4">
                   <button 
