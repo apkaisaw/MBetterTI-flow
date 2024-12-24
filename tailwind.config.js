@@ -38,7 +38,10 @@ module.exports = {
       },
       margin: {
         '66': '264px',
-      }
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
     },
   },
   plugins: [],
