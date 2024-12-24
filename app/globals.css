@@ -2,6 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font configuration */
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  font-family: var(--font-outfit), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+@font-face {
+  font-family: 'DengXian';
+  src: local('DengXian');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DengXian';
+  src: local('DengXian Bold');
+  font-weight: bold;
+  font-style: normal;
+}
+
+.ripple-purple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 0.8s ease-out;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.5) 0%,
+    rgba(255, 255, 255, 0.8) 40%,
+    rgba(139, 92, 246, 0.2) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
 /* Optimize animations with hardware acceleration */
 .fade-in-section {
   opacity: 0;
@@ -70,88 +129,30 @@
 /* Button glow animation */
 @keyframes buttonGlow {
   0% {
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5),
-                0 0 30px rgba(168, 85, 247, 0.4),
-                0 0 45px rgba(168, 85, 247, 0.3),
-                0 0 60px rgba(168, 85, 247, 0.2);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.5),
+                0 0 30px rgba(245, 158, 11, 0.4),
+                0 0 45px rgba(245, 158, 11, 0.3),
+                0 0 60px rgba(245, 158, 11, 0.2);
   }
   50% {
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.6),
-                0 0 40px rgba(168, 85, 247, 0.5),
-                0 0 60px rgba(168, 85, 247, 0.4),
-                0 0 80px rgba(168, 85, 247, 0.3);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.6),
+                0 0 40px rgba(245, 158, 11, 0.5),
+                0 0 60px rgba(245, 158, 11, 0.4),
+                0 0 80px rgba(245, 158, 11, 0.3);
   }
   100% {
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5),
-                0 0 30px rgba(168, 85, 247, 0.4),
-                0 0 45px rgba(168, 85, 247, 0.3),
-                0 0 60px rgba(168, 85, 247, 0.2);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.5),
+                0 0 30px rgba(245, 158, 11, 0.4),
+                0 0 45px rgba(245, 158, 11, 0.3),
+                0 0 60px rgba(245, 158, 11, 0.2);
   }
 }
 
 .glowing-button {
   animation: buttonGlow 1.5s ease-in-out infinite;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(251, 191, 36, 0.1);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 /* 其他自定义样式... */
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-@font-face {
-  font-family: 'DengXian';
-  src: local('DengXian');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'DengXian';
-  src: local('DengXian Bold');
-  font-weight: bold;
-  font-style: normal;
-}
-
-.ripple-purple {
-  position: absolute;
-  border-radius: 50%;
-  transform: scale(0);
-  animation: ripple 0.8s ease-out;
-  background: radial-gradient(
-    circle,
-    rgba(139, 92, 246, 0.5) 0%,
-    rgba(255, 255, 255, 0.8) 40%,
-    rgba(139, 92, 246, 0.2) 60%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-@keyframes ripple {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(4);
-    opacity: 0;
-  }
-}

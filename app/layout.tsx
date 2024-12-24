@@ -1,8 +1,12 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Outfit } from 'next/font/google'
 import { WalletProvider } from '../contexts/WalletContext'
 
-const inter = Inter({ subsets: ['latin'] })
+const outfit = Outfit({ 
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-outfit',
+})
 
 export const metadata = {
   title: 'MBetterTI - AI Powered MBTI Growth Platform',
@@ -16,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col ${inter.className}`}>
+    <html lang="en" className={outfit.variable}>
+      <body className="bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col">
         <WalletProvider>
           {children}
         </WalletProvider>

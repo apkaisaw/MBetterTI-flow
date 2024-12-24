@@ -203,18 +203,18 @@ export default function Home() {
           
         <div className="relative z-10 text-center max-w-6xl mx-auto px-4 pt-20">
           <div className="animate-fade-in-up space-y-20">
-            <p className="text-4xl md:text-5xl text-purple-800 font-light tracking-wide leading-relaxed">
+            <p className="text-4xl md:text-5xl font-light tracking-wide leading-relaxed bg-gradient-to-r from-gray-300 via-white to-gray-300 bg-clip-text text-transparent">
               Discover your true potential through
-              <span className="block text-6xl md:text-8xl font-medium bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 text-transparent bg-clip-text mt-8">
+              <span className="block text-6xl md:text-8xl font-light bg-gradient-to-r from-gray-300 via-white to-gray-300 text-transparent bg-clip-text mt-8 [text-shadow:_0_1px_12px_rgb(203_213_225_/_30%)]">
                 AI-powered<br/>personality insights
               </span>
             </p>
             <Link href="/mbti-test" 
-                  className="group inline-block bg-white/20 backdrop-blur-md px-12 py-3 rounded-full
-                           border border-purple-300/30 shadow-lg shadow-purple-300/20
-                           hover:bg-white/30 hover:border-purple-400/40
+                  className="group inline-block bg-amber-400/10 backdrop-blur-md px-10 py-2.5 rounded-full
+                           border border-amber-200/30 shadow-lg shadow-amber-200/20
+                           hover:bg-amber-400/20 hover:border-amber-300/40
                            transition-all duration-500 hover:scale-105 glowing-button">
-              <span className="font-medium tracking-wide text-lg bg-gradient-to-r from-purple-800 to-purple-900 bg-clip-text text-transparent">
+              <span className="font-medium tracking-wide text-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 bg-clip-text text-transparent uppercase">
                 Begin Your Journey
               </span>
             </Link>
@@ -342,11 +342,11 @@ export default function Home() {
               Join our community of visionaries and start your journey today
             </p>
             <Link href="/mbti-test" 
-                  className="group inline-block bg-white/20 backdrop-blur-md px-12 py-3 rounded-full
-                           border border-purple-300/30 shadow-lg shadow-purple-300/20
-                           hover:bg-white/30 hover:border-purple-400/40
+                  className="group inline-block bg-amber-400/10 backdrop-blur-md px-10 py-2.5 rounded-full
+                           border border-amber-200/30 shadow-lg shadow-amber-200/20
+                           hover:bg-amber-400/20 hover:border-amber-300/40
                            transition-all duration-500 hover:scale-105 glowing-button">
-              <span className="font-medium tracking-wide text-lg bg-gradient-to-r from-purple-800 to-purple-900 bg-clip-text text-transparent">
+              <span className="font-medium tracking-wide text-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 bg-clip-text text-transparent uppercase">
                 Begin Your Journey
               </span>
             </Link>
