@@ -1,5 +1,7 @@
 # MBetterTI
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/apkaisaw/MBetterTI)
+
 <div align="center">
 
 [![Website](https://img.shields.io/website?url=https://m-better-ti.vercel.app)](https://m-better-ti.vercel.app)
