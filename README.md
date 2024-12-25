@@ -13,7 +13,7 @@
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.x-363636)](https://soliditylang.org/)
 [![Gemini](https://img.shields.io/badge/Gemini%20API-Enabled-4285F4)](https://deepmind.google/technologies/gemini/)
 
-[English](README.md) · [简体中文](README.zh-CN.md) · [Live Demo](https://m-better-ti.vercel.app) · [Report Bug](https://github.com/yourusername/MBetterTI/issues) · [Request Feature](https://github.com/yourusername/MBetterTI/issues)
+[Live Demo](https://m-better-ti.vercel.app) · [Report Bug](https://github.com/yourusername/MBetterTI/issues) · [Request Feature](https://github.com/yourusername/MBetterTI/issues)
 
 AI-Powered MBTI Growth Platform | Web3-Based Personal Development | Community-Driven Learning
 
