@@ -1,6 +1,14 @@
 # MBetterTI
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/apkaisaw/MBetterTI)
+[![Website](https://img.shields.io/website?url=https://m-better-ti.vercel.app)](https://m-better-ti.vercel.app)
+
 **MBetterTI** is a personalized growth platform that combines MBTI testing, AI Life Coach, and Web3 technologies. By providing customized growth paths for different MBTI personality types, it helps users achieve personal growth and self-improvement. The core goal of the platform is to support users' growth through challenges and on-chain records, while leveraging NFT and DAO technologies to stimulate community interaction and personalized development.
+
+## 🌐 Live Demo
+
+Visit our live demo at: [https://m-better-ti.vercel.app](https://m-better-ti.vercel.app)
+
 ![MBetterTI Demo1](public/images/demo1.png)
 ![MBetterTI Demo2](public/images/demo2.png)
 ![MBetterTI Demo3](public/images/demo3.png)
