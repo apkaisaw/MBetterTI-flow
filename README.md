@@ -104,7 +104,7 @@ Experience MBetterTI in action:
 <details>
 <summary>AI Integration</summary>
 
-- Gemini API - Language Model
+- Deepseek API - Language Model
 - Dify - AI Framework
 </details>
 
