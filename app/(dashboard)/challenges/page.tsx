@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect } from 'react'
 import { ethers } from 'ethers'
+import { motion } from 'framer-motion'
 
 const challenges = [
   {
@@ -102,18 +103,31 @@ export default function PersonalChallenges() {
   }, []);
 
   return (
-    <div className="p-8">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="p-8"
+    >
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+          className="mb-8"
+        >
           <h1 className="text-3xl font-semibold bg-gradient-to-r from-purple-800 to-indigo-800 bg-clip-text text-transparent">
             Personal Growth Challenges
           </h1>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {challenges.map((challenge) => (
-            <div
+          {challenges.map((challenge, index) => (
+            <motion.div
               key={challenge.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 + index * 0.1, duration: 0.4 }}
               className="group bg-white/90 backdrop-blur-lg rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 hover:scale-[1.02]"
             >
               <div className="p-6 flex flex-col h-full">
@@ -165,10 +179,10 @@ export default function PersonalChallenges() {
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 } 

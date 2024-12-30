@@ -24,9 +24,11 @@ import {
   ChevronUp,
   Vote,
   Layers,
-  Hammer
+  Hammer,
+  Menu
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import MobileBottomNav from '../components/MobileBottomNav';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -87,7 +89,7 @@ const navItems: NavItem[] = [
 const QuickNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -160,6 +162,7 @@ export default function Layout({ children }: LayoutProps) {
   const pathname = usePathname();
   const [isConnected, setIsConnected] = useState(false);
   const [address, setAddress] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState<string[]>(() => 
     navItems
       .filter(item => item.subItems)
@@ -223,9 +226,28 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="flex min-h-screen bg-white">
-      <div className="fixed top-0 left-0 h-screen w-66 flex flex-col bg-purple-50/80 backdrop-blur-lg border-r border-purple-100">
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-purple-50 md:hidden"
+      >
+        <Menu size={24} className="text-purple-600" />
+      </button>
+
+      {/* Backdrop */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={`fixed top-0 left-0 h-screen w-66 flex flex-col bg-purple-50/80 backdrop-blur-lg border-r border-purple-100 z-50 transition-transform duration-300 ease-in-out ${
+        isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+      } md:translate-x-0`}>
         <div className="pt-6 pb-2 flex justify-center">
-          <Link href="/" className="block">
+          <Link href="/" className="block" onClick={() => setIsMobileMenuOpen(false)}>
             <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent text-center">
               MBetterTI
             </h1>
@@ -379,11 +401,13 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </div>
 
-      <main className="flex-1 ml-66 min-h-screen bg-white">
-        <div className="p-8">
+      {/* Main Content */}
+      <main className="flex-1 md:ml-66 min-h-screen bg-white pb-16 md:pb-0">
+        <div className="p-4 md:p-8">
           {children}
         </div>
         <QuickNav />
+        <MobileBottomNav />
       </main>
     </div>
   );
