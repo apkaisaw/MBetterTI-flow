@@ -229,9 +229,9 @@ export default function Layout({ children }: LayoutProps) {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-purple-50 md:hidden"
+        className="fixed top-4 left-4 z-50 h-9 w-9 flex items-center justify-center rounded-full bg-white/30 backdrop-blur-xl border border-white/40 shadow-lg md:hidden"
       >
-        <Menu size={24} className="text-purple-600" />
+        <Menu size={18} className="text-purple-600" />
       </button>
 
       {/* Backdrop */}
