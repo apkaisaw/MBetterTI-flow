@@ -122,7 +122,7 @@ const QuickNav = () => {
   ];
 
   return (
-    <div ref={navRef} className="fixed bottom-8 right-8 z-50">
+    <div ref={navRef} className="fixed bottom-24 right-8 z-50">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="bg-purple-600/50 backdrop-blur-xl text-white p-3 rounded-full shadow-lg hover:bg-purple-700/60 hover:shadow-purple-500/25 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 border border-white/20"

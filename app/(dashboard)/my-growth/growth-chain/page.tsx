@@ -102,36 +102,36 @@ export default function GrowthChain() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        className="grid grid-cols-3 gap-2 md:gap-6"
       >
-        <div className="bg-gradient-to-br from-purple-500/10 to-indigo-500/10 rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <Target className="w-5 h-5 text-purple-600" />
+        <div className="bg-gradient-to-br from-purple-500/10 to-indigo-500/10 rounded-lg md:rounded-2xl p-3 md:p-6">
+          <div className="flex items-center gap-2 md:gap-3 mb-2">
+            <div className="p-1.5 md:p-2 bg-purple-100 rounded-lg">
+              <Target className="w-4 h-4 md:w-5 md:h-5 text-purple-600" />
             </div>
-            <h3 className="text-lg font-semibold text-purple-800">Active Goals</h3>
+            <h3 className="text-base md:text-lg font-semibold text-purple-800">Active Goals</h3>
           </div>
-          <p className="text-3xl font-bold text-purple-900">5</p>
+          <p className="text-2xl md:text-3xl font-bold text-purple-900">5</p>
         </div>
 
-        <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <Trophy className="w-5 h-5 text-green-600" />
+        <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-lg md:rounded-2xl p-3 md:p-6">
+          <div className="flex items-center gap-2 md:gap-3 mb-2">
+            <div className="p-1.5 md:p-2 bg-green-100 rounded-lg">
+              <Trophy className="w-4 h-4 md:w-5 md:h-5 text-green-600" />
             </div>
-            <h3 className="text-lg font-semibold text-green-800">Completed</h3>
+            <h3 className="text-base md:text-lg font-semibold text-green-800">Completed</h3>
           </div>
-          <p className="text-3xl font-bold text-green-900">12</p>
+          <p className="text-2xl md:text-3xl font-bold text-green-900">12</p>
         </div>
 
-        <div className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Star className="w-5 h-5 text-blue-600" />
+        <div className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-lg md:rounded-2xl p-3 md:p-6">
+          <div className="flex items-center gap-2 md:gap-3 mb-2">
+            <div className="p-1.5 md:p-2 bg-blue-100 rounded-lg">
+              <Star className="w-4 h-4 md:w-5 md:h-5 text-blue-600" />
             </div>
-            <h3 className="text-lg font-semibold text-blue-800">Streak</h3>
+            <h3 className="text-base md:text-lg font-semibold text-blue-800">Streak</h3>
           </div>
-          <p className="text-3xl font-bold text-blue-900">7 days</p>
+          <p className="text-2xl md:text-3xl font-bold text-blue-900">7 days</p>
         </div>
       </motion.div>
 
