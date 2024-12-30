@@ -203,9 +203,9 @@ export default function Home() {
           
         <div className="relative z-10 text-center max-w-6xl mx-auto px-4 pt-20">
           <div className="animate-fade-in-up space-y-20">
-            <p className="text-4xl md:text-5xl font-light tracking-wide leading-relaxed bg-gradient-to-r from-gray-300 via-white to-gray-300 bg-clip-text text-transparent">
+            <p className="text-2xl md:text-4xl lg:text-5xl font-light tracking-wide leading-relaxed bg-gradient-to-r from-gray-300 via-white to-gray-300 bg-clip-text text-transparent">
               Discover your true potential through
-              <span className="block text-6xl md:text-8xl font-light bg-gradient-to-r from-gray-300 via-white to-gray-300 text-transparent bg-clip-text mt-8 [text-shadow:_0_1px_12px_rgb(203_213_225_/_30%)]">
+              <span className="block text-4xl md:text-6xl lg:text-8xl font-light bg-gradient-to-r from-gray-300 via-white to-gray-300 text-transparent bg-clip-text mt-4 md:mt-8 [text-shadow:_0_1px_12px_rgb(203_213_225_/_30%)]">
                 AI-powered<br/>personality insights
               </span>
             </p>
@@ -226,25 +226,25 @@ export default function Home() {
         </section>
 
       {/* Features Section */}
-      <section className="relative min-h-screen bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 py-40">
+      <section className="relative min-h-screen bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 py-20 md:py-40">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_100%)] from-white/40"></div>
-        <div className="max-w-[90rem] mx-auto px-6 relative">
-          <div className="space-y-64">
+        <div className="max-w-[90rem] mx-auto px-4 md:px-6 relative">
+          <div className="space-y-32 md:space-y-64">
             {modules.map((module, index) => (
               <div key={module.title} 
-                   className={`fade-in-section feature-card flex flex-col md:flex-row items-center gap-32 opacity-0 transition-all duration-1000 ${
+                   className={`fade-in-section feature-card flex flex-col md:flex-row items-center gap-8 md:gap-32 opacity-0 transition-all duration-1000 ${
                      index % 2 === 1 ? "md:flex-row-reverse" : ""
                    }`}>
                 <div className="flex-1 text-left">
-                  <h2 className="text-6xl font-bold text-purple-800 mb-10 tracking-tight">{module.title}</h2>
-                  <p className="text-2xl text-purple-700 mb-12 leading-relaxed">{module.description}</p>
+                  <h2 className="text-4xl md:text-6xl font-bold text-purple-800 mb-6 md:mb-10 tracking-tight">{module.title}</h2>
+                  <p className="text-xl md:text-2xl text-purple-700 mb-8 md:mb-12 leading-relaxed">{module.description}</p>
                   <Link href={module.link} 
-                        className="group inline-flex items-center text-purple-600 hover:text-purple-800 transition-all text-xl">
+                        className="group inline-flex items-center text-purple-600 hover:text-purple-800 transition-all text-lg md:text-xl">
                     <span className="mr-2">Explore More</span>
-                    <i data-lucide="arrow-right" className="w-6 h-6 transform group-hover:translate-x-1 transition-transform"></i>
+                    <i data-lucide="arrow-right" className="w-5 h-5 md:w-6 md:h-6 transform group-hover:translate-x-1 transition-transform"></i>
                   </Link>
-                      </div>
-                <div className="flex-1 relative aspect-square w-full max-w-4xl mx-auto p-32">
+                </div>
+                <div className="flex-1 relative aspect-square w-full max-w-4xl mx-auto p-8 md:p-32">
                   {/* Multiple glow layers for enhanced effect */}
                   <div className={`absolute inset-0 rounded-full bg-gradient-radial ${module.glowColor} blur-[120px] transform scale-150`}></div>
                   
@@ -266,17 +266,17 @@ export default function Home() {
         </section>
 
       {/* Process Section */}
-      <section className="relative min-h-screen bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 py-32">
+      <section className="relative min-h-screen bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 py-20 md:py-32">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-from)_0%,_transparent_50%)] from-white/50"></div>
         <div className="max-w-7xl mx-auto px-4 relative">
-          <h2 className="section-title text-6xl font-bold text-center text-purple-800 mb-32 tracking-tight opacity-0 transition-opacity duration-1000">Your Journey</h2>
+          <h2 className="section-title text-4xl md:text-6xl font-bold text-center text-purple-800 mb-16 md:mb-32 tracking-tight opacity-0 transition-opacity duration-1000">Your Journey</h2>
           <div className="relative">
-            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-purple-200/0 via-purple-500 to-purple-200/0"></div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-16">
+            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-purple-200/0 via-purple-500 to-purple-200/0 hidden md:block"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-16">
             {steps.map((step, index) => (
                 <div key={index} className="fade-in-section journey-step relative opacity-0" style={{ transitionDelay: `${index * 200}ms` }}>
                   <div className="text-center">
-                    <div className="relative w-48 h-48 mx-auto mb-8 rounded-2xl overflow-hidden">
+                    <div className="relative w-32 h-32 md:w-48 md:h-48 mx-auto mb-6 md:mb-8 rounded-2xl overflow-hidden">
                       <Image
                         src={step.image}
                         alt={step.title}
@@ -299,15 +299,15 @@ export default function Home() {
         </section>
 
         {/* Testimonials Section */}
-      <section className="relative min-h-screen bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 py-32">
+      <section className="relative min-h-screen bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 py-20 md:py-32">
         <div className="max-w-7xl mx-auto px-4 relative">
-          <h2 className="section-title text-6xl font-bold text-center text-purple-800 mb-32 tracking-tight opacity-0 transition-opacity duration-1000">Community Stories</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+          <h2 className="section-title text-4xl md:text-6xl font-bold text-center text-purple-800 mb-16 md:mb-32 tracking-tight opacity-0 transition-opacity duration-1000">Community Stories</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-16">
             {testimonials.map((testimonial, index) => (
               <div key={index} className="fade-in-section testimonial-card relative opacity-0" style={{ transitionDelay: `${index * 200}ms` }}>
-                <div className="text-left space-y-8 group">
-                  <i data-lucide="quote" className="w-12 h-12 text-purple-400/50 mb-4 transform group-hover:scale-110 transition-all duration-500"></i>
-                  <p className="text-2xl text-purple-700 italic leading-relaxed">"{testimonial.content}"</p>
+                <div className="text-left space-y-6 md:space-y-8 group">
+                  <i data-lucide="quote" className="w-8 h-8 md:w-12 md:h-12 text-purple-400/50 mb-4 transform group-hover:scale-110 transition-all duration-500"></i>
+                  <p className="text-xl md:text-2xl text-purple-700 italic leading-relaxed">"{testimonial.content}"</p>
                   <div className="flex items-center gap-4">
                     <div className="relative w-14 h-14 rounded-full overflow-hidden transform group-hover:scale-110 transition-all duration-500">
                     <Image
@@ -331,14 +331,14 @@ export default function Home() {
         </section>
 
       {/* CTA Section */}
-      <section className="relative min-h-[80vh] bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 flex items-center">
+      <section className="relative min-h-[60vh] md:min-h-[80vh] bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 flex items-center">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-b from-purple-200/50 via-purple-300/50 to-purple-400/60 backdrop-blur-sm"></div>
         </div>
         <div className="relative z-10 max-w-4xl mx-auto text-center px-4">
           <div className="fade-in-section opacity-0">
-            <h2 className="text-6xl font-bold text-purple-800 mb-8 tracking-tight">Ready to Transform?</h2>
-            <p className="text-2xl text-purple-700 mb-12 leading-relaxed">
+            <h2 className="text-4xl md:text-6xl font-bold text-purple-800 mb-6 md:mb-8 tracking-tight">Ready to Transform?</h2>
+            <p className="text-xl md:text-2xl text-purple-700 mb-8 md:mb-12 leading-relaxed">
               Join our community of visionaries and start your journey today
             </p>
             <Link href="/mbti-test" 
@@ -355,18 +355,18 @@ export default function Home() {
         </section>
 
       {/* Footer */}
-      <footer className="relative bg-gradient-to-b from-purple-200/80 to-purple-300/80 text-purple-800 py-16">
-        <div className="max-w-7xl mx-auto px-8 relative">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-20">
-            <div>
-              <Link href="/" className="block mb-6">
-                <div className="text-3xl font-normal tracking-tight">
+      <footer className="relative bg-gradient-to-b from-purple-200/80 to-purple-300/80 text-purple-800 py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 relative">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-20">
+            <div className="col-span-2 md:col-span-1">
+              <Link href="/" className="block mb-4 md:mb-6">
+                <div className="text-2xl md:text-3xl font-normal tracking-tight">
                   <span className="bg-gradient-to-br from-purple-600 via-purple-500 to-purple-400 text-transparent bg-clip-text">M</span>
                   <span className="bg-gradient-to-br from-purple-500 via-purple-400 to-purple-300 text-transparent bg-clip-text">Better</span>
                   <span className="bg-gradient-to-br from-purple-600 via-purple-500 to-purple-400 text-transparent bg-clip-text">TI</span>
                 </div>
               </Link>
-              <p className="text-purple-700/90 text-base leading-relaxed">
+              <p className="text-purple-700/90 text-sm md:text-base leading-relaxed">
                 Empowering personal growth through<br/>AI and MBTI insights
               </p>
             </div>
