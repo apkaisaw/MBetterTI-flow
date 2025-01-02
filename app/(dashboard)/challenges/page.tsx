@@ -107,58 +107,58 @@ export default function PersonalChallenges() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-8"
+      className="p-4 sm:p-8"
     >
       <div className="max-w-6xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.4 }}
-          className="mb-8"
+          className="mb-6 sm:mb-8"
         >
-          <h1 className="text-3xl font-semibold bg-gradient-to-r from-purple-800 to-indigo-800 bg-clip-text text-transparent">
+          <h1 className="text-2xl sm:text-3xl font-semibold bg-gradient-to-r from-purple-800 to-indigo-800 bg-clip-text text-transparent">
             Personal Growth Challenges
           </h1>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {challenges.map((challenge, index) => (
             <motion.div
               key={challenge.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 + index * 0.1, duration: 0.4 }}
-              className="group bg-white/90 backdrop-blur-lg rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 hover:scale-[1.02]"
+              className="group bg-white/90 backdrop-blur-lg rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 hover:scale-[1.02]"
             >
-              <div className="p-6 flex flex-col h-full">
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${challenge.bgColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                    <i data-lucide={challenge.icon} className={`w-6 h-6 bg-gradient-to-r ${challenge.color} bg-clip-text text-transparent`}></i>
+              <div className="p-4 sm:p-6 flex flex-col h-full">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className={`w-10 sm:w-12 h-10 sm:h-12 rounded-lg sm:rounded-xl bg-gradient-to-r ${challenge.bgColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                    <i data-lucide={challenge.icon} className={`w-5 sm:w-6 h-5 sm:h-6 bg-gradient-to-r ${challenge.color} bg-clip-text text-transparent`}></i>
                   </div>
-                  <div className="flex gap-2">
-                    <span className="px-3 py-1 bg-purple-50/80 text-purple-600 text-sm rounded-lg font-medium">
+                  <div className="flex gap-1.5 sm:gap-2">
+                    <span className="px-2 sm:px-3 py-1 bg-purple-50/80 text-purple-600 text-xs sm:text-sm rounded-lg font-medium">
                       {challenge.duration}
                     </span>
-                    <span className="px-3 py-1 bg-indigo-50/80 text-indigo-600 text-sm rounded-lg font-medium">
+                    <span className="px-2 sm:px-3 py-1 bg-indigo-50/80 text-indigo-600 text-xs sm:text-sm rounded-lg font-medium">
                       {challenge.difficulty}
                     </span>
                   </div>
                 </div>
                 
-                <h3 className="text-xl font-semibold text-purple-800 mb-2 group-hover:text-purple-900 transition-colors">
+                <h3 className="text-lg sm:text-xl font-semibold text-purple-800 mb-2 group-hover:text-purple-900 transition-colors">
                   {challenge.title}
                 </h3>
-                <p className="text-purple-600/90 mb-4 flex-grow">
+                <p className="text-sm sm:text-base text-purple-600/90 mb-3 sm:mb-4 flex-grow">
                   {challenge.description}
                 </p>
                 
-                <div className="mb-6">
-                  <div className="text-sm font-medium text-purple-700 mb-2">Traits you'll develop:</div>
-                  <div className="flex flex-wrap gap-2">
+                <div className="mb-4 sm:mb-6">
+                  <div className="text-xs sm:text-sm font-medium text-purple-700 mb-2">Traits you'll develop:</div>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {challenge.traits.map((trait, index) => (
                       <span
                         key={index}
-                        className={`px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r ${challenge.bgColor} text-gray-700`}
+                        className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium bg-gradient-to-r ${challenge.bgColor} text-gray-700`}
                       >
                         {trait}
                       </span>
@@ -166,16 +166,16 @@ export default function PersonalChallenges() {
                   </div>
                 </div>
                 
-                <div className="flex justify-between items-center mt-auto pt-4">
+                <div className="flex justify-between items-center mt-auto pt-3 sm:pt-4">
                   <button 
-                    className={`px-6 py-2.5 bg-gradient-to-r ${challenge.color} text-white rounded-xl hover:opacity-90 transition-all flex items-center gap-2 shadow-sm hover:shadow-md group-hover:scale-105`}
+                    className={`px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r ${challenge.color} text-white text-sm sm:text-base rounded-lg sm:rounded-xl hover:opacity-90 transition-all flex items-center gap-1.5 sm:gap-2 shadow-sm hover:shadow-md group-hover:scale-105`}
                     onClick={() => handleStartChallenge(challenge)}
                   >
                     <span>Start Challenge</span>
-                    <i data-lucide="arrow-right" className="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    <i data-lucide="arrow-right" className="w-3.5 sm:w-4 h-3.5 sm:h-4 group-hover:translate-x-1 transition-transform"></i>
                   </button>
-                  <button className="p-2 text-purple-400 hover:text-purple-600 transition-colors hover:bg-purple-50 rounded-lg">
-                    <i data-lucide="bookmark" className="w-5 h-5"></i>
+                  <button className="p-1.5 sm:p-2 text-purple-400 hover:text-purple-600 transition-colors hover:bg-purple-50 rounded-lg">
+                    <i data-lucide="bookmark" className="w-4 sm:w-5 h-4 sm:h-5"></i>
                   </button>
                 </div>
               </div>

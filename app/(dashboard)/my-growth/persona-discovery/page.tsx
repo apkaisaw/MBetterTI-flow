@@ -76,12 +76,30 @@ export default function PersonaDiscovery() {
     const [isHovered, setIsHovered] = useState(false);
 
     useEffect(() => {
-      if (contentRef.current) {
-        const height = contentRef.current.scrollHeight;
-        setContentHeight(height);
-        setShouldShowButton(height > 200);
-      }
+      const updateHeight = () => {
+        if (contentRef.current) {
+          const height = contentRef.current.scrollHeight;
+          setContentHeight(height);
+          setShouldShowButton(height > 200);
+        }
+      };
+
+      // 初始更新
+      updateHeight();
+
+      // 监听窗口大小变化
+      window.addEventListener('resize', updateHeight);
+
+      // 清理函数
+      return () => window.removeEventListener('resize', updateHeight);
     }, [children]);
+
+    // 监听展开状态变化，重新计算高度
+    useEffect(() => {
+      if (isExpanded && contentRef.current) {
+        setContentHeight(contentRef.current.scrollHeight);
+      }
+    }, [isExpanded]);
 
     return (
       <AnimatePresence>
@@ -94,34 +112,30 @@ export default function PersonaDiscovery() {
             onHoverEnd={() => setIsHovered(false)}
             className="relative group mb-4 sm:mb-6"
           >
-            {/* 多层背景效果 */}
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 via-white/30 to-purple-50/50 rounded-3xl transform transition-transform duration-500 ease-out group-hover:scale-[1.02]" />
-            <div className="absolute inset-0 bg-white/40 backdrop-blur-sm rounded-3xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] group-hover:bg-white/50 transition-all duration-500" />
-            <div className="absolute inset-0 border border-purple-100/30 rounded-3xl shadow-lg group-hover:shadow-xl transition-all duration-500" />
+            {/* 简化的背景效果 */}
+            <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] rounded-2xl sm:rounded-3xl shadow-sm group-hover:shadow-md transition-all duration-300" />
             
             {/* 内容容器 */}
-            <div className="relative px-4 sm:px-8 py-4 sm:py-6 rounded-3xl">
+            <div className="relative px-4 sm:px-8 py-4 sm:py-6 rounded-2xl sm:rounded-3xl border border-purple-100/50">
               {/* 标题区域 */}
-              <div className="flex justify-center mb-4 sm:mb-8">
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="p-2 sm:p-2.5 bg-gradient-to-br from-purple-100/80 to-white rounded-xl backdrop-blur-sm border border-purple-100/50 shadow-sm group-hover:shadow-md transition-all duration-500">
-                    <Sparkles className="text-purple-600/90 w-4 h-4 sm:w-5 sm:h-5" />
-                  </div>
-                  <h4 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-purple-900 to-purple-600">
-                    {titleKey}
-                  </h4>
+              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <div className="p-2 bg-purple-50/80 rounded-lg">
+                  <Sparkles className="text-purple-600/90 w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
+                <h4 className="text-lg sm:text-xl font-bold text-purple-900">
+                  {titleKey}
+                </h4>
               </div>
               
               {/* 内容区域 */}
               <motion.div
                 ref={contentRef}
                 animate={{ 
-                  height: isExpanded ? contentHeight : shouldShowButton ? 200 : 'auto',
+                  height: isExpanded ? 'auto' : shouldShowButton ? 200 : 'auto',
                   opacity: 1 
                 }}
                 initial={false}
-                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                 className="relative overflow-hidden"
               >
                 <div className="text-purple-800/90 prose prose-purple max-w-none prose-li:marker:text-purple-400">
@@ -132,42 +146,34 @@ export default function PersonaDiscovery() {
               {/* 展开/收起按钮 */}
               {shouldShowButton && (
                 <div 
-                  className={`absolute left-0 right-0 flex flex-col items-center transition-all duration-500 ${
+                  className={`absolute left-0 right-0 flex flex-col items-center transition-all duration-300 ${
                     isExpanded ? 'bottom-2' : 'bottom-0'
                   }`}
                 >
                   {!isExpanded && (
-                    <div className="absolute bottom-0 left-0 right-0 h-28 
-                      bg-gradient-to-t from-white via-white/95 to-transparent 
-                      rounded-b-3xl 
-                      pointer-events-none 
-                      overflow-hidden
-                      after:absolute after:inset-0 
-                      after:border-b after:border-purple-100/30 
-                      after:rounded-b-3xl" 
+                    <div className="absolute bottom-0 left-0 right-0 h-24 
+                      bg-gradient-to-t from-white/90 to-transparent 
+                      rounded-b-2xl sm:rounded-b-3xl 
+                      pointer-events-none" 
                     />
                   )}
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                  <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="px-4 py-1.5 rounded-full bg-white/60 backdrop-blur-sm 
-                      border border-purple-100/50 shadow-sm
-                      hover:bg-white/80 hover:border-purple-200/70 
+                    className="px-3 py-1 rounded-full bg-purple-50/80
+                      text-sm font-medium text-purple-700
+                      hover:bg-purple-100/80 
                       transition-all duration-300 
                       flex items-center gap-1.5 
                       relative z-10
                       mb-2"
                   >
-                    <span className="text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-purple-500">
-                      {isExpanded ? 'Show Less' : 'Read More'}
-                    </span>
+                    {isExpanded ? 'Show Less' : 'Read More'}
                     <ChevronDown 
-                      className={`w-3.5 h-3.5 text-purple-500/80 transition-transform duration-500 ${
+                      className={`w-3.5 h-3.5 text-purple-500/80 transition-transform duration-300 ${
                         isExpanded ? 'rotate-180' : ''
                       }`}
                     />
-                  </motion.button>
+                  </button>
                 </div>
               )}
             </div>
@@ -494,7 +500,7 @@ export default function PersonaDiscovery() {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg p-8 rounded-3xl shadow-lg border border-white border-opacity-30"
+        className="space-y-4 sm:space-y-6"
       >
         {renderResult(testResult || getPersonalityClassGroupByTestScores(['I','N','F','P']))}
       </motion.div>
