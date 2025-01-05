@@ -301,23 +301,29 @@ export default function Home() {
         {/* Testimonials Section */}
       <section className="relative min-h-screen bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 py-20 md:py-32">
         <div className="max-w-7xl mx-auto px-4 relative">
-          <h2 className="section-title text-4xl md:text-6xl font-bold text-center text-purple-800 mb-16 md:mb-32 tracking-tight opacity-0 transition-opacity duration-1000">Community Stories</h2>
+          <h2 className="section-title text-4xl md:text-6xl font-bold text-center text-purple-800 mb-16 md:mb-32 tracking-tight opacity-0 transition-opacity duration-500">Community Stories</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-16">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="fade-in-section testimonial-card relative opacity-0" style={{ transitionDelay: `${index * 200}ms` }}>
-                <div className="text-left space-y-6 md:space-y-8 group">
-                  <i data-lucide="quote" className="w-8 h-8 md:w-12 md:h-12 text-purple-400/50 mb-4 transform group-hover:scale-110 transition-all duration-500"></i>
+              <div key={index} 
+                   className="fade-in-section testimonial-card relative opacity-0 will-change-transform" 
+                   style={{ 
+                     transitionDelay: `${index * 100}ms`,
+                     transform: 'translateY(0)',
+                     transition: 'opacity 0.5s ease, transform 0.5s ease'
+                   }}>
+                <div className="text-left space-y-6 md:space-y-8 bg-white/5 backdrop-blur-sm rounded-xl p-6 hover:bg-white/10 transition-colors duration-300">
+                  <i data-lucide="quote" className="w-8 h-8 md:w-12 md:h-12 text-purple-400/50 mb-4"></i>
                   <p className="text-xl md:text-2xl text-purple-700 italic leading-relaxed">"{testimonial.content}"</p>
                   <div className="flex items-center gap-4">
-                    <div className="relative w-14 h-14 rounded-full overflow-hidden transform group-hover:scale-110 transition-all duration-500">
-                    <Image
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
+                    <div className="relative w-14 h-14 rounded-full overflow-hidden">
+                      <Image
+                        src={testimonial.avatar}
+                        alt={testimonial.name}
                         fill
                         className="object-cover"
-                      unoptimized
-                    />
-                  </div>
+                        unoptimized
+                      />
+                    </div>
                     <div>
                       <h4 className="text-purple-800 font-semibold text-lg">{testimonial.name}</h4>
                       <p className="text-purple-600">{testimonial.role} • {testimonial.mbti}</p>
@@ -327,8 +333,8 @@ export default function Home() {
               </div>
             ))}
           </div>
-          </div>
-        </section>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="relative min-h-[60vh] md:min-h-[80vh] bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 flex items-center">
