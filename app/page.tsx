@@ -11,15 +11,17 @@ const modules = [
     icon: "brain", 
     title: "MBTI + AI Life Coach",
     description: "Get personalized AI Life Coaching based on your MBTI results to unlock your strengths and improve weaknesses.",
+    details: "Our AI-powered life coach analyzes your MBTI profile to create personalized growth strategies. Get daily insights, custom exercises, and real-time feedback tailored to your personality type.",
     link: "/ai-life-coach",
     color: "from-purple-200 to-indigo-200",
     image: "/images/persona-discovery.png",
-    glowColor: "from-blue-300/40 via-cyan-400/30 to-teal-300/20"
+    glowColor: "from-blue-400/40 via-blue-500/30 to-indigo-400/20"
   },
   {
     icon: "link", 
     title: "On-Chain Growth Records",
     description: "Store your growth records permanently on the blockchain and earn unique achievement badges (NFTs).",
+    details: "Every milestone in your personal growth journey is securely recorded on the blockchain. Earn NFT badges for achievements, track your progress over time, and share your success story with the community.",
     link: "/growth-records",
     color: "from-indigo-200 to-purple-200",
     image: "/images/ai-life-coach.png",
@@ -29,6 +31,7 @@ const modules = [
     icon: "target", 
     title: "Personalized Growth Challenges",
     description: "Take tailored growth challenges designed to elevate you to higher personality levels.",
+    details: "Engage in personalized challenges that push your boundaries while respecting your comfort zone. Each challenge is crafted based on your MBTI type and current development stage.",
     link: "/challenges",
     color: "from-purple-200 to-pink-200",
     image: "/images/wellness-corner.png",
@@ -97,6 +100,19 @@ const steps = [
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [flippedCards, setFlippedCards] = useState<number[]>([]);
+
+  const handleExploreClick = (index: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    if (flippedCards.includes(index)) {
+      setFlippedCards(flippedCards.filter(i => i !== index));
+    } else {
+      setFlippedCards([...flippedCards, index]);
+      setTimeout(() => {
+        setFlippedCards(prev => prev.filter(i => i !== index));
+      }, 5000);
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.lucide) {
@@ -240,32 +256,71 @@ export default function Home() {
                 <div className="flex-1 text-left px-4 md:px-0 relative z-10">
                   <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-purple-800 mb-4 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight">{module.title}</h2>
                   <p className="text-lg sm:text-lg md:text-xl lg:text-2xl text-purple-700 mb-6 sm:mb-8 md:mb-10 lg:mb-12 leading-relaxed max-w-2xl">{module.description}</p>
-                  <Link href={module.link} 
-                        className="group inline-flex items-center text-purple-600 hover:text-purple-800 transition-all text-base sm:text-lg md:text-xl">
-                    <span className="mr-2">Explore More</span>
-                    <i data-lucide="arrow-right" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 transform group-hover:translate-x-1 transition-transform"></i>
-                  </Link>
+                  <button
+                    onClick={(e) => handleExploreClick(index, e)}
+                    className="group inline-flex items-center text-purple-600 hover:text-purple-800 transition-all text-base sm:text-lg md:text-xl">
+                    <span className="mr-2">{flippedCards.includes(index) ? 'Show Less' : 'Explore More'}</span>
+                    <i data-lucide={flippedCards.includes(index) ? "chevron-left" : "arrow-right"} 
+                       className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 transform group-hover:translate-x-1 transition-transform"></i>
+                  </button>
                 </div>
-                <div className="flex-1 relative aspect-square w-full max-w-2xl sm:max-w-3xl md:max-w-4xl mx-auto p-6 sm:p-8 md:p-16 lg:p-24 xl:p-32 z-0">
+                <div className="flex-1 relative aspect-square w-full max-w-2xl sm:max-w-3xl md:max-w-4xl mx-auto p-6 sm:p-8 md:p-16 lg:p-24 xl:p-32 z-0 perspective">
                   {/* Multiple glow layers for enhanced effect */}
                   <div className={`absolute inset-0 rounded-full bg-gradient-radial ${module.glowColor} blur-[120px] transform scale-150`}></div>
                   
-                  {/* Inner content */}
-                  <div className="relative overflow-hidden rounded-full aspect-square shadow-2xl">
-                    <Image
-                      src={module.image}
-                      alt={module.title}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      className="transform"
-                    />
+                  {/* Card container */}
+                  <div 
+                    onClick={(e) => handleExploreClick(index, e)}
+                    className={`relative w-full h-full transition-transform duration-700 transform-style-3d cursor-pointer ${
+                      flippedCards.includes(index) ? 'rotate-y-180' : ''
+                    }`}>
+                    {/* Front side */}
+                    <div className="absolute inset-0 backface-hidden">
+                      <div className="relative overflow-hidden rounded-full aspect-square shadow-2xl group">
+                        <Image
+                          src={module.image}
+                          alt={module.title}
+                          fill
+                          style={{ objectFit: "cover" }}
+                          className="transform transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-purple-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <span className="text-white text-lg font-medium tracking-wide">Click to explore</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Back side */}
+                    <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-full overflow-hidden">
+                      {/* 主背景 - 更柔和的径向渐变 */}
+                      <div className={`absolute inset-0 bg-gradient-radial ${module.glowColor} opacity-10`}></div>
+                      
+                      {/* 玻璃效果层 */}
+                      <div className="absolute inset-0">
+                        {/* 磨砂玻璃基础层 */}
+                        <div className="absolute inset-0 backdrop-blur-[2px] bg-white/20"></div>
+                        {/* 外圈渐变效果 */}
+                        <div className="absolute inset-0 rounded-full shadow-[0_0_60px_60px_rgba(255,255,255,0.1)]"></div>
+                        {/* 内圈清晰区域 */}
+                        <div className="absolute inset-8 rounded-full bg-white/5 backdrop-blur-sm"></div>
+                      </div>
+                      
+                      {/* 内容容器 */}
+                      <div className="relative h-full flex items-center justify-center p-8">
+                        <div className="text-center max-w-[85%]">
+                          <i data-lucide={module.icon} className="w-12 h-12 mx-auto mb-6 text-purple-500/50"></i>
+                          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-br from-purple-800/90 to-purple-600/90 bg-clip-text text-transparent mb-6">{module.title}</h3>
+                          <p className="text-base sm:text-lg md:text-xl text-purple-700/70 leading-relaxed font-light">{module.details}</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          </div>
-        </section>
+        </div>
+      </section>
 
       {/* Process Section */}
       <section className="relative min-h-screen bg-gradient-to-b from-purple-200/50 via-purple-300 to-purple-200 py-24 sm:py-28 md:py-32 lg:py-36">
