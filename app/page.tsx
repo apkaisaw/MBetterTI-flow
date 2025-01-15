@@ -14,7 +14,7 @@ const modules = [
     link: "/ai-life-coach",
     color: "from-purple-200 to-indigo-200",
     image: "/images/persona-discovery.png",
-    glowColor: "from-indigo-300/40 via-purple-400/30 to-blue-300/20"
+    glowColor: "from-blue-300/40 via-cyan-400/30 to-teal-300/20"
   },
   {
     icon: "link", 
@@ -32,7 +32,7 @@ const modules = [
     link: "/challenges",
     color: "from-purple-200 to-pink-200",
     image: "/images/wellness-corner.png",
-    glowColor: "from-blue-300/40 via-cyan-400/30 to-teal-300/20"
+    glowColor: "from-indigo-300/40 via-purple-400/30 to-blue-300/20"
   }
 ]
 
@@ -145,12 +145,14 @@ export default function Home() {
             // Use a single transform operation
             const movement = distanceFromCenter * (
               element.classList.contains('feature-card') ? 0.05 :
-              element.classList.contains('journey-step') ? 0.01 : 0.04
+              element.classList.contains('journey-step') ? 0.03 : 0.04
             );
             
-            const scale = element.classList.contains('feature-card') 
-              ? 1 + Math.abs(distanceFromCenter) * 0.0002 
-              : 1;
+            const scale = element.classList.contains('journey-step')
+              ? 1 + Math.abs(distanceFromCenter) * 0.0001
+              : element.classList.contains('feature-card')
+                ? 1 + Math.abs(distanceFromCenter) * 0.0002
+                : 1;
 
             element.style.transform = `translate3d(0, ${movement}px, 0) scale(${scale})`;
           }
@@ -175,7 +177,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-hidden">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
@@ -226,16 +228,16 @@ export default function Home() {
         </section>
 
       {/* Features Section */}
-      <section className="relative min-h-screen bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 py-20 md:py-40">
+      <section className="relative min-h-screen bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200/50 py-20 md:py-40">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_100%)] from-white/40"></div>
-        <div className="max-w-[90rem] mx-auto px-4 md:px-6 relative">
+        <div className="max-w-[90rem] mx-auto px-6 md:px-6 relative">
           <div className="space-y-32 md:space-y-64">
             {modules.map((module, index) => (
               <div key={module.title} 
                    className={`fade-in-section feature-card flex flex-col md:flex-row items-center gap-8 md:gap-32 opacity-0 transition-all duration-1000 ${
                      index % 2 === 1 ? "md:flex-row-reverse" : ""
                    }`}>
-                <div className="flex-1 text-left">
+                <div className="flex-1 text-left px-4 md:px-0">
                   <h2 className="text-4xl md:text-6xl font-bold text-purple-800 mb-6 md:mb-10 tracking-tight">{module.title}</h2>
                   <p className="text-xl md:text-2xl text-purple-700 mb-8 md:mb-12 leading-relaxed">{module.description}</p>
                   <Link href={module.link} 
@@ -266,37 +268,45 @@ export default function Home() {
         </section>
 
       {/* Process Section */}
-      <section className="relative min-h-screen bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 py-20 md:py-32">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-from)_0%,_transparent_50%)] from-white/50"></div>
-        <div className="max-w-7xl mx-auto px-4 relative">
-          <h2 className="section-title text-4xl md:text-6xl font-bold text-center text-purple-800 mb-16 md:mb-32 tracking-tight opacity-0 transition-opacity duration-1000">Your Journey</h2>
+      <section className="relative min-h-screen bg-gradient-to-b from-purple-200/50 via-purple-300 to-purple-200 py-24 sm:py-28 md:py-32 lg:py-36">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_100%)] from-white/30"></div>
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-10 lg:px-12 relative">
+          <h2 className="section-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center text-purple-800 mb-20 sm:mb-24 md:mb-28 lg:mb-32 tracking-tight opacity-0 transition-opacity duration-500">Your Journey</h2>
           <div className="relative">
-            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-purple-200/0 via-purple-500 to-purple-200/0 hidden md:block"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-16">
-            {steps.map((step, index) => (
-                <div key={index} className="fade-in-section journey-step relative opacity-0" style={{ transitionDelay: `${index * 200}ms` }}>
-                  <div className="text-center">
-                    <div className="relative w-32 h-32 md:w-48 md:h-48 mx-auto mb-6 md:mb-8 rounded-2xl overflow-hidden">
+            <div className="absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-purple-300 via-purple-600 to-purple-300 hidden md:block"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-20 sm:gap-16 md:gap-14 lg:gap-16">
+              {steps.map((step, index) => (
+                <div key={index} 
+                     className="fade-in-section journey-step relative opacity-0" 
+                     style={{ 
+                       transitionDelay: `${index * 100}ms`,
+                       transform: 'translateY(10px)',
+                       transition: 'opacity 0.4s ease, transform 0.4s ease'
+                     }}>
+                  <div className="text-center group px-6 sm:px-4 md:px-2">
+                    <div className="relative w-56 h-56 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-48 lg:h-48 mx-auto mb-14 sm:mb-10 md:mb-8 rounded-[3rem] sm:rounded-[1.5rem] md:rounded-[1.75rem] lg:rounded-[2rem] overflow-hidden shadow-xl shadow-purple-400/20 transition-all duration-300">
                       <Image
                         src={step.image}
                         alt={step.title}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-purple-300/70 via-purple-200/40 to-transparent"></div>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <i data-lucide={step.icon} className="w-12 h-12 text-white/90 drop-shadow-lg"></i>
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-purple-500/50 to-transparent">
+                        <i data-lucide={step.icon} className="w-16 h-16 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white drop-shadow-lg transition-transform duration-300"></i>
                       </div>
                     </div>
-                    <h3 className="text-2xl font-bold text-purple-800 mb-4">{step.title}</h3>
-                    <p className="text-purple-700 leading-relaxed">{step.description}</p>
+                    <div className="relative space-y-6 sm:space-y-5">
+                      <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-4xl sm:text-3xl font-bold text-purple-400/20 transition-all duration-300">{step.number}</span>
+                      <h3 className="text-2xl sm:text-2xl font-bold text-purple-800 mb-8 sm:mb-6 transition-colors duration-300 leading-relaxed tracking-wide pt-4">{step.title}</h3>
+                      <p className="text-lg sm:text-base md:text-lg text-purple-700 leading-loose max-w-xs mx-auto transition-colors duration-300 tracking-wide">{step.description}</p>
+                    </div>
                   </div>
                 </div>
               ))}
-              </div>
+            </div>
           </div>
-          </div>
-        </section>
+        </div>
+      </section>
 
         {/* Testimonials Section */}
       <section className="relative min-h-screen bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 py-20 md:py-32">
@@ -337,85 +347,115 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative min-h-[60vh] md:min-h-[80vh] bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200 flex items-center">
+      <section className="relative min-h-[60vh] md:min-h-[80vh] bg-gradient-to-b from-purple-200 via-purple-300 to-purple-300/80 flex items-center overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-purple-200/50 via-purple-300/50 to-purple-400/60 backdrop-blur-sm"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-purple-200/50 via-purple-300/50 to-transparent backdrop-blur-sm"></div>
+          {/* Animated background elements - 使用 will-change 优化性能 */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-radial from-purple-300/30 via-purple-400/20 to-transparent rounded-full blur-3xl animate-pulse will-change-transform"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-radial from-amber-300/20 via-amber-400/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000 will-change-transform"></div>
+          </div>
         </div>
-        <div className="relative z-10 max-w-4xl mx-auto text-center px-4">
-          <div className="fade-in-section opacity-0">
-            <h2 className="text-4xl md:text-6xl font-bold text-purple-800 mb-6 md:mb-8 tracking-tight">Ready to Transform?</h2>
-            <p className="text-xl md:text-2xl text-purple-700 mb-8 md:mb-12 leading-relaxed">
-              Join our community of visionaries and start your journey today
+        <div className="relative z-10 max-w-4xl mx-auto text-center px-6 sm:px-8 md:px-12 pt-16 sm:pt-20 md:pt-24">
+          <div className="fade-in-section opacity-0 space-y-6 sm:space-y-8 md:space-y-10">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-800 via-purple-700 to-purple-800 bg-clip-text text-transparent mb-4 md:mb-6 tracking-tight">
+              Ready to Transform?
+            </h2>
+            <p className="text-lg sm:text-xl md:text-2xl text-purple-700 mb-8 md:mb-12 leading-relaxed max-w-2xl mx-auto">
+              Join our community of visionaries and embark on a journey of self-discovery and growth
             </p>
-            <Link href="/mbti-test" 
-                  className="group inline-block bg-amber-400/10 backdrop-blur-md px-10 py-2.5 rounded-full
-                           border border-amber-200/30 shadow-lg shadow-amber-200/20
-                           hover:bg-amber-400/20 hover:border-amber-300/40
-                           transition-all duration-500 hover:scale-105 glowing-button">
-              <span className="font-medium tracking-wide text-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 bg-clip-text text-transparent uppercase">
-                Begin Your Journey
-              </span>
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+              <Link href="/mbti-test" 
+                    className="group relative inline-flex items-center justify-center bg-gradient-to-r from-amber-400/20 via-amber-300/20 to-amber-400/20 backdrop-blur-md 
+                             px-8 sm:px-10 py-3 rounded-full overflow-hidden
+                             border border-amber-200/30 shadow-lg shadow-amber-200/20
+                             hover:border-amber-300/40 transition-all duration-500
+                             focus:outline-none focus:ring-2 focus:ring-amber-400/50">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-400 opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+                <div className="relative flex items-center gap-2">
+                  <span className="font-medium tracking-wide text-lg sm:text-xl bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 bg-clip-text text-transparent uppercase">
+                    Begin Your Journey
+                  </span>
+                  <i data-lucide="arrow-right" className="w-5 h-5 text-amber-500 transform group-hover:translate-x-1 transition-transform" aria-hidden="true"></i>
+                </div>
+              </Link>
+              <Link href="/overview" 
+                    className="group relative inline-flex items-center justify-center bg-white/5 backdrop-blur-md 
+                             px-8 sm:px-10 py-3 rounded-full
+                             border border-purple-300/20 
+                             hover:bg-white/10 transition-all duration-500
+                             focus:outline-none focus:ring-2 focus:ring-purple-400/50">
+                <span className="font-medium text-lg sm:text-xl text-purple-700 group-hover:text-purple-800">
+                  Enter Your Space
+                </span>
+              </Link>
+            </div>
+            <div className="pt-4 sm:pt-10 md:pt-12 pb-8 sm:pb-10">
+              <div className="grid grid-cols-3 sm:flex sm:items-center sm:justify-center gap-2 sm:gap-8 text-purple-700/80">
+                <div className="flex flex-col items-center">
+                  <span className="text-xl sm:text-3xl md:text-4xl font-bold">92%</span>
+                  <span className="text-xs sm:text-base text-center">Growth Satisfaction</span>
+                </div>
+                <div className="hidden sm:block w-px h-12 bg-purple-400/20"></div>
+                <div className="flex flex-col items-center">
+                  <span className="text-xl sm:text-3xl md:text-4xl font-bold">89%</span>
+                  <span className="text-xs sm:text-base text-center">User Retention</span>
+                </div>
+                <div className="hidden sm:block w-px h-12 bg-purple-400/20"></div>
+                <div className="flex flex-col items-center">
+                  <span className="text-xl sm:text-3xl md:text-4xl font-bold">85%</span>
+                  <span className="text-xs sm:text-base text-center">Insight Accuracy</span>
+                </div>
+              </div>
+            </div>
           </div>
-          </div>
-        </section>
+        </div>
+      </section>
+
 
       {/* Footer */}
-      <footer className="relative bg-gradient-to-b from-purple-200/80 to-purple-300/80 text-purple-800 py-12 md:py-16">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 relative">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-20">
-            <div className="col-span-2 md:col-span-1">
-              <Link href="/" className="block mb-4 md:mb-6">
-                <div className="text-2xl md:text-3xl font-normal tracking-tight">
+      <footer className="relative bg-purple-300/80 text-purple-800 py-3 sm:py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
+            <div className="flex items-center gap-6">
+              <Link href="/" className="flex items-center hover:opacity-80 transition-opacity" aria-label="MBetterTI Home">
+                <div className="text-lg sm:text-xl font-normal tracking-tight">
                   <span className="bg-gradient-to-br from-purple-600 via-purple-500 to-purple-400 text-transparent bg-clip-text">M</span>
                   <span className="bg-gradient-to-br from-purple-500 via-purple-400 to-purple-300 text-transparent bg-clip-text">Better</span>
                   <span className="bg-gradient-to-br from-purple-600 via-purple-500 to-purple-400 text-transparent bg-clip-text">TI</span>
                 </div>
               </Link>
-              <p className="text-purple-700/90 text-sm md:text-base leading-relaxed">
-                Empowering personal growth through<br/>AI and MBTI insights
-              </p>
+              <div className="flex items-center gap-2 text-purple-700/70">
+                <span className="text-xs sm:text-sm">Built on</span>
+                <Image
+                  src="/images/flowlogo.png"
+                  alt="Flow Logo"
+                  width={73}
+                  height={73}
+                  className="opacity-70"
+                />
+              </div>
             </div>
-            
-            <div>
-              <h4 className="font-medium text-purple-800 text-lg mb-6">Features</h4>
-              <ul className="space-y-4">
-                <li><Link href="/ai-life-coach" className="text-purple-700/90 hover:text-purple-800 transition-colors text-base">AI Life Coach</Link></li>
-                <li><Link href="/growth-records" className="text-purple-700/90 hover:text-purple-800 transition-colors text-base">Growth Records</Link></li>
-                <li><Link href="/challenges" className="text-purple-700/90 hover:text-purple-800 transition-colors text-base">Challenges</Link></li>
-              </ul>
+
+            <nav className="flex items-center gap-4 sm:gap-6" aria-label="Footer Navigation">
+              <Link href="/mbti-test" className="text-purple-700/90 hover:text-purple-800 transition-colors text-xs sm:text-sm hover:underline">MBTI Test</Link>
+              <Link href="/ai-life-coach" className="text-purple-700/90 hover:text-purple-800 transition-colors text-xs sm:text-sm hover:underline">AI Coach</Link>
+              <Link href="/community" className="text-purple-700/90 hover:text-purple-800 transition-colors text-xs sm:text-sm hover:underline">Community</Link>
+            </nav>
+
+            <div className="flex items-center gap-3 sm:gap-4">
+              <Link href="mailto:support@mbetterti.com" 
+                    className="text-purple-600/80 hover:text-purple-700 transition-colors p-1 hover:bg-purple-100/30 rounded-full"
+                    aria-label="Email Support">
+                <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
+              </Link>
+              <Link href="https://twitter.com/mbetterti" 
+                    className="text-purple-600/80 hover:text-purple-700 transition-colors p-1 hover:bg-purple-100/30 rounded-full"
+                    aria-label="Twitter Profile">
+                <Twitter className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
+              </Link>
+              <span className="text-purple-700/70 text-[10px] sm:text-xs">© 2024 MBetterTI</span>
             </div>
-            
-            <div>
-              <h4 className="font-medium text-purple-800 text-lg mb-6">Resources</h4>
-              <ul className="space-y-4">
-                <li><Link href="/mbti-test" className="text-purple-700/90 hover:text-purple-800 transition-colors text-base">MBTI Test</Link></li>
-                <li><Link href="/blog" className="text-purple-700/90 hover:text-purple-800 transition-colors text-base">Blog</Link></li>
-                <li><Link href="/faq" className="text-purple-700/90 hover:text-purple-800 transition-colors text-base">FAQ</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-medium text-purple-800 text-lg mb-6">Contact</h4>
-              <ul className="space-y-4">
-                <li className="text-purple-700/90 hover:text-purple-800 transition-colors text-base flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  support@mbetterti.com
-                </li>
-                <li className="text-purple-700/90 hover:text-purple-800 transition-colors text-base flex items-center gap-2">
-                  <Twitter className="w-4 h-4" />
-                  Follow us on Twitter
-                </li>
-                <li className="text-purple-700/90 hover:text-purple-800 transition-colors text-base flex items-center gap-2">
-                  <MessageCircle className="w-4 h-4" />
-                  Join our Discord
-                </li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="mt-16 pt-6 border-t border-purple-400/20 text-center">
-            <p className="text-purple-700/80 text-sm">© 2024 MBetterTI. All rights reserved.</p>
           </div>
         </div>
       </footer>
