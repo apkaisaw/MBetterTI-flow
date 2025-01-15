@@ -237,28 +237,28 @@ export default function Home() {
                    className={`fade-in-section feature-card flex flex-col md:flex-row items-center gap-8 md:gap-32 opacity-0 transition-all duration-1000 ${
                      index % 2 === 1 ? "md:flex-row-reverse" : ""
                    }`}>
-                <div className="flex-1 text-left px-4 md:px-0">
-                  <h2 className="text-4xl md:text-6xl font-bold text-purple-800 mb-6 md:mb-10 tracking-tight">{module.title}</h2>
-                  <p className="text-xl md:text-2xl text-purple-700 mb-8 md:mb-12 leading-relaxed">{module.description}</p>
+                <div className="flex-1 text-left px-4 md:px-0 relative z-10">
+                  <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-purple-800 mb-4 sm:mb-6 md:mb-8 lg:mb-10 tracking-tight">{module.title}</h2>
+                  <p className="text-lg sm:text-lg md:text-xl lg:text-2xl text-purple-700 mb-6 sm:mb-8 md:mb-10 lg:mb-12 leading-relaxed max-w-2xl">{module.description}</p>
                   <Link href={module.link} 
-                        className="group inline-flex items-center text-purple-600 hover:text-purple-800 transition-all text-lg md:text-xl">
+                        className="group inline-flex items-center text-purple-600 hover:text-purple-800 transition-all text-base sm:text-lg md:text-xl">
                     <span className="mr-2">Explore More</span>
-                    <i data-lucide="arrow-right" className="w-5 h-5 md:w-6 md:h-6 transform group-hover:translate-x-1 transition-transform"></i>
+                    <i data-lucide="arrow-right" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 transform group-hover:translate-x-1 transition-transform"></i>
                   </Link>
                 </div>
-                <div className="flex-1 relative aspect-square w-full max-w-4xl mx-auto p-8 md:p-32">
+                <div className="flex-1 relative aspect-square w-full max-w-2xl sm:max-w-3xl md:max-w-4xl mx-auto p-6 sm:p-8 md:p-16 lg:p-24 xl:p-32 z-0">
                   {/* Multiple glow layers for enhanced effect */}
                   <div className={`absolute inset-0 rounded-full bg-gradient-radial ${module.glowColor} blur-[120px] transform scale-150`}></div>
                   
                   {/* Inner content */}
                   <div className="relative overflow-hidden rounded-full aspect-square shadow-2xl">
-                  <Image
-                    src={module.image}
-                    alt={module.title}
-                    fill
-                    style={{ objectFit: "cover" }}
+                    <Image
+                      src={module.image}
+                      alt={module.title}
+                      fill
+                      style={{ objectFit: "cover" }}
                       className="transform"
-                  />
+                    />
                   </div>
                 </div>
               </div>
