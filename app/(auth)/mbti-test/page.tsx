@@ -298,19 +298,19 @@ export default function MbtiTest() {
           whileHover={{ scale: 1.02, y: -2 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => startTest(true)}
-          className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-purple-900 px-8 py-6 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center text-lg font-semibold border border-white/30 group"
+          className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-purple-900 px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center text-lg font-semibold border border-white/30 group"
         >
-          <Zap className="mr-3 text-purple-500/90" size={24} />
-          <span className="group-hover:text-purple-900">Start Quick Test (5 mins, 28 questions)</span>
+          <Zap className="mr-3 text-purple-500/90" size={22} />
+          <span className="group-hover:text-purple-900">Quick Test (28 Q • 8 min)</span>
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.02, y: -2 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => startTest(false)}
-          className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-purple-900 px-8 py-6 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center text-lg font-semibold border border-white/30 group"
+          className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-purple-900 px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center text-lg font-semibold border border-white/30 group"
         >
-          <Brain className="mr-3 text-purple-500/90" size={24} />
-          <span className="group-hover:text-purple-900">Start Full Test (20 mins, 70 questions)</span>
+          <Brain className="mr-3 text-purple-500/90" size={22} />
+          <span className="group-hover:text-purple-900">Full Test (70 Q • 20 min)</span>
         </motion.button>
       </div>
     </>
@@ -446,13 +446,13 @@ export default function MbtiTest() {
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center mb-8"
+          className="text-center mb-4"
         >
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="inline-block bg-white/20 backdrop-blur-md px-6 py-2 rounded-full text-sm font-medium text-purple-800 mb-4 border border-white/30"
+            className="inline-block bg-white/20 backdrop-blur-md px-5 py-1.5 rounded-full text-sm font-medium text-purple-800 mb-2 border border-white/30"
           >
             Analysis Complete
           </motion.div>
@@ -461,25 +461,25 @@ export default function MbtiTest() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="space-y-2"
+            className="space-y-1"
           >
-            <h2 className="text-7xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-600/90 via-indigo-500/90 to-purple-600/90">
+            <h2 className="text-6xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-600/90 via-indigo-500/90 to-purple-600/90">
               {result.type}
             </h2>
-            <p className="text-xl font-medium text-purple-800/70 tracking-wide">
+            <p className="text-lg font-medium text-purple-800/70 tracking-wide">
               {result.name}
             </p>
-            <p className="text-base text-purple-600/80 italic">
+            <p className="text-sm text-purple-600/80 italic">
               {result.epithet}
             </p>
           </motion.div>
         </motion.div>
 
         {/* Mobile tab switcher */}
-        <div className="md:hidden flex justify-center gap-3 mb-6">
+        <div className="md:hidden flex justify-center gap-3 mb-4">
           <motion.button
             onClick={() => setActiveTab('dimension')}
-            className={`relative px-8 py-2.5 rounded-full text-base font-medium transition-all duration-300 ${
+            className={`relative px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
               activeTab === 'dimension'
                 ? 'text-white'
                 : 'text-purple-800/70 hover:text-purple-900'
@@ -497,15 +497,14 @@ export default function MbtiTest() {
                 />
               )}
             </AnimatePresence>
-            <span className="relative z-10 flex items-center gap-2">
-              <Target className="w-4 h-4" />
+            <span className="relative z-10">
               Dimension Scores
             </span>
           </motion.button>
           
           <motion.button
             onClick={() => setActiveTab('jungian')}
-            className={`relative px-8 py-2.5 rounded-full text-base font-medium transition-all duration-300 ${
+            className={`relative px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
               activeTab === 'jungian'
                 ? 'text-white'
                 : 'text-purple-800/70 hover:text-purple-900'
@@ -523,8 +522,7 @@ export default function MbtiTest() {
                 />
               )}
             </AnimatePresence>
-            <span className="relative z-10 flex items-center gap-2">
-              <Brain className="w-4 h-4" />
+            <span className="relative z-10">
               Jungian Functions
             </span>
           </motion.button>
@@ -576,7 +574,7 @@ export default function MbtiTest() {
                       <span className="text-purple-600 font-bold">S</span>ensing
                     </span>
                     <span className="text-indigo-600/90">
-                      <span className="text-indigo-600 font-bold">N</span>tuition
+                      i<span className="text-indigo-600 font-bold">N</span>tuition
                     </span>
                   </div>
                   <div className="h-3 bg-white/20 rounded-full overflow-hidden flex relative">
@@ -826,7 +824,7 @@ export default function MbtiTest() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="min-h-screen relative flex flex-col items-center justify-center px-4 py-12"
+            className="min-h-screen relative flex flex-col items-center px-4 py-6 md:py-24 lg:py-32"
           >
             <div className="w-full max-w-4xl backdrop-blur-lg">
               {renderResult(testResult)}
