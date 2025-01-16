@@ -733,7 +733,7 @@ export default function MbtiTest() {
       return (
         <Link 
           href="/overview"
-          className="group relative px-8 py-3.5 rounded-full text-lg font-medium transition-all duration-300 flex items-center gap-3"
+          className="group relative px-8 py-2.5 rounded-full text-lg font-medium transition-all duration-300 flex items-center gap-3"
         >
           <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-200/80 to-indigo-200/80 backdrop-blur-md" />
           <div className="absolute inset-0 rounded-full bg-white/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -753,7 +753,7 @@ export default function MbtiTest() {
           e.stopPropagation()
           setIsWalletModalOpen(true)
         }}
-        className="group relative px-8 py-3.5 rounded-full text-lg font-medium transition-all duration-300 flex items-center gap-3"
+        className="group relative px-8 py-2.5 rounded-full text-lg font-medium transition-all duration-300 flex items-center gap-3"
       >
         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/90 to-indigo-500/90" />
         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600/90 to-indigo-600/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -824,7 +824,7 @@ export default function MbtiTest() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="min-h-screen relative flex flex-col items-center px-4 py-6 md:py-24 lg:py-32"
+            className="min-h-screen relative flex flex-col items-center px-4 pt-20 pb-8 sm:py-28 md:py-36 lg:py-40"
           >
             <div className="w-full max-w-4xl backdrop-blur-lg">
               {renderResult(testResult)}
