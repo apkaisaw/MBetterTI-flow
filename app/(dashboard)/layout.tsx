@@ -243,161 +243,163 @@ export default function Layout({ children }: LayoutProps) {
       )}
 
       {/* Sidebar */}
-      <div className={`fixed top-0 left-0 h-screen w-66 flex flex-col bg-purple-50/80 backdrop-blur-lg border-r border-purple-100 z-50 transition-transform duration-300 ease-in-out ${
+      <div className={`fixed top-0 left-0 h-[100dvh] w-56 md:w-66 flex flex-col bg-purple-50/80 backdrop-blur-lg border-r border-purple-100 z-50 transition-transform duration-300 ease-in-out ${
         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
       } md:translate-x-0`}>
-        <div className="pt-6 pb-2 flex justify-center">
-          <Link href="/" className="block" onClick={() => setIsMobileMenuOpen(false)}>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent text-center">
-              MBetterTI
-            </h1>
-          </Link>
-        </div>
-        
-        <div className="px-4 py-3 mt-0 flex flex-col items-center gap-3">
-          <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-indigo-500 flex items-center justify-center">
-            <User size={64} className="text-white" />
+        <div className="flex flex-col h-full">
+          <div className="pt-4 md:pt-6 pb-2 flex justify-center">
+            <Link href="/" className="block" onClick={() => setIsMobileMenuOpen(false)}>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent text-center">
+                MBetterTI
+              </h1>
+            </Link>
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-2xl font-bold text-purple-900">Keith</span>
-            <span className="text-sm font-medium px-4 py-1.5 rounded-full 
-              bg-gradient-to-r from-purple-100 to-indigo-100 
-              text-purple-700 shadow-sm border border-purple-200/50
-              hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-              INFP
-            </span>
+          
+          <div className="px-4 py-2 md:py-3 flex flex-col items-center gap-2 md:gap-3">
+            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-indigo-500 flex items-center justify-center">
+              <User size={48} className="text-white md:w-16 md:h-16" />
+            </div>
+            <div className="flex flex-col items-center gap-1.5 md:gap-2">
+              <span className="text-xl md:text-2xl font-bold text-purple-900">Keith</span>
+              <span className="text-sm font-medium px-4 py-1.5 rounded-full 
+                bg-gradient-to-r from-purple-100 to-indigo-100 
+                text-purple-700 shadow-sm border border-purple-200/50
+                hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+                INFP
+              </span>
+            </div>
           </div>
-        </div>
-        
-        <nav className="flex-1 mt-6 px-3 overflow-y-auto">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = !item.subItems && pathname === item.path;
-            const isExpanded = item.path ? expandedItems.includes(item.path) : false;
-            const hasSubItems = item.subItems && item.subItems.length > 0;
-            
-            return (
-              <div key={item.path} className="mb-2">
-                {hasSubItems ? (
-                  <>
-                    <button
-                      onClick={() => toggleExpand(item.path)}
-                      className={`group relative flex items-center justify-center w-full px-4 py-3 rounded-full transition-all ${
+          
+          <nav className="flex-1 mt-4 md:mt-6 px-2 md:px-3 overflow-y-auto">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = !item.subItems && pathname === item.path;
+              const isExpanded = item.path ? expandedItems.includes(item.path) : false;
+              const hasSubItems = item.subItems && item.subItems.length > 0;
+              
+              return (
+                <div key={item.path} className="mb-1.5 md:mb-2">
+                  {hasSubItems ? (
+                    <>
+                      <button
+                        onClick={() => toggleExpand(item.path)}
+                        className={`group relative flex items-center justify-center w-full px-3 md:px-4 py-2.5 md:py-3 rounded-full transition-all ${
+                          isActive
+                            ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50' 
+                            : 'text-purple-600 hover:bg-purple-50'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <Icon size={18} className={isActive ? 'text-white' : 'text-purple-600 group-hover:text-purple-700'} />
+                          <span className="font-medium text-sm md:text-base">{item.name}</span>
+                        </div>
+                        <div className={`absolute right-3 md:right-4 w-4 h-4 rounded-full flex items-center justify-center ${
+                          isActive ? 'bg-white/20' : 'bg-purple-100'
+                        }`}>
+                          {isExpanded ? (
+                            <Minus size={12} className={isActive ? 'text-white' : 'text-purple-600'} />
+                          ) : (
+                            <Plus size={12} className={isActive ? 'text-white' : 'text-purple-600'} />
+                          )}
+                        </div>
+                      </button>
+
+                      {isExpanded && (
+                        <div className="mt-1 flex flex-col items-center">
+                          {item.subItems?.map((subItem) => {
+                            const isSubActive = pathname === subItem.path;
+                            const hasThirdLevel = subItem.subItems && subItem.subItems.length > 0;
+                            const isSubExpanded = expandedItems.includes(subItem.path);
+
+                            return (
+                              <div key={subItem.path}>
+                                {hasThirdLevel ? (
+                                  <>
+                                    <button
+                                      onClick={() => toggleExpand(subItem.path)}
+                                      className={`flex items-center justify-between w-full py-1.5 px-3 md:px-4 text-xs rounded-lg transition-colors ${
+                                        isSubActive
+                                          ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md'
+                                          : 'text-purple-600 hover:bg-purple-50/50'
+                                      }`}
+                                    >
+                                      <span>{subItem.name}</span>
+                                      <span className={`text-[10px] transition-transform duration-200 ${isSubExpanded ? 'rotate-180' : ''}`}>▼</span>
+                                    </button>
+
+                                    {isSubExpanded && (
+                                      <div className="mt-0.5 bg-purple-50/50">
+                                        {subItem.subItems?.map((thirdItem) => (
+                                          <Link
+                                            key={thirdItem.path}
+                                            href={thirdItem.path}
+                                            className="block py-1.5 px-3 md:px-4 text-[11px] text-purple-600/80 hover:text-purple-800 hover:bg-purple-100/50 transition-colors"
+                                          >
+                                            {thirdItem.name}
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </>
+                                ) : (
+                                  <Link
+                                    href={subItem.path}
+                                    className={`block py-2 px-4 md:px-6 text-sm md:text-base rounded-full transition-colors w-48 md:w-56 text-center ${
+                                      isSubActive
+                                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50'
+                                        : 'text-purple-500/70 hover:bg-purple-50/50 hover:text-purple-600'
+                                    }`}
+                                  >
+                                    <div className="flex items-center justify-center gap-2">
+                                      {subItem.icon && <subItem.icon size={16} className={isSubActive ? 'text-white' : 'text-purple-500/70'} />}
+                                      <span>{subItem.name}</span>
+                                    </div>
+                                  </Link>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Link
+                      href={item.path || '/dashboard'}
+                      className={`group flex items-center justify-center w-full px-3 md:px-4 py-2.5 md:py-3 rounded-full transition-all ${
                         isActive
                           ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50' 
                           : 'text-purple-600 hover:bg-purple-50'
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <Icon size={20} className={isActive ? 'text-white' : 'text-purple-600 group-hover:text-purple-700'} />
-                        <span className="font-medium text-base">{item.name}</span>
+                        <Icon size={18} className={isActive ? 'text-white' : 'text-purple-600 group-hover:text-purple-700'} />
+                        <span className="font-medium text-sm md:text-base">{item.name}</span>
                       </div>
-                      <div className={`absolute right-4 w-4 h-4 rounded-full flex items-center justify-center ${
-                        isActive ? 'bg-white/20' : 'bg-purple-100'
-                      }`}>
-                        {isExpanded ? (
-                          <Minus size={12} className={isActive ? 'text-white' : 'text-purple-600'} />
-                        ) : (
-                          <Plus size={12} className={isActive ? 'text-white' : 'text-purple-600'} />
-                        )}
-                      </div>
-                    </button>
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
 
-                    {isExpanded && (
-                      <div className="mt-1 flex flex-col items-center">
-                        {item.subItems?.map((subItem) => {
-                          const isSubActive = pathname === subItem.path;
-                          const hasThirdLevel = subItem.subItems && subItem.subItems.length > 0;
-                          const isSubExpanded = expandedItems.includes(subItem.path);
-
-                          return (
-                            <div key={subItem.path}>
-                              {hasThirdLevel ? (
-                                <>
-                                  <button
-                                    onClick={() => toggleExpand(subItem.path)}
-                                    className={`flex items-center justify-between w-full py-1.5 px-4 text-xs rounded-lg transition-colors ${
-                                      isSubActive
-                                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md'
-                                        : 'text-purple-600 hover:bg-purple-50/50'
-                                    }`}
-                                  >
-                                    <span>{subItem.name}</span>
-                                    <span className={`text-[10px] transition-transform duration-200 ${isSubExpanded ? 'rotate-180' : ''}`}>▼</span>
-                                  </button>
-
-                                  {isSubExpanded && (
-                                    <div className="mt-0.5 bg-purple-50/50">
-                                      {subItem.subItems?.map((thirdItem) => (
-                                        <Link
-                                          key={thirdItem.path}
-                                          href={thirdItem.path}
-                                          className="block py-1.5 px-4 text-[11px] text-purple-600/80 hover:text-purple-800 hover:bg-purple-100/50 transition-colors"
-                                        >
-                                          {thirdItem.name}
-                                        </Link>
-                                      ))}
-                                    </div>
-                                  )}
-                                </>
-                              ) : (
-                                <Link
-                                  href={subItem.path}
-                                  className={`block py-2 px-6 text-base rounded-full transition-colors w-56 text-center ${
-                                    isSubActive
-                                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50'
-                                      : 'text-purple-500/70 hover:bg-purple-50/50 hover:text-purple-600'
-                                  }`}
-                                >
-                                  <div className="flex items-center justify-center gap-2">
-                                    {subItem.icon && <subItem.icon size={18} className={isSubActive ? 'text-white' : 'text-purple-500/70'} />}
-                                    <span>{subItem.name}</span>
-                                  </div>
-                                </Link>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    href={item.path || '/dashboard'}
-                    className={`group flex items-center justify-center w-full px-4 py-3 rounded-full transition-all ${
-                      isActive
-                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50' 
-                        : 'text-purple-600 hover:bg-purple-50'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <Icon size={20} className={isActive ? 'text-white' : 'text-purple-600 group-hover:text-purple-700'} />
-                      <span className="font-medium text-base">{item.name}</span>
-                    </div>
-                  </Link>
-                )}
-              </div>
-            );
-          })}
-        </nav>
-
-        <div className="px-3 py-4 bg-purple-50/80 backdrop-blur-lg">
-          <button
-            onClick={connectWallet}
-            className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full transition-all w-48 mx-auto ${
-              isConnected 
-                ? 'bg-purple-50 text-purple-700' 
-                : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50'
-            }`}
-          >
-            {isConnected ? <Wallet size={16} /> : <WalletCards size={16} />}
-            <span className="truncate text-base">
-              {isConnected 
-                ? `${address.slice(0, 6)}...${address.slice(-4)}`
-                : 'Connect Wallet'
-              }
-            </span>
-          </button>
+          <div className="px-2 md:px-3 py-3 md:py-4 bg-purple-50/80 backdrop-blur-lg md:mb-0 mb-16">
+            <button
+              onClick={connectWallet}
+              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full transition-all w-40 md:w-48 mx-auto ${
+                isConnected 
+                  ? 'bg-purple-50 text-purple-700' 
+                  : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50'
+              }`}
+            >
+              {isConnected ? <Wallet size={16} /> : <WalletCards size={16} />}
+              <span className="truncate text-sm md:text-base">
+                {isConnected 
+                  ? `${address.slice(0, 6)}...${address.slice(-4)}`
+                  : 'Connect Wallet'
+                }
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 
