@@ -155,12 +155,12 @@ export default function SoulBecoming() {
   }, [messages]);
 
   return (
-    <div className="fixed inset-0 bottom-16 md:bottom-0 md:top-16">
+    <div className="fixed inset-0 bottom-16 md:bottom-0 md:top-16 md:left-64">
       <div className="flex h-full">
         {/* 主聊天区域 */}
         <section className="flex-1 flex flex-col bg-white/90">
           {/* 角色选择器 - 居中显示 */}
-          <div className="flex justify-center border-b border-purple-100/50 py-2 md:py-4 px-4 md:px-6 pt-5 md:pt-6">
+          <div className="flex justify-center border-b border-purple-100/50 py-2 md:py-3 px-4 md:px-6 pt-3 md:pt-3">
             <div className="flex gap-2 overflow-x-auto max-w-full md:max-w-[600px] scrollbar-thin scrollbar-thumb-purple-200 scrollbar-track-transparent">
               {coachRoles.map((role) => (
                 <button
@@ -287,7 +287,7 @@ export default function SoulBecoming() {
             </div>
 
             {/* Input Area */}
-            <div className="border-t border-purple-100/50 px-4 md:px-6 py-3 md:py-4 bg-white/95 backdrop-blur-sm -mt-10">
+            <div className="border-t border-purple-100/50 px-4 md:px-6 py-3 md:py-4 bg-white/95 backdrop-blur-sm -mt-10 mb-0 md:mb-0 pb-8 md:pb-4">
               <form onSubmit={handleSendMessage} className="flex gap-2 md:gap-3">
                 <input
                   type="text"
