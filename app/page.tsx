@@ -271,12 +271,12 @@ export default function Home() {
                   {/* Card container */}
                   <div 
                     onClick={(e) => handleExploreClick(index, e)}
-                    className={`relative w-full h-full transition-transform duration-700 transform-style-3d cursor-pointer ${
+                    className={`absolute inset-0 transition-transform duration-700 transform-style-3d cursor-pointer ${
                       flippedCards.includes(index) ? 'rotate-y-180' : ''
                     }`}>
                     {/* Front side */}
                     <div className="absolute inset-0 backface-hidden">
-                      <div className="relative overflow-hidden rounded-full aspect-square shadow-2xl group">
+                      <div className="relative w-full h-full overflow-hidden rounded-full shadow-2xl group">
                         <Image
                           src={module.image}
                           alt={module.title}
