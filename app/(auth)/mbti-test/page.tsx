@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Compass, ArrowRight, Sparkles, RefreshCcw, Brain, Zap, Target, Wallet, X } from 'lucide-react'
+import { Compass, ArrowRight, Sparkles, RefreshCcw, Brain, Zap, Target, Wallet, X, Check } from 'lucide-react'
 import { 
   TestQuestion, 
   PersonalityClassGroup, 
@@ -18,7 +18,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 // ResultCard component
-const ResultCard = ({ titleKey, children, isVisible, isLoading = false }: { titleKey: string; children: React.ReactNode; isVisible: boolean; isLoading?: boolean }) => {
+const ResultCard = ({ children, isVisible, isLoading = false }: { children: React.ReactNode; isVisible: boolean; isLoading?: boolean }) => {
   return (
     <AnimatePresence>
       {isVisible && (
@@ -26,12 +26,8 @@ const ResultCard = ({ titleKey, children, isVisible, isLoading = false }: { titl
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="bg-white/10 backdrop-filter backdrop-blur-lg shadow-lg rounded-3xl px-6 py-4 mb-6 transition-all duration-300 hover:shadow-xl border border-white/20"
+          className="bg-white/10 backdrop-filter backdrop-blur-lg shadow-lg rounded-[2.5rem] px-8 py-6 mb-6 transition-all duration-300 hover:shadow-xl border border-white/20"
         >
-          <h4 className="text-xl font-medium mb-4 text-purple-800/70 flex items-center">
-            <Sparkles className="mr-3 text-purple-600/70" size={22} />
-            {titleKey}
-          </h4>
           {isLoading ? (
             <motion.div
               animate={{ rotate: 360 }}
@@ -56,7 +52,7 @@ const TestInstructions = () => (
     animate={{ opacity: 1, y: 0 }}
     className="mb-6"
   >
-    <div className="bg-white/30 backdrop-blur-md rounded-3xl p-6 shadow-lg border border-white/30">
+    <div className="bg-white/30 backdrop-blur-md rounded-[2.5rem] p-8 shadow-lg border border-white/30">
       <div className="space-y-4 text-purple-800">
         <p className="text-base font-medium">
           This test is quick and straightforward—it should only take about 5 to 20 minutes to complete. Here are a few tips:
@@ -249,6 +245,7 @@ export default function MbtiTest() {
   const [isQuickTest, setIsQuickTest] = useState(true)
   const [testStarted, setTestStarted] = useState(false)
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState<'dimension' | 'jungian'>('dimension')
   const router = useRouter()
 
   const handleAnswer = (answer: "A" | "B") => {
@@ -301,19 +298,19 @@ export default function MbtiTest() {
           whileHover={{ scale: 1.02, y: -2 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => startTest(true)}
-          className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-purple-900 px-8 py-6 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center text-lg font-semibold border border-white/30"
+          className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-purple-900 px-8 py-6 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center text-lg font-semibold border border-white/30 group"
         >
-          <Zap className="mr-3" size={24} />
-          Start Quick Test (5 mins, 28 questions)
+          <Zap className="mr-3 text-purple-500/90" size={24} />
+          <span className="group-hover:text-purple-900">Start Quick Test (5 mins, 28 questions)</span>
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.02, y: -2 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => startTest(false)}
-          className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-purple-900 px-8 py-6 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center text-lg font-semibold border border-white/30"
+          className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-purple-900 px-8 py-6 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center text-lg font-semibold border border-white/30 group"
         >
-          <Brain className="mr-3" size={24} />
-          Start Full Test (20 mins, 70 questions)
+          <Brain className="mr-3 text-purple-500/90" size={24} />
+          <span className="group-hover:text-purple-900">Start Full Test (20 mins, 70 questions)</span>
         </motion.button>
       </div>
     </>
@@ -335,22 +332,59 @@ export default function MbtiTest() {
 
         {/* Progress indicator */}
         <div className="absolute top-8 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4">
-          <div className="flex justify-between items-center text-sm text-purple-600 font-medium mb-2">
-            <span className="bg-white/50 backdrop-blur-md px-3 py-1 rounded-full">
-              Question {currentQuestion + 1} / {currentQuestions.length}
-            </span>
-            <span className="bg-white/50 backdrop-blur-md px-3 py-1 rounded-full">
-              {Math.round(progress)}%
-            </span>
-          </div>
-          <div className="h-1.5 bg-white/30 rounded-full overflow-hidden">
+          <div className="flex justify-between items-center text-sm mb-3">
             <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.5 }}
-              className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full shadow-lg"
-            />
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-purple-600/70 flex items-center gap-1.5"
+            >
+              <Target size={14} className="text-purple-500/70" />
+              <span className="font-medium tracking-wide">{currentQuestion + 1} / {currentQuestions.length}</span>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-purple-600/70 flex items-center gap-1.5"
+            >
+              <span className="font-medium tracking-wide">{Math.round(progress)}%</span>
+              <Compass size={14} className="text-purple-500/70" />
+            </motion.div>
           </div>
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-200/30 via-indigo-200/30 to-purple-200/30 blur-lg" />
+            <div className="h-1.5 bg-white/20 rounded-full overflow-hidden backdrop-blur-[2px] relative">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="h-full bg-gradient-to-r from-purple-500/80 via-indigo-500/80 to-purple-500/80 rounded-full relative"
+              >
+                <motion.div
+                  animate={{
+                    background: [
+                      "linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%)",
+                      "linear-gradient(90deg, rgba(255,255,255,0.1) 100%, rgba(255,255,255,0.3) 150%, rgba(255,255,255,0.1) 200%)"
+                    ]
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                  className="absolute inset-0"
+                />
+              </motion.div>
+            </div>
+          </div>
+          <motion.p 
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-2 text-center text-xs text-purple-500/60 font-medium tracking-wide"
+          >
+            {progress < 50 ? "Keep going! You're doing great!" : progress < 80 ? "Almost there!" : "Final stretch!"}
+          </motion.p>
         </div>
 
         {/* Question content */}
@@ -374,32 +408,29 @@ export default function MbtiTest() {
               {question.answerOptions.map((option: any, index: number) => (
                 <motion.button
                   key={option.type}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{ 
-                    duration: 0.05,
-                    delay: index * 0.1 + 0.2
+                    duration: 0.3,
+                    delay: index * 0.15
                   }}
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ 
-                    scale: 0.98,
-                    backgroundColor: "rgba(255, 255, 255, 0.4)",
-                    boxShadow: "0 0 10px rgba(139, 92, 246, 0.15)",
-                    transition: { duration: 0.02 } 
+                  whileHover={{ 
+                    scale: 1.01,
+                    backgroundColor: "rgba(255, 255, 255, 0.35)",
                   }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => handleAnswer(option.type as "A" | "B")}
-                  className="relative overflow-hidden w-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-purple-900 px-8 py-4 rounded-2xl transition-all duration-50 shadow hover:shadow-md flex items-center justify-center border border-white/30 group"
+                  className="relative w-full bg-white/25 text-purple-900 px-8 py-4 rounded-full transition-all duration-200 shadow-sm hover:shadow border border-white/20 group overflow-hidden"
                 >
-                  <span className="text-center text-xl group-hover:text-purple-900">
-                    {option.answer}
-                  </span>
-                  <motion.div
-                    whileHover={{ x: 4 }}
-                    transition={{ duration: 0.05 }}
-                    className="text-purple-500 absolute right-6"
-                  >
-                    <ArrowRight size={24} />
-                  </motion.div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full" />
+                  <div className="relative w-full flex justify-center items-center">
+                    <span className="text-lg transition-all duration-300">
+                      {option.answer}
+                    </span>
+                    <div className="absolute right-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <Check className="w-5 h-5 text-purple-600/80" />
+                    </div>
+                  </div>
                 </motion.button>
               ))}
             </div>
@@ -409,212 +440,291 @@ export default function MbtiTest() {
     )
   }
 
-  const renderResult = (result: PersonalityClassGroup) => (
-    <div className="space-y-4">
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="text-center mb-8"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="inline-block bg-white/20 backdrop-blur-md px-5 py-1.5 rounded-full text-sm font-medium text-purple-800 mb-4"
+  const renderResult = (result: PersonalityClassGroup) => {
+    return (
+      <div className="space-y-4">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center mb-8"
         >
-          Analysis Complete
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="inline-block bg-white/20 backdrop-blur-md px-6 py-2 rounded-full text-sm font-medium text-purple-800 mb-4 border border-white/30"
+          >
+            Analysis Complete
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="space-y-2"
+          >
+            <h2 className="text-7xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-600/90 via-indigo-500/90 to-purple-600/90">
+              {result.type}
+            </h2>
+            <p className="text-xl font-medium text-purple-800/70 tracking-wide">
+              {result.name}
+            </p>
+            <p className="text-base text-purple-600/80 italic">
+              {result.epithet}
+            </p>
+          </motion.div>
         </motion.div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="space-y-2"
-        >
-          <h2 className="text-7xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-600/90 via-indigo-500/90 to-purple-600/90">
-            {result.type}
-          </h2>
-          <p className="text-xl font-medium text-purple-800/70 tracking-wide">
-            {result.name}
-          </p>
-          <p className="text-base text-purple-600/80 italic">
-            {result.epithet}
-          </p>
-        </motion.div>
-      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ResultCard titleKey="Dimension Scores" isVisible={!!result}>
-          <div className="space-y-3">
-            {/* E-I */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm font-medium mb-2">
-                <span className="text-purple-600">E</span>
-                <span className="text-purple-800">Extroversion - Introversion</span>
-                <span className="text-indigo-600">I</span>
-              </div>
-              <div className="h-3 bg-white/20 rounded-full overflow-hidden flex">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ 
-                    width: `${(result.scores?.E || 0) / ((result.scores?.E || 0) + (result.scores?.I || 0)) * 100}%` 
-                  }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="bg-gradient-to-r from-purple-500 to-purple-400 rounded-l-full"
+        {/* Mobile tab switcher */}
+        <div className="md:hidden flex justify-center gap-3 mb-6">
+          <motion.button
+            onClick={() => setActiveTab('dimension')}
+            className={`relative px-8 py-2.5 rounded-full text-base font-medium transition-all duration-300 ${
+              activeTab === 'dimension'
+                ? 'text-white'
+                : 'text-purple-800/70 hover:text-purple-900'
+            }`}
+          >
+            <AnimatePresence mode="wait">
+              {activeTab === 'dimension' && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="absolute inset-0 bg-gradient-to-r from-purple-500/90 to-indigo-500/90 rounded-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                 />
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ 
-                    width: `${(result.scores?.I || 0) / ((result.scores?.E || 0) + (result.scores?.I || 0)) * 100}%` 
-                  }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="bg-gradient-to-r from-indigo-400 to-indigo-500 rounded-r-full"
+              )}
+            </AnimatePresence>
+            <span className="relative z-10 flex items-center gap-2">
+              <Target className="w-4 h-4" />
+              Dimension Scores
+            </span>
+          </motion.button>
+          
+          <motion.button
+            onClick={() => setActiveTab('jungian')}
+            className={`relative px-8 py-2.5 rounded-full text-base font-medium transition-all duration-300 ${
+              activeTab === 'jungian'
+                ? 'text-white'
+                : 'text-purple-800/70 hover:text-purple-900'
+            }`}
+          >
+            <AnimatePresence mode="wait">
+              {activeTab === 'jungian' && (
+                <motion.div
+                  layoutId="activeTab"
+                  className="absolute inset-0 bg-gradient-to-r from-purple-500/90 to-indigo-500/90 rounded-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                 />
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="text-purple-500 font-medium">{result.scores?.E || 0}</span>
-                <span className="text-indigo-500 font-medium">{result.scores?.I || 0}</span>
-              </div>
-            </div>
+              )}
+            </AnimatePresence>
+            <span className="relative z-10 flex items-center gap-2">
+              <Brain className="w-4 h-4" />
+              Jungian Functions
+            </span>
+          </motion.button>
+        </div>
 
-            {/* S-N */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm font-medium mb-2">
-                <span className="text-purple-600">S</span>
-                <span className="text-purple-800">Sensing - Intuition</span>
-                <span className="text-indigo-600">N</span>
-              </div>
-              <div className="h-3 bg-white/20 rounded-full overflow-hidden flex">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ 
-                    width: `${(result.scores?.S || 0) / ((result.scores?.S || 0) + (result.scores?.N || 0)) * 100}%` 
-                  }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="bg-gradient-to-r from-purple-500 to-purple-400 rounded-l-full"
-                />
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ 
-                    width: `${(result.scores?.N || 0) / ((result.scores?.S || 0) + (result.scores?.N || 0)) * 100}%` 
-                  }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="bg-gradient-to-r from-indigo-400 to-indigo-500 rounded-r-full"
-                />
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="text-purple-500 font-medium">{result.scores?.S || 0}</span>
-                <span className="text-indigo-500 font-medium">{result.scores?.N || 0}</span>
-              </div>
-            </div>
-
-            {/* T-F */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm font-medium mb-2">
-                <span className="text-purple-600">T</span>
-                <span className="text-purple-800">Thinking - Feeling</span>
-                <span className="text-indigo-600">F</span>
-              </div>
-              <div className="h-3 bg-white/20 rounded-full overflow-hidden flex">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ 
-                    width: `${(result.scores?.T || 0) / ((result.scores?.T || 0) + (result.scores?.F || 0)) * 100}%` 
-                  }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="bg-gradient-to-r from-purple-500 to-purple-400 rounded-l-full"
-                />
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ 
-                    width: `${(result.scores?.F || 0) / ((result.scores?.T || 0) + (result.scores?.F || 0)) * 100}%` 
-                  }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="bg-gradient-to-r from-indigo-400 to-indigo-500 rounded-r-full"
-                />
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="text-purple-500 font-medium">{result.scores?.T || 0}</span>
-                <span className="text-indigo-500 font-medium">{result.scores?.F || 0}</span>
-              </div>
-            </div>
-
-            {/* J-P */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm font-medium mb-2">
-                <span className="text-purple-600">J</span>
-                <span className="text-purple-800">Judging - Perceiving</span>
-                <span className="text-indigo-600">P</span>
-              </div>
-              <div className="h-3 bg-white/20 rounded-full overflow-hidden flex">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ 
-                    width: `${(result.scores?.J || 0) / ((result.scores?.J || 0) + (result.scores?.P || 0)) * 100}%` 
-                  }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="bg-gradient-to-r from-purple-500 to-purple-400 rounded-l-full"
-                />
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ 
-                    width: `${(result.scores?.P || 0) / ((result.scores?.J || 0) + (result.scores?.P || 0)) * 100}%` 
-                  }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="bg-gradient-to-r from-indigo-400 to-indigo-500 rounded-r-full"
-                />
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="text-purple-500 font-medium">{result.scores?.J || 0}</span>
-                <span className="text-indigo-500 font-medium">{result.scores?.P || 0}</span>
-              </div>
-            </div>
-          </div>
-        </ResultCard>
-
-        <ResultCard titleKey="Jungian Functional Preference" isVisible={!!result}>
-          <div className="grid grid-cols-2 gap-3 h-[calc(100%-2rem)] min-h-[280px]">
-            {[
-              { label: 'Dominant', value: result.jungianFunctionalPreference.dominant, color: 'from-purple-500/60 to-indigo-500/60' },
-              { label: 'Auxiliary', value: result.jungianFunctionalPreference.auxiliary, color: 'from-indigo-500/60 to-violet-500/60' },
-              { label: 'Tertiary', value: result.jungianFunctionalPreference.tertiary, color: 'from-violet-500/60 to-purple-500/60' },
-              { label: 'Inferior', value: result.jungianFunctionalPreference.inferior, color: 'from-fuchsia-500/60 to-pink-500/60' }
-            ].map((item, index) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className={`bg-gradient-to-br ${item.color} rounded-2xl h-full`}
-              >
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 h-full flex flex-col justify-between">
-                  <div className="text-base font-medium text-purple-500/90">
-                    {item.label}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className={`md:block ${activeTab === 'dimension' ? 'block' : 'hidden'}`}>
+            <ResultCard isVisible={!!result}>
+              <div className="space-y-3">
+                {/* E-I */}
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm font-medium mb-2">
+                    <span className="text-purple-600/90">
+                      <span className="text-purple-600 font-bold">E</span>xtroversion
+                    </span>
+                    <span className="text-indigo-600/90">
+                      <span className="text-indigo-600 font-bold">I</span>ntroversion
+                    </span>
                   </div>
-                  <div className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600/90 to-indigo-600/90">
-                    {item.value}
+                  <div className="h-3 bg-white/20 rounded-full overflow-hidden flex relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 backdrop-blur-sm" />
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ 
+                        width: `${(result.scores?.E || 0) / ((result.scores?.E || 0) + (result.scores?.I || 0)) * 100}%` 
+                      }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="relative bg-gradient-to-r from-purple-200/90 via-purple-300/80 to-purple-200/90 rounded-l-full"
+                    />
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ 
+                        width: `${(result.scores?.I || 0) / ((result.scores?.E || 0) + (result.scores?.I || 0)) * 100}%` 
+                      }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="relative bg-gradient-to-r from-indigo-200/90 via-indigo-300/80 to-indigo-200/90 rounded-r-full"
+                    />
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-purple-500 font-medium">{result.scores?.E || 0}</span>
+                    <span className="text-indigo-500 font-medium">{result.scores?.I || 0}</span>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </ResultCard>
-      </div>
 
-      <div className="flex justify-center mt-6">
-        <div className="flex flex-col items-center">
-          {renderWalletButton()}
-          
-          <div className="mt-3 relative">
-            <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-white/10 to-transparent" />
-            <p className="text-purple-800/80 text-center text-sm font-medium tracking-wide pt-1">
-              {isConnected ? 'Click to continue your journey' : 'Explore Further and Make Yourself Better'}
-            </p>
+                {/* S-N */}
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm font-medium mb-2">
+                    <span className="text-purple-600/90">
+                      <span className="text-purple-600 font-bold">S</span>ensing
+                    </span>
+                    <span className="text-indigo-600/90">
+                      <span className="text-indigo-600 font-bold">N</span>tuition
+                    </span>
+                  </div>
+                  <div className="h-3 bg-white/20 rounded-full overflow-hidden flex relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 backdrop-blur-sm" />
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ 
+                        width: `${(result.scores?.S || 0) / ((result.scores?.S || 0) + (result.scores?.N || 0)) * 100}%` 
+                      }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="relative bg-gradient-to-r from-purple-200/90 via-purple-300/80 to-purple-200/90 rounded-l-full"
+                    />
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ 
+                        width: `${(result.scores?.N || 0) / ((result.scores?.S || 0) + (result.scores?.N || 0)) * 100}%` 
+                      }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="relative bg-gradient-to-r from-indigo-200/90 via-indigo-300/80 to-indigo-200/90 rounded-r-full"
+                    />
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-purple-500 font-medium">{result.scores?.S || 0}</span>
+                    <span className="text-indigo-500 font-medium">{result.scores?.N || 0}</span>
+                  </div>
+                </div>
+
+                {/* T-F */}
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm font-medium mb-2">
+                    <span className="text-purple-600/90">
+                      <span className="text-purple-600 font-bold">T</span>hinking
+                    </span>
+                    <span className="text-indigo-600/90">
+                      <span className="text-indigo-600 font-bold">F</span>eeling
+                    </span>
+                  </div>
+                  <div className="h-3 bg-white/20 rounded-full overflow-hidden flex relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 backdrop-blur-sm" />
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ 
+                        width: `${(result.scores?.T || 0) / ((result.scores?.T || 0) + (result.scores?.F || 0)) * 100}%` 
+                      }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="relative bg-gradient-to-r from-purple-200/90 via-purple-300/80 to-purple-200/90 rounded-l-full"
+                    />
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ 
+                        width: `${(result.scores?.F || 0) / ((result.scores?.T || 0) + (result.scores?.F || 0)) * 100}%` 
+                      }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="relative bg-gradient-to-r from-indigo-200/90 via-indigo-300/80 to-indigo-200/90 rounded-r-full"
+                    />
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-purple-500 font-medium">{result.scores?.T || 0}</span>
+                    <span className="text-indigo-500 font-medium">{result.scores?.F || 0}</span>
+                  </div>
+                </div>
+
+                {/* J-P */}
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm font-medium mb-2">
+                    <span className="text-purple-600/90">
+                      <span className="text-purple-600 font-bold">J</span>udging
+                    </span>
+                    <span className="text-indigo-600/90">
+                      <span className="text-indigo-600 font-bold">P</span>erceiving
+                    </span>
+                  </div>
+                  <div className="h-3 bg-white/20 rounded-full overflow-hidden flex relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 backdrop-blur-sm" />
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ 
+                        width: `${(result.scores?.J || 0) / ((result.scores?.J || 0) + (result.scores?.P || 0)) * 100}%` 
+                      }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="relative bg-gradient-to-r from-purple-200/90 via-purple-300/80 to-purple-200/90 rounded-l-full"
+                    />
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ 
+                        width: `${(result.scores?.P || 0) / ((result.scores?.J || 0) + (result.scores?.P || 0)) * 100}%` 
+                      }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="relative bg-gradient-to-r from-indigo-200/90 via-indigo-300/80 to-indigo-200/90 rounded-r-full"
+                    />
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-purple-500 font-medium">{result.scores?.J || 0}</span>
+                    <span className="text-indigo-500 font-medium">{result.scores?.P || 0}</span>
+                  </div>
+                </div>
+              </div>
+            </ResultCard>
+          </div>
+
+          <div className={`md:block ${activeTab === 'jungian' ? 'block' : 'hidden'}`}>
+            <ResultCard isVisible={!!result}>
+              <div className="grid grid-cols-2 gap-3 h-full">
+                {[
+                  { label: 'Dominant', value: result.jungianFunctionalPreference.dominant, color: 'from-purple-100 to-indigo-50' },
+                  { label: 'Auxiliary', value: result.jungianFunctionalPreference.auxiliary, color: 'from-indigo-100 to-violet-50' },
+                  { label: 'Tertiary', value: result.jungianFunctionalPreference.tertiary, color: 'from-violet-100 to-purple-50' },
+                  { label: 'Inferior', value: result.jungianFunctionalPreference.inferior, color: 'from-fuchsia-100 to-pink-50' }
+                ].map((item, index) => (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className={`rounded-[2rem] bg-gradient-to-br ${item.color} p-6 flex flex-col justify-between backdrop-blur-sm h-[140px]`}
+                  >
+                    <div className="text-base font-medium text-purple-500/90 text-center">
+                      {item.label}
+                    </div>
+                    <div className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600/90 to-indigo-600/90 text-center">
+                      {item.value}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </ResultCard>
+          </div>
+        </div>
+
+        <div className="flex justify-center mt-8">
+          <div className="flex flex-col items-center space-y-4">
+            {renderWalletButton()}
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-center"
+            >
+              <p className="text-purple-800/70 text-sm font-medium">
+                {isConnected ? 'Click to continue your journey' : 'Connect wallet to start your growth journey'}
+              </p>
+            </motion.div>
           </div>
         </div>
       </div>
-    </div>
-  )
+    );
+  };
 
   const handleWalletConnected = (address: string) => {
     setIsWalletModalOpen(false)
@@ -625,14 +735,15 @@ export default function MbtiTest() {
       return (
         <Link 
           href="/overview"
-          className="group relative bg-white/30 backdrop-blur-md text-purple-800 px-8 py-3 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg flex items-center gap-2 border border-purple-200/30 hover:bg-white/40"
+          className="group relative px-8 py-3.5 rounded-full text-lg font-medium transition-all duration-300 flex items-center gap-3"
         >
-          <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-sm" />
-          <span className="relative z-10">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-200/80 to-indigo-200/80 backdrop-blur-md" />
+          <div className="absolute inset-0 rounded-full bg-white/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <span className="relative z-10 text-purple-900">
             {`${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`}
           </span>
           <div className="w-2 h-2 rounded-full bg-green-400 relative z-10" />
-          <ArrowRight size={20} className="relative z-10 ml-2 group-hover:translate-x-0.5 transition-transform" />
+          <ArrowRight size={20} className="relative z-10 text-purple-600 group-hover:translate-x-0.5 transition-transform" />
         </Link>
       )
     }
@@ -644,11 +755,12 @@ export default function MbtiTest() {
           e.stopPropagation()
           setIsWalletModalOpen(true)
         }}
-        className="group relative bg-gradient-to-r from-purple-600/90 to-indigo-600/90 hover:from-purple-600 hover:to-indigo-600 backdrop-blur-md text-white px-8 py-3 rounded-full text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-300/30 flex items-center gap-2 border border-white/10"
+        className="group relative px-8 py-3.5 rounded-full text-lg font-medium transition-all duration-300 flex items-center gap-3"
       >
-        <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-sm" />
-        <span className="relative z-10">Connect Wallet</span>
-        <ArrowRight size={20} className="relative z-10 group-hover:translate-x-0.5 transition-transform" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/90 to-indigo-500/90" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600/90 to-indigo-600/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <span className="relative z-10 text-white">Connect Wallet</span>
+        <ArrowRight size={20} className="relative z-10 text-white/90 group-hover:translate-x-0.5 transition-transform" />
       </button>
     )
   }
@@ -676,12 +788,12 @@ export default function MbtiTest() {
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="relative mb-12 text-center"
+              className="relative mb-8 text-center"
             >
-              <h1 className="text-8xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-600/90 via-indigo-500/90 to-purple-600/90">
+              <h1 className="text-6xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-600/90 via-indigo-500/90 to-purple-600/90">
                 MBTI
               </h1>
-              <p className="text-2xl font-medium text-purple-800/70 mt-3 tracking-wide">
+              <p className="text-xl font-medium text-purple-800/70 mt-2 tracking-wide">
                 Personality Test
               </p>
             </motion.div>
