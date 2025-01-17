@@ -130,9 +130,9 @@ export default function Overview() {
 
         <div className="flex flex-col items-center">
           <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
             className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent"
           >
             Overview
@@ -140,7 +140,12 @@ export default function Overview() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+        >
           {/* Growth Score */}
           <div className="card-base rounded-xl md:rounded-2xl p-4 md:p-6 bg-gradient-to-br from-purple-500/20 to-indigo-500/20">
             <div className="flex items-center gap-3 mb-3">
@@ -208,14 +213,15 @@ export default function Overview() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Recent Activities and Upcoming Tasks */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           {/* Recent Activities */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
             className="card-base rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-4 md:p-6"
           >
             <h2 className="text-lg md:text-xl font-semibold text-purple-800 mb-3 md:mb-4">Recent Activities</h2>
@@ -237,8 +243,9 @@ export default function Overview() {
 
           {/* Upcoming Tasks */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
             className="card-base rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-4 md:p-6"
           >
             <h2 className="text-lg md:text-xl font-semibold text-purple-800 mb-3 md:mb-4">Upcoming Tasks</h2>

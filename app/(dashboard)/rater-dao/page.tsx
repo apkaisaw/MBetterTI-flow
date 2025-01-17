@@ -143,6 +143,9 @@ export default function RaterDAO() {
                     <span className={`px-2 py-0.5 rounded-lg text-xs font-medium ${statusColors[task.status]}`}>
                       {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
                     </span>
+                    <span className="px-2 py-0.5 rounded-lg text-xs font-medium bg-yellow-100 text-yellow-600">
+                      Coming Soon
+                    </span>
                   </div>
                   <p className="text-sm text-purple-600/80">
                     {task.description}
@@ -192,12 +195,8 @@ export default function RaterDAO() {
 
               <div className="flex gap-2">
                 <button 
-                  className={`flex-1 px-3 py-1.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 transition-all
-                    ${task.status === 'completed'
-                      ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90'
-                    }`}
-                  disabled={task.status === 'completed'}
+                  className="flex-1 px-3 py-1.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 transition-all bg-gray-100 text-gray-500 cursor-not-allowed"
+                  disabled={true}
                 >
                   <span>Start Rating</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -215,10 +214,10 @@ export default function RaterDAO() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="card-base rounded-xl md:rounded-2xl shadow-md p-4 md:p-6"
+        className="card-base rounded-xl md:rounded-2xl shadow-md p-3 md:p-6"
       >
-        <h2 className="text-lg md:text-xl font-semibold text-purple-800 mb-3 md:mb-4">How to Participate</h2>
-        <div className="space-y-3 md:space-y-4">
+        <h2 className="text-base md:text-xl font-semibold text-purple-800 mb-2 md:mb-4 px-1">How to Participate</h2>
+        <div className="space-y-2.5 md:space-y-4">
           {[
             {
               title: 'Rate Growth Paths',
@@ -239,15 +238,15 @@ export default function RaterDAO() {
               color: 'text-blue-500 bg-blue-100'
             }
           ].map((step) => (
-            <div key={step.title} className="flex gap-3 md:gap-4">
-              <div className={`p-1.5 md:p-2 rounded-lg md:rounded-xl ${step.color}`}>
+            <div key={step.title} className="flex gap-2 md:gap-4 p-1.5 rounded-lg hover:bg-purple-50/50 transition-colors">
+              <div className={`p-1.5 md:p-2 rounded-lg md:rounded-xl ${step.color} shrink-0`}>
                 <step.icon className="w-4 h-4 md:w-5 md:h-5" />
               </div>
-              <div>
-                <h3 className="text-sm md:text-base font-medium text-purple-800 mb-1">
+              <div className="min-w-0">
+                <h3 className="text-sm md:text-base font-medium text-purple-800 mb-0.5 md:mb-1">
                   {step.title}
                 </h3>
-                <p className="text-xs md:text-sm text-purple-600/70">
+                <p className="text-xs md:text-sm text-purple-600/70 line-clamp-2">
                   {step.description}
                 </p>
               </div>

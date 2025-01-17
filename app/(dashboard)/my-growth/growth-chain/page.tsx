@@ -80,9 +80,9 @@ export default function GrowthChain() {
           >
             Growth Chain
           </motion.h1>
-          <div className="flex items-center gap-2 px-4 py-2 bg-purple-50 rounded-xl">
-            <Trophy className="text-purple-600 w-5 h-5" />
-            <span className="text-purple-600 font-medium">240 Points</span>
+          <div className="flex items-center gap-1.5 text-sm">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+            <span className="text-purple-600">Updated 01.18</span>
           </div>
         </motion.div>
 
@@ -92,8 +92,8 @@ export default function GrowthChain() {
           className="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
         >
           <div className="flex items-center gap-2">
-            <Target className="w-5 h-5" />
-            <span>Set New Goal</span>
+            <Layers className="w-5 h-5" />
+            <span>Mint Growth</span>
           </div>
         </motion.button>
       </div>

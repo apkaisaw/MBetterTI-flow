@@ -20,6 +20,10 @@ export default function CommunityCoaches() {
     <>
       <AgentMarketTabs />
       
+      <div className="flex justify-center mt-4 mb-2">
+        <span className="px-2 py-1 bg-yellow-100 text-yellow-600 rounded-lg font-medium text-sm">Coming Soon</span>
+      </div>
+      
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

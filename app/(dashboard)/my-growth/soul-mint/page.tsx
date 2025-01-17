@@ -133,9 +133,8 @@ export default function SoulMint() {
           >
             Soul Mint
           </motion.h1>
-          <div className="flex items-center gap-2 px-4 py-2 bg-purple-50 rounded-xl">
-            <Award className="text-purple-600 w-5 h-5" />
-            <span className="text-purple-600 font-medium">12 Badges</span>
+          <div className="flex items-center gap-1.5 text-sm">
+            <span className="px-2 py-1 bg-yellow-100 text-yellow-600 rounded-lg font-medium">Coming Soon</span>
           </div>
         </motion.div>
 
