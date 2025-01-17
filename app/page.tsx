@@ -495,11 +495,11 @@ export default function Home() {
             <nav className="flex items-center gap-4 sm:gap-6" aria-label="Footer Navigation">
               <Link href="/mbti-test" className="text-purple-700/90 hover:text-purple-800 transition-colors text-xs sm:text-sm hover:underline">MBTI Test</Link>
               <Link href="/ai-life-coach" className="text-purple-700/90 hover:text-purple-800 transition-colors text-xs sm:text-sm hover:underline">AI Coach</Link>
-              <Link href="/community" className="text-purple-700/90 hover:text-purple-800 transition-colors text-xs sm:text-sm hover:underline">Community</Link>
+              <Link href="https://en.wikipedia.org/wiki/Myers%E2%80%93Briggs_Type_Indicator" className="text-purple-700/90 hover:text-purple-800 transition-colors text-xs sm:text-sm hover:underline">MBTI Wiki</Link>
             </nav>
 
             <div className="flex items-center gap-3 sm:gap-4">
-              <Link href="mailto:support@mbetterti.com" 
+              <Link href="mailto:kguodev@gmail.com" 
                     className="text-purple-600/80 hover:text-purple-700 transition-colors p-1 hover:bg-purple-100/30 rounded-full"
                     aria-label="Email Support">
                 <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
