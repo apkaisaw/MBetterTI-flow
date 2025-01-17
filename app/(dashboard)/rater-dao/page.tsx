@@ -68,102 +68,10 @@ const statusColors: Record<RatingTask['status'], string> = {
   'completed': 'bg-purple-100 text-purple-600'
 };
 
-function RaterDAOList() {
+function RaterDAOContent() {
   const searchParams = useSearchParams()
   const view = searchParams?.get('view') || 'all'
 
-  return (
-    <div className="space-y-3 md:space-y-4">
-      {ratingTasks
-        .filter(task => view === 'all' || task.status === view)
-        .map((task) => (
-          <motion.div
-            key={task.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="card-base rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group"
-          >
-            <div className="p-4 md:p-6">
-              <div className="flex flex-col sm:flex-row justify-between items-start gap-3 mb-3">
-                <div>
-                  <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <h3 className="text-base md:text-lg font-semibold text-purple-800">
-                      {task.title}
-                    </h3>
-                    <span className={`px-2 py-0.5 rounded-lg text-xs font-medium ${statusColors[task.status]}`}>
-                      {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
-                    </span>
-                  </div>
-                  <p className="text-sm text-purple-600/80">
-                    {task.description}
-                  </p>
-                </div>
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <Award className="text-purple-400 w-4 h-4" />
-                  <span className="text-sm font-medium text-purple-600">{task.reward} Points</span>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-2 mb-3">
-                {task.tags.map((tag) => (
-                  <span 
-                    key={tag}
-                    className="px-2 py-0.5 bg-purple-50 text-purple-600 text-xs rounded-lg"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs md:text-sm mb-3">
-                <div className="flex items-center gap-1.5 text-purple-600/70">
-                  <MessageSquare className="w-3.5 h-3.5" />
-                  <span>{task.submissions} Submissions</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-purple-600/70">
-                  <Vote className="w-3.5 h-3.5" />
-                  <span>{task.currentVotes}/{task.votesRequired} Votes</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-purple-600/70">
-                  <Clock className="w-3.5 h-3.5" />
-                  <span>Due {task.deadline}</span>
-                </div>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="mb-3">
-                <div className="h-1.5 bg-purple-100 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-gradient-to-r from-purple-600 to-indigo-600 transition-all duration-500"
-                    style={{ width: `${(task.currentVotes / task.votesRequired) * 100}%` }}
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-2">
-                <button 
-                  className={`flex-1 px-3 py-1.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 transition-all
-                    ${task.status === 'completed'
-                      ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90'
-                    }`}
-                  disabled={task.status === 'completed'}
-                >
-                  <span>Start Rating</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-                <button className="px-3 py-1.5 text-purple-600 hover:bg-purple-50 rounded-xl transition-all text-sm">
-                  Details
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-    </div>
-  )
-}
-
-function RaterDAOContent() {
   return (
     <div className="space-y-4 md:space-y-6">
       {/* Header */}
@@ -221,15 +129,93 @@ function RaterDAOContent() {
       </div>
 
       {/* Rating Tasks */}
-      <Suspense fallback={
-        <div className="space-y-3 md:space-y-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="h-48 bg-gray-200 rounded-xl animate-pulse"></div>
+      <div className="space-y-3 md:space-y-4">
+        {ratingTasks
+          .filter(task => view === 'all' || task.status === view)
+          .map((task) => (
+            <motion.div
+              key={task.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="card-base rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group"
+            >
+              <div className="p-4 md:p-6">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-3 mb-3">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <h3 className="text-base md:text-lg font-semibold text-purple-800">
+                        {task.title}
+                      </h3>
+                      <span className={`px-2 py-0.5 rounded-lg text-xs font-medium ${statusColors[task.status]}`}>
+                        {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
+                      </span>
+                    </div>
+                    <p className="text-sm text-purple-600/80">
+                      {task.description}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <Award className="text-purple-400 w-4 h-4" />
+                    <span className="text-sm font-medium text-purple-600">{task.reward} Points</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {task.tags.map((tag) => (
+                    <span 
+                      key={tag}
+                      className="px-2 py-0.5 bg-purple-50 text-purple-600 text-xs rounded-lg"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs md:text-sm mb-3">
+                  <div className="flex items-center gap-1.5 text-purple-600/70">
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>{task.submissions} Submissions</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-purple-600/70">
+                    <Vote className="w-3.5 h-3.5" />
+                    <span>{task.currentVotes}/{task.votesRequired} Votes</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-purple-600/70">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Due {task.deadline}</span>
+                  </div>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="mb-3">
+                  <div className="h-1.5 bg-purple-100 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-purple-600 to-indigo-600 transition-all duration-500"
+                      style={{ width: `${(task.currentVotes / task.votesRequired) * 100}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <button 
+                    className={`flex-1 px-3 py-1.5 rounded-xl text-sm font-medium flex items-center justify-center gap-1.5 transition-all
+                      ${task.status === 'completed'
+                        ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90'
+                      }`}
+                    disabled={task.status === 'completed'}
+                  >
+                    <span>Start Rating</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                  <button className="px-3 py-1.5 text-purple-600 hover:bg-purple-50 rounded-xl transition-all text-sm">
+                    Details
+                  </button>
+                </div>
+              </div>
+            </motion.div>
           ))}
-        </div>
-      }>
-        <RaterDAOList />
-      </Suspense>
+      </div>
 
       {/* How to Participate */}
       <motion.div
@@ -280,5 +266,24 @@ function RaterDAOContent() {
 }
 
 export default function RaterDAO() {
-  return <RaterDAOContent />
+  return (
+    <Suspense fallback={
+      <div className="space-y-4 md:space-y-6">
+        <div className="animate-pulse">
+          <div className="grid grid-cols-2 gap-3 md:gap-6">
+            {[1, 2].map((i) => (
+              <div key={i} className="h-32 bg-gray-200 rounded-xl"></div>
+            ))}
+          </div>
+          <div className="space-y-3 md:space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-48 bg-gray-200 rounded-xl"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    }>
+      <RaterDAOContent />
+    </Suspense>
+  )
 } 
