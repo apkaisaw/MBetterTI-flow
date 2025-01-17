@@ -131,7 +131,7 @@ export default function PersonaDiscovery() {
               <motion.div
                 ref={contentRef}
                 animate={{ 
-                  height: isExpanded ? 'auto' : shouldShowButton ? 200 : 'auto',
+                  height: isExpanded ? 'auto' : shouldShowButton ? 199 : 'auto',
                   opacity: 1 
                 }}
                 initial={false}
@@ -147,29 +147,25 @@ export default function PersonaDiscovery() {
               {shouldShowButton && (
                 <div 
                   className={`absolute left-0 right-0 flex flex-col items-center transition-all duration-300 ${
-                    isExpanded ? 'bottom-2' : 'bottom-0'
+                    isExpanded ? 'bottom-0' : '0'
                   }`}
                 >
                   {!isExpanded && (
                     <div
-                      className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white/60 to-transparent pointer-events-none rounded-b-2xl sm:rounded-b-3xl ${
+                      className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white/30 to-transparent pointer-events-none rounded-b-2xl sm:rounded-b-3xl ${
                         isExpanded ? 'hidden' : ''
                       }`}
                     />
                   )}
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="px-3 py-1 rounded-full bg-purple-50/50
-                      text-sm font-medium text-purple-700
-                      hover:bg-purple-100/50 
-                      transition-all duration-300 
-                      flex items-center gap-1.5 
+                    className="transition-all duration-300 
+                      flex items-center
                       relative z-10
-                      mb-2"
+                      mb-0"
                   >
-                    {isExpanded ? 'Show Less' : 'Read More'}
                     <ChevronDown 
-                      className={`w-3.5 h-3.5 text-purple-500/80 transition-transform duration-300 ${
+                      className={`w-5 h-5 text-purple-500/60 transition-transform duration-300 hover:text-purple-500/80 ${
                         isExpanded ? 'rotate-180' : ''
                       }`}
                     />
