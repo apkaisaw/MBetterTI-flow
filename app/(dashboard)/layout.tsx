@@ -258,7 +258,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="fixed top-4 left-4 z-50 h-9 w-9 flex items-center justify-center rounded-full bg-white/30 backdrop-blur-xl border border-white/40 shadow-lg md:hidden"
+        className="fixed top-4 left-4 z-50 h-9 w-9 flex items-center justify-center rounded-full bg-white/30 backdrop-blur-lg border border-white/40 shadow-md md:hidden"
       >
         <Menu size={18} className="text-purple-600" />
       </button>
@@ -266,15 +266,15 @@ export default function Layout({ children }: LayoutProps) {
       {/* Backdrop */}
       {isMobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-black/10 backdrop-blur-[2px] z-40 md:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-      <div className={`fixed top-0 left-0 h-[100dvh] w-56 md:w-66 flex flex-col bg-gradient-to-b from-white/95 via-purple-50/95 to-white/95 backdrop-blur-md border-r border-purple-100/50 z-50 transition-all duration-500 ease-out ${
+      <div className={`fixed top-0 left-0 h-[100dvh] w-56 md:w-66 flex flex-col bg-gradient-to-b from-white/75 via-purple-50/65 to-white/75 backdrop-blur-lg border-r border-white/40 z-50 transition-all duration-500 ease-out ${
         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-      } md:translate-x-0 shadow-[1px_0_20px_rgba(124,58,237,0.05)]`}>
+      } md:translate-x-0`}>
         <div className="flex flex-col h-full">
           <div className="pt-4 md:pt-6 pb-2 flex justify-center">
             <Link href="/" className="block" onClick={() => setIsMobileMenuOpen(false)}>
@@ -396,7 +396,7 @@ export default function Layout({ children }: LayoutProps) {
                       href={item.path || '/dashboard'}
                       className={`group flex items-center justify-center w-full px-3 md:px-4 py-2.5 md:py-3 rounded-full transition-all duration-300 ${
                         isActive
-                          ? 'bg-gradient-to-r from-purple-500/90 to-indigo-500/90 text-white shadow-[0_2px_10px_rgba(124,58,237,0.15)] border border-white/20' 
+                          ? 'bg-gradient-to-r from-purple-500/90 to-indigo-500/90 text-white shadow-[0_2px_8px_rgba(124,58,237,0.12)] border border-white/20' 
                           : 'text-purple-700 hover:bg-white/60 hover:shadow-sm hover:translate-x-0.5'
                       }`}
                     >
@@ -411,7 +411,7 @@ export default function Layout({ children }: LayoutProps) {
             })}
           </nav>
 
-          <div className="px-2 md:px-3 py-3 md:py-4 bg-purple-50/80 backdrop-blur-lg md:mb-0 mb-16">
+          <div className="px-2 md:px-3 py-3 md:py-4 bg-white/50 backdrop-blur-md md:mb-0 mb-16">
             <div className="relative">
               <button
                 ref={walletButtonRef}
