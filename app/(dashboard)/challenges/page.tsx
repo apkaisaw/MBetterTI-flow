@@ -1,11 +1,30 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
 import { useAuth } from '../../../contexts/AuthContext'
 import { useSearchParams } from 'next/navigation'
 
-const personalChallenges = [
+interface BaseChallenge {
+  icon: string;
+  title: string;
+  description: string;
+  duration: string;
+  difficulty: string;
+  color: string;
+  bgColor: string;
+  traits: string[];
+}
+
+interface PersonalChallenge extends BaseChallenge {}
+
+interface TeamChallenge extends BaseChallenge {
+  participants: string;
+  stakeAmount: string;
+  rewardMechanism: string;
+}
+
+const personalChallenges: PersonalChallenge[] = [
   {
     icon: 'book-heart',
     title: "Emotional Journal Challenge",
@@ -48,7 +67,7 @@ const personalChallenges = [
   }
 ];
 
-const teamChallenges = [
+const teamChallenges: TeamChallenge[] = [
   {
     icon: 'coins',
     title: "Creative Idealists Pool",
@@ -90,11 +109,7 @@ const teamChallenges = [
   }
 ];
 
-const handleStartChallenge = async (challenge: {
-  title: string;
-  duration: string;
-  difficulty: string;
-}) => {
+const handleStartChallenge = async (challenge: PersonalChallenge | TeamChallenge) => {
   try {
     const { connected, walletAddress } = useAuth()
     
@@ -139,7 +154,7 @@ This signature represents my commitment and does not authorize any blockchain tr
   }
 }
 
-export default function Challenges() {
+function ChallengesContent() {
   const searchParams = useSearchParams()
   const isTeamView = searchParams?.get('type') === 'team'
   const challenges = isTeamView ? teamChallenges : personalChallenges
@@ -254,5 +269,23 @@ export default function Challenges() {
         </div>
       </div>
     </motion.div>
+  )
+}
+
+export default function Challenges() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto px-4 py-6 max-w-6xl">
+        <div className="animate-pulse">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-96 bg-gray-200 rounded-xl"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    }>
+      <ChallengesContent />
+    </Suspense>
   )
 } 

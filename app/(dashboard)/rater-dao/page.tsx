@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { Users, Star, Vote, MessageSquare, Award, ArrowRight, Target, Clock, Trophy } from 'lucide-react'
 
@@ -67,7 +67,7 @@ const statusColors: Record<RatingTask['status'], string> = {
   'completed': 'bg-purple-100 text-purple-600'
 };
 
-export default function RaterDAO() {
+function RaterDAOContent() {
   return (
     <div className="space-y-4 md:space-y-6">
       {/* Header */}
@@ -256,5 +256,28 @@ export default function RaterDAO() {
         </div>
       </motion.div>
     </div>
+  )
+}
+
+export default function RaterDAO() {
+  return (
+    <Suspense fallback={
+      <div className="space-y-4 md:space-y-6">
+        <div className="animate-pulse">
+          <div className="grid grid-cols-2 gap-3 md:gap-6">
+            {[1, 2].map((i) => (
+              <div key={i} className="h-32 bg-gray-200 rounded-xl"></div>
+            ))}
+          </div>
+          <div className="space-y-3 md:space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-48 bg-gray-200 rounded-xl"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    }>
+      <RaterDAOContent />
+    </Suspense>
   )
 } 
