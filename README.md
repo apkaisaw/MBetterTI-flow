@@ -37,6 +37,16 @@ AI-Powered MBTI Growth Platform | Web3-Based Personal Development | Community-Dr
 
 **MBetterTI** is a personalized growth platform that combines MBTI testing, AI Life Coach, and Web3 technologies. By providing customized growth paths for different MBTI personality types, it helps users achieve personal growth and self-improvement.
 
+### 🌊 Flow Integration <a name="flow-integration"></a>
+
+<img src="public/images/flowlogo.png" alt="Built on Flow" width="120">
+
+MBetterTI is built on Flow blockchain for its consumer-friendly features:
+
+- 🚀 **Easy Onboarding** - Simple wallet setup and user-friendly transactions
+- ⚡ **High Performance** - Efficient handling of user growth records and NFTs
+- 💰 **Low Cost** - Minimal fees for minting achievements and storing data
+
 ### ✨ Why MBetterTI?
 
 - 🤖 **AI-Powered Guidance** - Personalized coaching based on your MBTI type
