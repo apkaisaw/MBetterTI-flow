@@ -19,7 +19,7 @@ import Link from 'next/link'
 // MBTI Introduction Card component
 const MbtiIntroCard = () => {
   return (
-    <div className="bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg shadow-lg rounded-3xl px-4 sm:px-8 py-4 sm:py-6 mb-0 sm:mb-8 transition-all duration-300 hover:shadow-xl border border-white border-opacity-30">
+    <div className="card-base shadow-lg rounded-3xl px-4 sm:px-8 py-4 sm:py-6 mb-0 sm:mb-8 transition-all duration-300 hover:shadow-xl">
       <div className="flex flex-col md:flex-row gap-4 sm:gap-8 items-center">
         <div className="flex-1">
           <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-purple-900">About MBTI</h3>
@@ -113,7 +113,7 @@ export default function PersonaDiscovery() {
             className="relative group mb-4 sm:mb-6"
           >
             {/* 简化的背景效果 */}
-            <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] rounded-2xl sm:rounded-3xl shadow-sm group-hover:shadow-md transition-all duration-300" />
+            <div className="absolute inset-0 card-base rounded-2xl sm:rounded-3xl shadow-sm group-hover:shadow-md transition-all duration-300" />
             
             {/* 内容容器 */}
             <div className="relative px-4 sm:px-8 py-4 sm:py-6 rounded-2xl sm:rounded-3xl border border-purple-100/50">
@@ -151,17 +151,17 @@ export default function PersonaDiscovery() {
                   }`}
                 >
                   {!isExpanded && (
-                    <div className="absolute bottom-0 left-0 right-0 h-24 
-                      bg-gradient-to-t from-white/90 to-transparent 
-                      rounded-b-2xl sm:rounded-b-3xl 
-                      pointer-events-none" 
+                    <div
+                      className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white/60 to-transparent pointer-events-none rounded-b-2xl sm:rounded-b-3xl ${
+                        isExpanded ? 'hidden' : ''
+                      }`}
                     />
                   )}
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="px-3 py-1 rounded-full bg-purple-50/80
+                    className="px-3 py-1 rounded-full bg-purple-50/50
                       text-sm font-medium text-purple-700
-                      hover:bg-purple-100/80 
+                      hover:bg-purple-100/50 
                       transition-all duration-300 
                       flex items-center gap-1.5 
                       relative z-10
@@ -300,7 +300,7 @@ export default function PersonaDiscovery() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg shadow-xl rounded-3xl px-8 pt-6 pb-8 mb-8 border border-white border-opacity-40"
+        className="card-base rounded-3xl px-8 pt-6 pb-8 mb-8 shadow-xl"
       >
         <div className="mb-4 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
           <div 
@@ -438,7 +438,7 @@ export default function PersonaDiscovery() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg shadow-xl rounded-3xl px-8 pt-6 pb-8 mb-8 border border-white border-opacity-40"
+      className="card-base rounded-3xl px-8 pt-6 pb-8 mb-8 shadow-xl"
     >
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-2xl font-bold text-purple-800">History Results</h3>

@@ -445,8 +445,16 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 md:ml-66 min-h-screen bg-white pb-16 md:pb-0">
-        <div className="p-4 md:p-8">
+      <main className="flex-1 md:ml-66 min-h-screen relative overflow-hidden">
+        {/* Dynamic background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-100 via-indigo-100 to-blue-100">
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-0 -left-1/4 w-1/2 h-1/2 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+            <div className="absolute top-0 -right-1/4 w-1/2 h-1/2 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
+            <div className="absolute -bottom-1/4 left-1/4 w-1/2 h-1/2 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
+          </div>
+        </div>
+        <div className="relative p-4 md:p-8">
           {children}
         </div>
         <QuickNav />

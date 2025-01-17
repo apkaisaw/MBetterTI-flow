@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Award, Clock, FileCode, Star, Target, Users } from 'lucide-react';
+import { Award, Clock, FileCode, Star, Target, Users, Plus, Brain } from 'lucide-react';
 import Image from 'next/image';
 import { templates, ProTemplate, ExperienceTemplate } from './data';
 
@@ -22,7 +22,7 @@ const TemplateCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white/90 backdrop-blur-lg rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 group hover:scale-[1.02]"
+      className="card-base rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group hover:scale-[1.02]"
     >
       <div className="p-3 md:p-6">
         {/* Header Section */}
@@ -94,7 +94,7 @@ const TemplateCard = ({
         {template.type === 'experience' && (
           <>
             {/* Creator Info */}
-            <div className="bg-purple-50/50 rounded-lg md:rounded-xl p-2 md:p-3 mb-2 md:mb-3">
+            <div className="card-base rounded-lg md:rounded-xl p-2 md:p-3 mb-2 md:mb-3">
               <div className="flex items-center gap-2 mb-1.5">
                 <Image 
                   src={`https://avatars.dicebear.com/api/initials/${template.creator.name}.svg`}
@@ -171,7 +171,7 @@ const TemplateCard = ({
 }
 
 export default function AgentMarket() {
-  const [activeTab, setActiveTab] = useState<'pro' | 'experience'>('pro');
+  const [activeTab, setActiveTab] = useState<'my' | 'pro' | 'experience'>('my');
 
   const handleGetStarted = () => {
     alert('This is a demo version. Payment and coach activation features will be available in the full release.');
@@ -182,78 +182,133 @@ export default function AgentMarket() {
   };
 
   return (
-    <div className="space-y-4 md:space-y-6">
-      {/* Header */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col items-center gap-3 md:gap-4"
-      >
-        <motion.h1 
-          className="text-2xl md:text-3xl font-bold text-purple-800/90 bg-white/50 backdrop-blur-sm px-4 md:px-6 py-2 rounded-2xl"
-        >
-          Agent Market
-        </motion.h1>
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="px-3 py-1.5 md:px-4 md:py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg md:rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
-        >
-          <div className="flex items-center gap-1.5 md:gap-2">
-            <FileCode size={16} className="md:w-5 md:h-5" />
-            <span className="text-sm md:text-base">Share Your Growth Path</span>
-          </div>
-        </motion.button>
-      </motion.div>
-
-      {/* Tab Navigation */}
-      <div className="flex justify-center">
-        <div className="flex p-1 bg-white/50 backdrop-blur-sm rounded-xl shadow-sm">
+    <>
+      {/* Fixed Tabs */}
+      <div className="fixed top-4 left-0 right-0 z-40 md:hidden flex justify-center px-4">
+        <div className="inline-flex items-center h-9 bg-white/30 backdrop-blur-xl rounded-[1.2rem] shadow-lg border border-white/40 p-0.5">
           <button
-            onClick={() => setActiveTab('pro')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm md:text-base font-medium transition-all duration-300 ${
-              activeTab === 'pro'
-                ? 'bg-purple-600 text-white shadow-sm'
-                : 'text-purple-600 hover:bg-purple-50'
+            onClick={() => setActiveTab('my')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[1rem] text-sm font-medium transition-all ${
+              activeTab === 'my'
+                ? 'bg-white/60 text-purple-600 shadow-sm'
+                : 'text-gray-600 hover:text-purple-500 hover:bg-white/30'
             }`}
           >
-            <Award size={16} className="md:w-[18px] md:h-[18px]" />
-            Professional Coaches
+            <Users size={15} className={activeTab === 'my' ? 'text-purple-500' : 'text-gray-500'} />
+            <span>My Coach</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('pro')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[1rem] text-sm font-medium transition-all ${
+              activeTab === 'pro'
+                ? 'bg-white/60 text-purple-600 shadow-sm'
+                : 'text-gray-600 hover:text-purple-500 hover:bg-white/30'
+            }`}
+          >
+            <Award size={15} className={activeTab === 'pro' ? 'text-purple-500' : 'text-gray-500'} />
+            <span>Pro Coaches</span>
           </button>
           <button
             onClick={() => setActiveTab('experience')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm md:text-base font-medium transition-all duration-300 ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[1rem] text-sm font-medium transition-all ${
               activeTab === 'experience'
-                ? 'bg-purple-600 text-white shadow-sm'
-                : 'text-purple-600 hover:bg-purple-50'
+                ? 'bg-white/60 text-purple-600 shadow-sm'
+                : 'text-gray-600 hover:text-purple-500 hover:bg-white/30'
             }`}
           >
-            <Users size={16} className="md:w-[18px] md:h-[18px]" />
-            Experience-based Coaches
+            <Users size={15} className={activeTab === 'experience' ? 'text-purple-500' : 'text-gray-500'} />
+            <span>Community</span>
           </button>
         </div>
       </div>
 
-      {/* Coach Cards */}
-      <motion.div 
-        key={activeTab}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
-      >
-        {templates
-          .filter(template => template.type === activeTab)
-          .map((template) => (
-            <TemplateCard 
-              key={template.id} 
-              template={template}
-              onGetStarted={handleGetStarted}
-              onPreview={handlePreview}
-            />
-          ))}
-      </motion.div>
-    </div>
+      {/* Main Content */}
+      <div className="space-y-6">
+        {/* Spacer for fixed tabs */}
+        <div className="h-6 md:h-0" />
+
+        <div className="flex flex-col items-center">
+          <motion.h1 
+            className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent"
+          >
+            Agent Market
+          </motion.h1>
+        </div>
+
+        {/* My Coach Section */}
+        {activeTab === 'my' && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            {/* Create New Coach Card */}
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="card-base rounded-xl md:rounded-2xl p-6 bg-gradient-to-br from-purple-500/10 to-indigo-500/10 border-2 border-dashed border-purple-200 flex flex-col items-center justify-center gap-4 text-center cursor-pointer"
+            >
+              <div className="p-3 bg-purple-100 rounded-xl">
+                <Plus size={24} className="text-purple-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-purple-800 mb-2">Create New Coach</h3>
+                <p className="text-sm text-purple-600">Design your own AI coach based on your personality and goals</p>
+              </div>
+            </motion.div>
+
+            {/* Active Coach Card */}
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="card-base rounded-xl md:rounded-2xl p-6 bg-gradient-to-br from-purple-500/10 to-indigo-500/10"
+            >
+              <div className="flex items-start gap-4 mb-4">
+                <div className="p-3 bg-purple-100 rounded-xl">
+                  <Brain size={24} className="text-purple-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-purple-800 mb-1">Growth Guide</h3>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="px-2 py-0.5 bg-purple-100 text-purple-600 text-xs rounded-full">Active</span>
+                    <span className="text-sm text-purple-600">Created 2 weeks ago</span>
+                  </div>
+                  <p className="text-sm text-purple-600">Your personal growth companion focused on mindfulness and creativity</p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button className="flex-1 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:opacity-90 transition-all text-sm">
+                  Chat Now
+                </button>
+                <button className="px-3 py-1.5 text-purple-600 hover:bg-purple-50 rounded-lg transition-all text-sm">
+                  Settings
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* Pro and Experience Coaches Sections */}
+        {(activeTab === 'pro' || activeTab === 'experience') && (
+          <motion.div 
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
+          >
+            {templates
+              .filter(template => template.type === activeTab)
+              .map((template) => (
+                <TemplateCard 
+                  key={template.id} 
+                  template={template}
+                  onGetStarted={handleGetStarted}
+                  onPreview={handlePreview}
+                />
+              ))}
+          </motion.div>
+        )}
+      </div>
+    </>
   );
 } 

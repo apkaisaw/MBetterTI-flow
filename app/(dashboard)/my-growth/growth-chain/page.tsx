@@ -76,7 +76,7 @@ export default function GrowthChain() {
           className="flex items-center gap-4"
         >
           <motion.h1 
-            className="text-3xl font-bold text-purple-800/90 bg-white/50 backdrop-blur-sm px-6 py-2 rounded-2xl"
+            className="text-3xl font-bold text-purple-800/90"
           >
             Growth Chain
           </motion.h1>
@@ -104,7 +104,7 @@ export default function GrowthChain() {
         animate={{ opacity: 1, y: 0 }}
         className="grid grid-cols-3 gap-2 md:gap-6"
       >
-        <div className="bg-gradient-to-br from-purple-500/10 to-indigo-500/10 rounded-lg md:rounded-2xl p-3 md:p-6">
+        <div className="card-base rounded-lg md:rounded-2xl p-3 md:p-6 bg-gradient-to-br from-purple-500/20 to-indigo-500/20">
           <div className="flex items-center gap-2 md:gap-3 mb-2">
             <div className="p-1.5 md:p-2 bg-purple-100 rounded-lg">
               <Target className="w-4 h-4 md:w-5 md:h-5 text-purple-600" />
@@ -114,7 +114,7 @@ export default function GrowthChain() {
           <p className="text-2xl md:text-3xl font-bold text-purple-900">5</p>
         </div>
 
-        <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-lg md:rounded-2xl p-3 md:p-6">
+        <div className="card-base rounded-lg md:rounded-2xl p-3 md:p-6 bg-gradient-to-br from-green-500/20 to-emerald-500/20">
           <div className="flex items-center gap-2 md:gap-3 mb-2">
             <div className="p-1.5 md:p-2 bg-green-100 rounded-lg">
               <Trophy className="w-4 h-4 md:w-5 md:h-5 text-green-600" />
@@ -124,7 +124,7 @@ export default function GrowthChain() {
           <p className="text-2xl md:text-3xl font-bold text-green-900">12</p>
         </div>
 
-        <div className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-lg md:rounded-2xl p-3 md:p-6">
+        <div className="card-base rounded-lg md:rounded-2xl p-3 md:p-6 bg-gradient-to-br from-blue-500/20 to-indigo-500/20">
           <div className="flex items-center gap-2 md:gap-3 mb-2">
             <div className="p-1.5 md:p-2 bg-blue-100 rounded-lg">
               <Star className="w-4 h-4 md:w-5 md:h-5 text-blue-600" />
@@ -158,7 +158,7 @@ export default function GrowthChain() {
               key={task.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 group"
+              className="card-base rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group"
             >
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">

@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+}
+
 /* Hide scrollbar for Chrome, Safari and Opera on mobile */
 @media only screen and (max-width: 768px) {
   ::-webkit-scrollbar {
@@ -20,6 +29,14 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
 }
 
 body {
@@ -192,3 +209,9 @@ body {
 }
 
 /* 其他自定义样式... */
+
+@layer components {
+  .card-base {
+    @apply bg-white/20 backdrop-blur-md border border-white/30;
+  }
+}

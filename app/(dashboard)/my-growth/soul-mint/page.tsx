@@ -111,10 +111,10 @@ const rarityColors = {
 };
 
 const rarityBgColors = {
-  Common: 'from-gray-400/10 to-gray-500/10',
-  Rare: 'from-blue-400/10 to-indigo-500/10',
-  Epic: 'from-purple-400/10 to-pink-500/10',
-  Legendary: 'from-yellow-400/10 to-orange-500/10'
+  Common: 'from-gray-100 to-gray-200',
+  Rare: 'from-blue-100 to-indigo-200',
+  Epic: 'from-purple-100 to-pink-200',
+  Legendary: 'from-yellow-100 to-orange-200'
 };
 
 export default function SoulMint() {
@@ -129,7 +129,7 @@ export default function SoulMint() {
           className="flex items-center gap-4"
         >
           <motion.h1 
-            className="text-3xl font-bold text-purple-800/90 bg-white/50 backdrop-blur-sm px-6 py-2 rounded-2xl"
+            className="text-3xl font-bold text-purple-800/90"
           >
             Soul Mint
           </motion.h1>

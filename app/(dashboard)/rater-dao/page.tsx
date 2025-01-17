@@ -78,9 +78,9 @@ export default function RaterDAO() {
         className="flex flex-col items-center gap-4"
       >
         <motion.h1 
-          className="text-2xl md:text-3xl font-bold text-purple-800/90 bg-white/50 backdrop-blur-sm px-4 md:px-6 py-2 rounded-2xl"
+          className="text-2xl md:text-3xl font-bold text-purple-800/90"
         >
-          Rater DAO
+          
         </motion.h1>
       </motion.div>
 
@@ -105,7 +105,7 @@ export default function RaterDAO() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="bg-white/90 backdrop-blur-lg rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 group hover:scale-[1.02]"
+            className="card-base rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group hover:scale-[1.02]"
           >
             <div className="p-4 md:p-6">
               <div className="flex items-center justify-between mb-3 md:mb-4">
@@ -131,7 +131,7 @@ export default function RaterDAO() {
             key={task.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/90 backdrop-blur-lg rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-purple-100/50 group"
+            className="card-base rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group"
           >
             <div className="p-4 md:p-6">
               <div className="flex flex-col sm:flex-row justify-between items-start gap-3 mb-3">
@@ -215,7 +215,7 @@ export default function RaterDAO() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white/90 backdrop-blur-lg rounded-xl md:rounded-2xl shadow-md p-4 md:p-6 border border-purple-100/50"
+        className="card-base rounded-xl md:rounded-2xl shadow-md p-4 md:p-6"
       >
         <h2 className="text-lg md:text-xl font-semibold text-purple-800 mb-3 md:mb-4">How to Participate</h2>
         <div className="space-y-3 md:space-y-4">
