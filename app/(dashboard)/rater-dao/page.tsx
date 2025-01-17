@@ -3,6 +3,7 @@
 import React, { Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { Users, Star, Vote, MessageSquare, Award, ArrowRight, Target, Clock, Trophy } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
 
 interface RatingTask {
   id: string;
@@ -67,66 +68,15 @@ const statusColors: Record<RatingTask['status'], string> = {
   'completed': 'bg-purple-100 text-purple-600'
 };
 
-function RaterDAOContent() {
+function RaterDAOList() {
+  const searchParams = useSearchParams()
+  const view = searchParams?.get('view') || 'all'
+
   return (
-    <div className="space-y-4 md:space-y-6">
-      {/* Header */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col items-center gap-4"
-      >
-        <motion.h1 
-          className="text-2xl md:text-3xl font-bold text-purple-800/90"
-        >
-          
-        </motion.h1>
-      </motion.div>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 gap-3 md:gap-6">
-        {[
-          {
-            title: 'Total Ratings',
-            value: '2.5k',
-            icon: Star,
-            color: 'from-yellow-500 to-orange-500'
-          },
-          {
-            title: 'Active Raters',
-            value: '180',
-            icon: Users,
-            color: 'from-purple-500 to-indigo-500'
-          }
-        ].map((stat, index) => (
-          <motion.div
-            key={stat.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="card-base rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group hover:scale-[1.02]"
-          >
-            <div className="p-4 md:p-6">
-              <div className="flex items-center justify-between mb-3 md:mb-4">
-                <div className={`p-1.5 md:p-2 rounded-lg md:rounded-xl bg-gradient-to-r ${stat.color} group-hover:scale-110 transition-transform duration-300`}>
-                  <stat.icon className="w-4 h-4 md:w-6 md:h-6 text-white" />
-                </div>
-              </div>
-              <h3 className="text-sm md:text-lg font-semibold text-purple-800 mb-1">
-                {stat.title}
-              </h3>
-              <p className="text-xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                {stat.value}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Rating Tasks */}
-      <div className="space-y-3 md:space-y-4">
-        {ratingTasks.map((task) => (
+    <div className="space-y-3 md:space-y-4">
+      {ratingTasks
+        .filter(task => view === 'all' || task.status === view)
+        .map((task) => (
           <motion.div
             key={task.id}
             initial={{ opacity: 0, y: 20 }}
@@ -209,7 +159,77 @@ function RaterDAOContent() {
             </div>
           </motion.div>
         ))}
+    </div>
+  )
+}
+
+function RaterDAOContent() {
+  return (
+    <div className="space-y-4 md:space-y-6">
+      {/* Header */}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col items-center gap-4"
+      >
+        <motion.h1 
+          className="text-2xl md:text-3xl font-bold text-purple-800/90"
+        >
+          
+        </motion.h1>
+      </motion.div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-2 gap-3 md:gap-6">
+        {[
+          {
+            title: 'Total Ratings',
+            value: '2.5k',
+            icon: Star,
+            color: 'from-yellow-500 to-orange-500'
+          },
+          {
+            title: 'Active Raters',
+            value: '180',
+            icon: Users,
+            color: 'from-purple-500 to-indigo-500'
+          }
+        ].map((stat, index) => (
+          <motion.div
+            key={stat.title}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="card-base rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group hover:scale-[1.02]"
+          >
+            <div className="p-4 md:p-6">
+              <div className="flex items-center justify-between mb-3 md:mb-4">
+                <div className={`p-1.5 md:p-2 rounded-lg md:rounded-xl bg-gradient-to-r ${stat.color} group-hover:scale-110 transition-transform duration-300`}>
+                  <stat.icon className="w-4 h-4 md:w-6 md:h-6 text-white" />
+                </div>
+              </div>
+              <h3 className="text-sm md:text-lg font-semibold text-purple-800 mb-1">
+                {stat.title}
+              </h3>
+              <p className="text-xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                {stat.value}
+              </p>
+            </div>
+          </motion.div>
+        ))}
       </div>
+
+      {/* Rating Tasks */}
+      <Suspense fallback={
+        <div className="space-y-3 md:space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-48 bg-gray-200 rounded-xl animate-pulse"></div>
+          ))}
+        </div>
+      }>
+        <RaterDAOList />
+      </Suspense>
 
       {/* How to Participate */}
       <motion.div
@@ -260,24 +280,5 @@ function RaterDAOContent() {
 }
 
 export default function RaterDAO() {
-  return (
-    <Suspense fallback={
-      <div className="space-y-4 md:space-y-6">
-        <div className="animate-pulse">
-          <div className="grid grid-cols-2 gap-3 md:gap-6">
-            {[1, 2].map((i) => (
-              <div key={i} className="h-32 bg-gray-200 rounded-xl"></div>
-            ))}
-          </div>
-          <div className="space-y-3 md:space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-48 bg-gray-200 rounded-xl"></div>
-            ))}
-          </div>
-        </div>
-      </div>
-    }>
-      <RaterDAOContent />
-    </Suspense>
-  )
+  return <RaterDAOContent />
 } 
