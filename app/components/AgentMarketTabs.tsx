@@ -2,27 +2,27 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Trophy, Users, UserCircle } from 'lucide-react';
+import { Award, Users, Brain } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const ChallengesTabs = () => {
+const AgentMarketTabs = () => {
   const pathname = usePathname() || '';
   
   const tabs = [
     {
-      name: 'Personal',
-      path: '/challenges',
-      icon: UserCircle
+      name: 'My Coach',
+      path: '/agent-market',
+      icon: Brain
     },
     {
-      name: 'Team',
-      path: '/challenges/team',
+      name: 'Pro Coaches',
+      path: '/agent-market/pro',
+      icon: Award
+    },
+    {
+      name: 'Community',
+      path: '/agent-market/community',
       icon: Users
-    },
-    {
-      name: 'Rater DAO',
-      path: '/rater-dao',
-      icon: Trophy
     }
   ];
 
@@ -32,14 +32,14 @@ const ChallengesTabs = () => {
 
   const getPageTitle = () => {
     switch (pathname) {
-      case '/challenges':
-        return 'Personal Challenges';
-      case '/challenges/team':
-        return 'Team Challenges';
-      case '/rater-dao':
-        return 'Rater DAO';
+      case '/agent-market':
+        return 'My Coach';
+      case '/agent-market/pro':
+        return 'Pro Coaches';
+      case '/agent-market/community':
+        return 'Community Coaches';
       default:
-        return 'Challenges';
+        return 'Agent Market';
     }
   };
 
@@ -91,4 +91,4 @@ const ChallengesTabs = () => {
   );
 };
 
-export default ChallengesTabs; 
+export default AgentMarketTabs; 

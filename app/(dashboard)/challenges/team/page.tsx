@@ -3,48 +3,47 @@
 import React, { useEffect } from 'react'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
-import { useAuth } from '../../../contexts/AuthContext'
+import { useAuth } from '../../../../contexts/AuthContext'
 
-const personalChallenges = [
+const teamChallenges = [
   {
-    icon: 'book-heart',
-    title: "Emotional Journal Challenge",
-    description: "Record your emotional experiences and inner feelings for 7 consecutive days to develop self-awareness and emotional expression.",
-    duration: "7 days",
-    difficulty: "Easy",
-    color: "from-pink-500 to-rose-500",
-    bgColor: "from-pink-100 to-rose-100",
-    traits: ["Emotional Intelligence", "Self-awareness", "Authenticity"]
-  },
-  {
-    icon: 'pen-tool',
-    title: "Creative Writing Journey",
-    description: "Spend 15 minutes daily on free writing, letting your creativity and imagination flow freely.",
-    duration: "5 days",
+    icon: 'coins',
+    title: "Creative Idealists Pool",
+    description: "Stake 50 FLOW to join a group of INFP creatives. Share your artistic works, stories, or innovative ideas weekly. Completed submissions unlock others' stakes, fostering authentic creative expression.",
+    duration: "30 days",
     difficulty: "Medium",
-    color: "from-purple-500 to-indigo-500",
-    bgColor: "from-purple-100 to-indigo-100",
-    traits: ["Creativity", "Self-expression", "Imagination"]
-  },
-  {
-    icon: 'heart-handshake',
-    title: "Acts of Kindness",
-    description: "Perform one small act of kindness each day, using your INFP empathy to warm others' hearts.",
-    duration: "3 days",
-    difficulty: "Easy",
     color: "from-amber-500 to-orange-500",
     bgColor: "from-amber-100 to-orange-100",
-    traits: ["Empathy", "Compassion", "Social Connection"]
+    traits: ["Creative Expression", "Authentic Sharing", "Idealistic Growth"],
+    participants: "5-10 people",
+    stakeAmount: "50 FLOW",
+    rewardMechanism: "Share Stake Pool"
   },
   {
-    icon: 'lotus',
-    title: "Inner Peace Practice",
-    description: "Find 10 minutes daily for solitude, engaging in meditation or quiet reflection.",
-    duration: "10 days",
+    icon: 'gem',
+    title: "Empathy NFT Evolution",
+    description: "Transform your emotional intelligence into an evolving NFT. Complete empathy-building exercises and support team members' emotional growth. Your NFT levels up with each meaningful connection made.",
+    duration: "60 days",
     difficulty: "Advanced",
-    color: "from-teal-500 to-emerald-500",
-    bgColor: "from-teal-100 to-emerald-100",
-    traits: ["Mindfulness", "Inner Peace", "Emotional Balance"]
+    color: "from-blue-500 to-indigo-500",
+    bgColor: "from-blue-100 to-indigo-100",
+    traits: ["Emotional Depth", "Supportive Connection", "Personal Values"],
+    participants: "3-8 people",
+    stakeAmount: "1 NFT",
+    rewardMechanism: "NFT Level Up + Tokens"
+  },
+  {
+    icon: 'target',
+    title: "Harmony Seekers DAO",
+    description: "Join a DAO focused on INFP growth through collective decision-making. Vote on creative projects, mentor others, and build consensus. Earn rewards for fostering group harmony and authentic leadership.",
+    duration: "45 days",
+    difficulty: "Medium",
+    color: "from-purple-500 to-violet-500",
+    bgColor: "from-purple-100 to-violet-100",
+    traits: ["Harmonious Leadership", "Value-Driven Growth", "Authentic Impact"],
+    participants: "8-15 people",
+    stakeAmount: "80 FLOW",
+    rewardMechanism: "Governance Weight + Rewards"
   }
 ] as const;
 
@@ -52,6 +51,9 @@ const handleStartChallenge = async (challenge: {
   title: string;
   duration: string;
   difficulty: string;
+  participants: string;
+  stakeAmount: string;
+  rewardMechanism: string;
 }) => {
   try {
     const { connected, walletAddress } = useAuth()
@@ -62,13 +64,15 @@ const handleStartChallenge = async (challenge: {
     }
 
     const message = `
-Wellness Corner Challenge Commitment
+Wellness Corner Team Challenge Commitment
 
 I am starting the following challenge:
 
 Challenge: ${challenge.title}
 Duration: ${challenge.duration}
 Difficulty: ${challenge.difficulty}
+Participants: ${challenge.participants}
+Stake Amount: ${challenge.stakeAmount}
 Wallet Address: ${walletAddress}
 Timestamp: ${new Date().toISOString()}
 
@@ -97,7 +101,7 @@ This signature represents my commitment and does not authorize any blockchain tr
   }
 }
 
-export default function Challenges() {
+export default function TeamChallenges() {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.lucide) {
       window.lucide.createIcons();
@@ -113,7 +117,7 @@ export default function Challenges() {
     >
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          {personalChallenges.map((challenge, index) => (
+          {teamChallenges.map((challenge, index) => (
             <motion.div
               key={challenge.title}
               initial={{ opacity: 0, y: 20 }}
@@ -132,6 +136,9 @@ export default function Challenges() {
                     </span>
                     <span className="px-2 sm:px-3 py-1 bg-indigo-50/80 text-indigo-600 text-xs sm:text-sm rounded-lg font-medium">
                       {challenge.difficulty}
+                    </span>
+                    <span className="px-2 sm:px-3 py-1 bg-blue-50/80 text-blue-600 text-xs sm:text-sm rounded-lg font-medium">
+                      {challenge.participants}
                     </span>
                   </div>
                 </div>
@@ -157,14 +164,28 @@ export default function Challenges() {
                   </div>
                 </div>
                 
+                <div className="flex flex-wrap gap-1.5 mb-2 md:mb-3">
+                  <span className="px-2 sm:px-3 py-1 bg-yellow-50/80 text-yellow-600 text-xs sm:text-sm rounded-lg font-medium">
+                    Stake: {challenge.stakeAmount}
+                  </span>
+                  <span className="px-2 sm:px-3 py-1 bg-green-50/80 text-green-600 text-xs sm:text-sm rounded-lg font-medium">
+                    {challenge.rewardMechanism}
+                  </span>
+                </div>
+                
                 <div className="flex justify-between items-center mt-auto pt-3 sm:pt-4">
-                  <button 
-                    onClick={() => handleStartChallenge(challenge)}
-                    className={`px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r ${challenge.color} text-white text-sm sm:text-base rounded-lg sm:rounded-xl hover:opacity-90 transition-all flex items-center gap-1.5 sm:gap-2 shadow-sm hover:shadow-md group-hover:scale-105`}
-                  >
-                    <span>Start Challenge</span>
-                    <i data-lucide="arrow-right" className="w-3.5 sm:w-4 h-3.5 sm:h-4 group-hover:translate-x-1 transition-transform"></i>
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button 
+                      className={`px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r ${challenge.color} text-white text-sm sm:text-base rounded-lg sm:rounded-xl opacity-50 cursor-not-allowed flex items-center gap-1.5 sm:gap-2 shadow-sm`}
+                      disabled
+                    >
+                      <span>Start Challenge</span>
+                      <i data-lucide="arrow-right" className="w-3.5 sm:w-4 h-3.5 sm:h-4"></i>
+                    </button>
+                    <span className="text-xs sm:text-sm text-purple-500 font-medium bg-purple-50 px-2 py-1 rounded-lg">
+                      Coming Soon
+                    </span>
+                  </div>
                   <button className="p-1.5 sm:p-2 text-purple-400 hover:text-purple-600 transition-colors hover:bg-purple-50 rounded-lg">
                     <i data-lucide="bookmark" className="w-4 sm:w-5 h-4 sm:h-5"></i>
                   </button>
