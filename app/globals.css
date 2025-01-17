@@ -22,6 +22,11 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+
+  /* Add padding bottom for mobile main content */
+  main {
+    padding-bottom: 5rem !important; /* 确保内容不被底部导航栏遮挡 */
+  }
 }
 
 /* Font configuration */
