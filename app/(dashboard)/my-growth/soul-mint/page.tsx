@@ -224,15 +224,18 @@ export default function SoulMint() {
 
               {/* Action Button */}
               <button 
-                className={`w-full px-4 py-2 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-all
+                className={`w-full px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-all duration-300
                   ${badge.isLocked 
                     ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90'
+                    : 'bg-gradient-to-r from-purple-500/90 via-indigo-500/90 to-purple-500/90 text-white hover:shadow-[0_8px_30px_rgb(124,58,237,0.15)] hover:-translate-y-0.5 active:translate-y-0 relative group overflow-hidden'
                   }`}
                 disabled={badge.isLocked}
               >
-                <span>{badge.isLocked ? 'Locked' : 'View Details'}</span>
-                {!badge.isLocked && <ArrowRight size={16} />}
+                {!badge.isLocked && (
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                )}
+                <span className="relative z-10">{badge.isLocked ? 'Locked' : 'View Details'}</span>
+                {!badge.isLocked && <ArrowRight size={16} className="relative z-10 group-hover:translate-x-0.5 transition-transform duration-300" />}
               </button>
             </div>
 

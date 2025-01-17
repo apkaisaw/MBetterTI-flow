@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion';
-import { Star, Clock, Target } from 'lucide-react';
+import { Star, Clock, Target, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { ProTemplate, ExperienceTemplate } from '../data';
 
@@ -152,13 +152,17 @@ export const TemplateCard = ({
           <div className="flex gap-2">
             <button 
               onClick={onGetStarted}
-              className="flex-1 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg md:rounded-xl hover:opacity-90 transition-all text-xs md:text-sm font-medium"
+              className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500/90 via-indigo-500/90 to-purple-500/90 text-white rounded-xl hover:shadow-[0_8px_30px_rgb(124,58,237,0.15)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 text-sm font-medium relative group overflow-hidden"
             >
-              Get Started
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative z-10 flex items-center justify-center gap-1.5">
+                <span>Get Started</span>
+                <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform duration-300" />
+              </div>
             </button>
             <button 
               onClick={onPreview}
-              className="px-3 py-1.5 text-purple-600 hover:bg-purple-50 rounded-lg md:rounded-xl transition-all text-xs md:text-sm"
+              className="px-4 py-2 text-purple-600 hover:bg-purple-50 rounded-xl transition-all text-sm font-medium"
             >
               Preview
             </button>

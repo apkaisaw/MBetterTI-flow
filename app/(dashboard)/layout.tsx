@@ -272,13 +272,13 @@ export default function Layout({ children }: LayoutProps) {
       )}
 
       {/* Sidebar */}
-      <div className={`fixed top-0 left-0 h-[100dvh] w-56 md:w-66 flex flex-col bg-purple-50/80 backdrop-blur-lg border-r border-purple-100 z-50 transition-transform duration-300 ease-in-out ${
+      <div className={`fixed top-0 left-0 h-[100dvh] w-56 md:w-66 flex flex-col bg-gradient-to-b from-white/95 via-purple-50/95 to-white/95 backdrop-blur-md border-r border-purple-100/50 z-50 transition-all duration-500 ease-out ${
         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-      } md:translate-x-0`}>
+      } md:translate-x-0 shadow-[1px_0_20px_rgba(124,58,237,0.05)]`}>
         <div className="flex flex-col h-full">
           <div className="pt-4 md:pt-6 pb-2 flex justify-center">
             <Link href="/" className="block" onClick={() => setIsMobileMenuOpen(false)}>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent text-center">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-500 bg-clip-text text-transparent text-center">
                 MBetterTI
               </h1>
             </Link>
@@ -312,18 +312,18 @@ export default function Layout({ children }: LayoutProps) {
                     <>
                       <button
                         onClick={() => toggleExpand(item.path)}
-                        className={`group relative flex items-center justify-center w-full px-3 md:px-4 py-2.5 md:py-3 rounded-full transition-all ${
+                        className={`group relative flex items-center justify-center w-full px-3 md:px-4 py-2.5 md:py-3 rounded-full transition-all duration-300 ${
                           isActive
-                            ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50' 
-                            : 'text-purple-600 hover:bg-purple-50'
+                            ? 'bg-gradient-to-r from-purple-500/90 to-indigo-500/90 text-white shadow-[0_2px_10px_rgba(124,58,237,0.15)] border border-white/20' 
+                            : 'text-purple-700 hover:bg-white/60 hover:shadow-sm hover:translate-x-0.5'
                         }`}
                       >
                         <div className="flex items-center gap-2">
-                          <Icon size={18} className={isActive ? 'text-white' : 'text-purple-600 group-hover:text-purple-700'} />
+                          <Icon size={18} className={isActive ? 'text-white' : 'text-purple-700 group-hover:text-purple-800'} />
                           <span className="font-medium text-sm md:text-base">{item.name}</span>
                         </div>
-                        <div className={`absolute right-3 md:right-4 w-4 h-4 rounded-full flex items-center justify-center ${
-                          isActive ? 'bg-white/20' : 'bg-purple-100'
+                        <div className={`absolute right-3 md:right-4 w-4 h-4 rounded-full flex items-center justify-center transition-colors duration-300 ${
+                          isActive ? 'bg-white/20' : 'bg-purple-100/70'
                         }`}>
                           {isExpanded ? (
                             <Minus size={12} className={isActive ? 'text-white' : 'text-purple-600'} />
@@ -346,10 +346,10 @@ export default function Layout({ children }: LayoutProps) {
                                   <>
                                     <button
                                       onClick={() => toggleExpand(subItem.path)}
-                                      className={`flex items-center justify-between w-full py-1.5 px-3 md:px-4 text-xs rounded-lg transition-colors ${
+                                      className={`flex items-center justify-between w-full py-1.5 px-3 md:px-4 text-xs rounded-lg transition-all duration-300 ${
                                         isSubActive
-                                          ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md'
-                                          : 'text-purple-600 hover:bg-purple-50/50'
+                                          ? 'bg-gradient-to-r from-purple-500/90 to-indigo-500/90 text-white shadow-[0_2px_10px_rgba(124,58,237,0.15)]'
+                                          : 'text-purple-700 hover:bg-white/60 hover:shadow-sm hover:translate-x-0.5'
                                       }`}
                                     >
                                       <span>{subItem.name}</span>
@@ -357,12 +357,12 @@ export default function Layout({ children }: LayoutProps) {
                                     </button>
 
                                     {isSubExpanded && (
-                                      <div className="mt-0.5 bg-purple-50/50">
+                                      <div className="mt-0.5 bg-white/40 rounded-lg">
                                         {subItem.subItems?.map((thirdItem) => (
                                           <Link
                                             key={thirdItem.path}
                                             href={thirdItem.path}
-                                            className="block py-1.5 px-3 md:px-4 text-[11px] text-purple-600/80 hover:text-purple-800 hover:bg-purple-100/50 transition-colors"
+                                            className="block py-1.5 px-3 md:px-4 text-[11px] text-purple-600/90 hover:text-purple-800 hover:bg-white/60 hover:translate-x-0.5 transition-all duration-300 rounded-lg"
                                           >
                                             {thirdItem.name}
                                           </Link>
@@ -373,10 +373,10 @@ export default function Layout({ children }: LayoutProps) {
                                 ) : (
                                   <Link
                                     href={subItem.path}
-                                    className={`block py-2 px-4 md:px-6 text-sm md:text-base rounded-full transition-colors w-48 md:w-56 text-center ${
+                                    className={`block py-2 px-4 md:px-6 text-sm md:text-base rounded-full transition-all duration-300 w-48 md:w-56 text-center ${
                                       isSubActive
-                                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50'
-                                        : 'text-purple-500/70 hover:bg-purple-50/50 hover:text-purple-600'
+                                        ? 'bg-gradient-to-r from-purple-500/90 to-indigo-500/90 text-white shadow-[0_2px_10px_rgba(124,58,237,0.15)] border border-white/20'
+                                        : 'text-purple-700 hover:bg-white/60 hover:shadow-sm hover:translate-x-0.5'
                                     }`}
                                   >
                                     <div className="flex items-center justify-center gap-2">
@@ -394,14 +394,14 @@ export default function Layout({ children }: LayoutProps) {
                   ) : (
                     <Link
                       href={item.path || '/dashboard'}
-                      className={`group flex items-center justify-center w-full px-3 md:px-4 py-2.5 md:py-3 rounded-full transition-all ${
+                      className={`group flex items-center justify-center w-full px-3 md:px-4 py-2.5 md:py-3 rounded-full transition-all duration-300 ${
                         isActive
-                          ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50' 
-                          : 'text-purple-600 hover:bg-purple-50'
+                          ? 'bg-gradient-to-r from-purple-500/90 to-indigo-500/90 text-white shadow-[0_2px_10px_rgba(124,58,237,0.15)] border border-white/20' 
+                          : 'text-purple-700 hover:bg-white/60 hover:shadow-sm hover:translate-x-0.5'
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <Icon size={18} className={isActive ? 'text-white' : 'text-purple-600 group-hover:text-purple-700'} />
+                        <Icon size={18} className={isActive ? 'text-white' : 'text-purple-700 group-hover:text-purple-800'} />
                         <span className="font-medium text-sm md:text-base">{item.name}</span>
                       </div>
                     </Link>

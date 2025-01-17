@@ -198,11 +198,12 @@ export default function GrowthChain() {
                 )}
 
                 <div className="flex gap-2">
-                  <button className="flex-1 px-3 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:opacity-90 transition-all text-sm flex items-center justify-center gap-2">
-                    <span>Start Task</span>
-                    <ArrowRight size={16} />
+                  <button className="flex-1 px-4 py-2.5 bg-gradient-to-r from-purple-500/90 via-indigo-500/90 to-purple-500/90 text-white rounded-xl hover:shadow-[0_8px_30px_rgb(124,58,237,0.15)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 text-sm flex items-center justify-center gap-2 relative group overflow-hidden">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <span className="relative z-10">Start Task</span>
+                    <ArrowRight size={16} className="relative z-10 group-hover:translate-x-0.5 transition-transform duration-300" />
                   </button>
-                  <button className="px-3 py-2 text-purple-600 hover:bg-purple-50 rounded-xl transition-all text-sm">
+                  <button className="px-4 py-2.5 text-purple-600 hover:text-purple-700 hover:bg-purple-50/80 rounded-xl transition-all duration-300 text-sm hover:-translate-y-0.5 active:translate-y-0">
                     Details
                   </button>
                 </div>
