@@ -97,7 +97,7 @@ Experience MBetterTI in action:
 <summary>Blockchain & Web3</summary>
 
 - Solidity - Smart Contracts
-- Thirdweb - Web3 Development
+- OKX Wallet - Web3 Integration
 - Pinata - IPFS Storage
 </details>
 
@@ -114,7 +114,7 @@ Experience MBetterTI in action:
 
 - Node.js 18+
 - npm or yarn
-- Web3 wallet (MetaMask recommended)
+- OKX Wallet (https://www.okx.com/web3)
 
 ### 1. Clone the Repository
 ```bash
@@ -134,7 +134,7 @@ cp .env.example .env.local
 
 Configure the following environment variables in `.env.local`:
 - `NEXT_PUBLIC_FIREBASE_CONFIG` - Firebase configuration
-- `NEXT_PUBLIC_WALLET_CONNECT` - WalletConnect configuration
+- `NEXT_PUBLIC_OKX_CONFIG` - OKX Wallet configuration
 - `AI_API_KEY` - AI service API key
 
 ### 4. Run the Development Server

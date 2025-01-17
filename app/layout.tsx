@@ -1,6 +1,7 @@
 import './globals.css'
 import { Outfit } from 'next/font/google'
-import { WalletProvider } from '../contexts/WalletContext'
+import { AuthContextProvider } from '../contexts/AuthContext'
+import type { Metadata } from 'next'
 
 const outfit = Outfit({ 
   subsets: ['latin'],
@@ -8,23 +9,23 @@ const outfit = Outfit({
   variable: '--font-outfit',
 })
 
-export const metadata = {
-  title: 'MBetterTI - AI Powered MBTI Growth Platform',
-  description: 'Discover and develop your MBTI personality type with AI assistance. A decentralized platform for personal growth and self-discovery.',
+export const metadata: Metadata = {
+  title: 'MBetterTI Flow',
+  description: 'A better way to understand yourself through MBTI',
   keywords: 'MBTI, AI, Personal Growth, Self Discovery, Web3, Personality Development',
 }
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en" className={outfit.variable}>
       <body className="bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col">
-        <WalletProvider>
+        <AuthContextProvider>
           {children}
-        </WalletProvider>
+        </AuthContextProvider>
       </body>
     </html>
   )

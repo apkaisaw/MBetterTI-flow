@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@okxconnect/ui": "^1.7.0",
     "@swan-io/boxed": "^2.3.2",
     "bufferutil": "^4.0.8",
     "ethers": "^6.13.4",

@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react'
 import { ethers } from 'ethers'
 import { motion } from 'framer-motion'
+import { useAuth } from '../../../contexts/AuthContext'
 
 const challenges = [
   {
@@ -52,14 +53,13 @@ const handleStartChallenge = async (challenge: {
   difficulty: string;
 }) => {
   try {
-    if (typeof window.ethereum === 'undefined') {
-      alert('Please install MetaMask wallet to start the challenge!')
+    const { connected, walletAddress } = useAuth()
+    
+    if (!connected || !walletAddress) {
+      alert('Please connect your OKX wallet to start the challenge!')
       return
     }
 
-    const provider = new ethers.BrowserProvider(window.ethereum)
-    const signer = await provider.getSigner()
-    
     const message = `
 Wellness Corner Challenge Commitment
 
@@ -68,7 +68,7 @@ I am starting the following challenge:
 Challenge: ${challenge.title}
 Duration: ${challenge.duration}
 Difficulty: ${challenge.difficulty}
-Wallet Address: ${await signer.getAddress()}
+Wallet Address: ${walletAddress}
 Timestamp: ${new Date().toISOString()}
 
 By signing this message, I commit to:
@@ -80,9 +80,10 @@ By signing this message, I commit to:
 This signature represents my commitment and does not authorize any blockchain transaction.
     `.trim()
     
-    const signature = await signer.signMessage(message)
+    // TODO: Implement message signing with OKX wallet
+    // const signature = await signer.signMessage(message)
     
-    console.log('Challenge commitment signature successful:', signature)
+    console.log('Challenge commitment prepared:', message)
     alert('Challenge commitment confirmed! Your journey begins now.')
     
   } catch (error: any) {

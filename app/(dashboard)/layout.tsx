@@ -25,10 +25,12 @@ import {
   Vote,
   Layers,
   Hammer,
-  Menu
+  Menu,
+  ArrowRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MobileBottomNav from '../components/MobileBottomNav';
+import { useAuth } from '../../contexts/AuthContext'
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -160,8 +162,7 @@ const QuickNav = () => {
 
 export default function Layout({ children }: LayoutProps) {
   const pathname = usePathname();
-  const [isConnected, setIsConnected] = useState(false);
-  const [address, setAddress] = useState('');
+  const { connected: isConnected, walletAddress, logIn, logOut, chainId, balance } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState<string[]>(() => 
     navItems
@@ -169,50 +170,21 @@ export default function Layout({ children }: LayoutProps) {
       .map(item => item.path || '')
       .filter(Boolean)
   );
-  
-  const connectWallet = async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' }) as string[];
-        setAddress(accounts[0]);
-        setIsConnected(true);
-      } catch (error) {
-        console.error('Failed to connect wallet:', error);
-      }
-    } else {
-      alert('Please install MetaMask!');
-    }
-  };
+  const [showWalletInfo, setShowWalletInfo] = useState(false);
+  const walletInfoRef = useRef<HTMLDivElement>(null);
+  const walletButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const checkWalletConnection = async () => {
-      if (typeof window.ethereum !== 'undefined') {
-        try {
-          const accounts = await window.ethereum.request({ method: 'eth_accounts' }) as string[];
-          if (accounts.length > 0) {
-            setAddress(accounts[0]);
-            setIsConnected(true);
-          }
-        } catch (error) {
-          console.error('Failed to check wallet connection:', error);
-        }
+    const handleClickOutside = (event: MouseEvent) => {
+      if (walletInfoRef.current && 
+          !walletInfoRef.current.contains(event.target as Node) &&
+          !walletButtonRef.current?.contains(event.target as Node)) {
+        setShowWalletInfo(false);
       }
     };
 
-    checkWalletConnection();
-
-    if (typeof window.ethereum !== 'undefined') {
-      window.ethereum.on('accountsChanged', (accounts: unknown) => {
-        if (Array.isArray(accounts) && accounts.length > 0) {
-          setAddress(accounts[0] as string);
-          setIsConnected(true);
-        } else {
-          setAddress('');
-          setIsConnected(false);
-        }
-      });
-    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const toggleExpand = (path: string | undefined) => {
@@ -221,6 +193,63 @@ export default function Layout({ children }: LayoutProps) {
       prev.includes(path) 
         ? prev.filter(p => p !== path)
         : [...prev, path]
+    );
+  };
+
+  const renderWalletInfo = () => {
+    if (!isConnected || !showWalletInfo) return null;
+
+    return (
+      <motion.div
+        ref={walletInfoRef}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="absolute bottom-full left-0 mb-2 w-full bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-purple-100/50 p-3"
+      >
+        <div className="space-y-2.5">
+          <div>
+            <div className="text-xs font-medium text-purple-600/90 mb-1">钱包地址</div>
+            <div className="text-xs font-mono bg-purple-50/50 p-2 rounded-lg break-all">
+              {walletAddress}
+            </div>
+          </div>
+          {balance !== null && (
+            <div>
+              <div className="text-xs font-medium text-purple-600/90 mb-1">FLOW 余额</div>
+              <div className="text-xs bg-purple-50/50 p-2 rounded-lg flex items-center justify-between">
+                <span className="font-medium">{balance} FLOW</span>
+                <span className="text-[10px] text-purple-500/80">测试网</span>
+              </div>
+            </div>
+          )}
+          <div>
+            <div className="text-xs font-medium text-purple-600/90 mb-1">当前网络</div>
+            <div className="text-xs bg-purple-50/50 p-2 rounded-lg">
+              Flow Testnet (Chain ID: {chainId})
+            </div>
+          </div>
+          <div>
+            <div className="text-xs font-medium text-purple-600/90 mb-1">区块浏览器</div>
+            <a
+              href={`https://evm-testnet.flowscan.io/address/${walletAddress}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-purple-600 hover:text-purple-700 flex items-center gap-1 bg-purple-50/50 p-2 rounded-lg group"
+            >
+              在 Flowscan 上查看
+              <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+            </a>
+          </div>
+          <button
+            onClick={logOut}
+            className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 mt-1 rounded-lg transition-all text-red-600 hover:bg-red-50 border border-red-100/50 text-xs font-medium"
+          >
+            <LogOut size={12} />
+            <span>断开连接</span>
+          </button>
+        </div>
+      </motion.div>
     );
   };
 
@@ -383,22 +412,34 @@ export default function Layout({ children }: LayoutProps) {
           </nav>
 
           <div className="px-2 md:px-3 py-3 md:py-4 bg-purple-50/80 backdrop-blur-lg md:mb-0 mb-16">
-            <button
-              onClick={connectWallet}
-              className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full transition-all w-40 md:w-48 mx-auto ${
-                isConnected 
-                  ? 'bg-purple-50 text-purple-700' 
-                  : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50'
-              }`}
-            >
-              {isConnected ? <Wallet size={16} /> : <WalletCards size={16} />}
-              <span className="truncate text-sm md:text-base">
-                {isConnected 
-                  ? `${address.slice(0, 6)}...${address.slice(-4)}`
-                  : 'Connect Wallet'
-                }
-              </span>
-            </button>
+            <div className="relative">
+              <button
+                ref={walletButtonRef}
+                onClick={() => {
+                  if (isConnected) {
+                    setShowWalletInfo(!showWalletInfo);
+                  } else {
+                    logIn();
+                  }
+                }}
+                className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full transition-all w-40 md:w-48 mx-auto ${
+                  isConnected 
+                    ? 'bg-purple-50 text-purple-700 hover:bg-purple-100/80' 
+                    : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50'
+                }`}
+              >
+                {isConnected ? <Wallet size={16} /> : <WalletCards size={16} />}
+                <span className="truncate text-sm md:text-base">
+                  {isConnected 
+                    ? `${walletAddress?.slice(0, 6)}...${walletAddress?.slice(-4)}`
+                    : 'Connect Wallet'
+                  }
+                </span>
+              </button>
+              <AnimatePresence>
+                {renderWalletInfo()}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>

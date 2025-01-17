@@ -61,6 +61,7 @@ export interface TestResult {
   timestamp: number;
   testAnswers: TestAnswerOption["type"][];
   testScores: PersonalityClass["type"][];
+  result?: PersonalityClassGroup;
 }
 
 type Extroverted = "E";
@@ -171,6 +172,7 @@ export function saveTestResult(testResult: {
   timestamp: number;
   testAnswers: TestAnswerOption["type"][];
   testScores: PersonalityClass["type"][];
+  result?: PersonalityClassGroup;
 }) {
   return Future.make<Result<number, Error>>((resolve) => {
     getDb()
