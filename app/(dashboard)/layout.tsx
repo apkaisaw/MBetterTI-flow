@@ -422,19 +422,32 @@ export default function Layout({ children }: LayoutProps) {
                     logIn();
                   }
                 }}
-                className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full transition-all w-40 md:w-48 mx-auto ${
+                className={`group relative flex items-center justify-center gap-1.5 px-3 py-2 rounded-full transition-all w-40 md:w-48 mx-auto ${
                   isConnected 
-                    ? 'bg-purple-50 text-purple-700 hover:bg-purple-100/80' 
-                    : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm border border-purple-300/50'
+                    ? 'text-purple-900' 
+                    : 'text-white'
                 }`}
               >
-                {isConnected ? <Wallet size={16} /> : <WalletCards size={16} />}
-                <span className="truncate text-sm md:text-base">
-                  {isConnected 
-                    ? `${walletAddress?.slice(0, 6)}...${walletAddress?.slice(-4)}`
-                    : 'Connect Wallet'
-                  }
-                </span>
+                <div className={`absolute inset-0 rounded-full ${
+                  isConnected 
+                    ? 'bg-gradient-to-r from-purple-200/80 to-indigo-200/80 backdrop-blur-md' 
+                    : 'bg-gradient-to-r from-purple-500/90 to-indigo-500/90'
+                }`} />
+                <div className={`absolute inset-0 rounded-full ${
+                  isConnected 
+                    ? 'bg-white/50' 
+                    : 'bg-gradient-to-r from-purple-600/90 to-indigo-600/90'
+                } opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                <div className="relative z-10 flex items-center gap-1.5">
+                  {isConnected ? <Wallet size={16} /> : <WalletCards size={16} />}
+                  <span className="truncate text-sm md:text-base">
+                    {isConnected 
+                      ? `${walletAddress?.slice(0, 6)}...${walletAddress?.slice(-4)}`
+                      : 'Connect Wallet'
+                    }
+                  </span>
+                  {isConnected && <div className="w-2 h-2 rounded-full bg-green-400" />}
+                </div>
               </button>
               <AnimatePresence>
                 {renderWalletInfo()}
