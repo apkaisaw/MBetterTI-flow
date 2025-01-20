@@ -74,17 +74,22 @@ const navItems: NavItem[] = [
   {
     name: 'Challenges',
     path: '/challenges',
-    icon: Trophy
-  },
-  {
-    name: 'Rater DAO',
-    path: '/rater-dao',
-    icon: Users
+    icon: Trophy,
+    subItems: [
+      { name: 'Personal Challenges', path: '/challenges', icon: User },
+      { name: 'Team Challenges', path: '/challenges/team', icon: Users },
+      { name: 'Rater DAO', path: '/rater-dao', icon: Vote }
+    ]
   },
   {
     name: 'Agent Market',
     path: '/agent-market',
-    icon: Store
+    icon: Store,
+    subItems: [
+      { name: 'My Coach', path: '/agent-market', icon: User },
+      { name: 'Pro Coaches', path: '/agent-market/pro', icon: Award },
+      { name: 'Community Coaches', path: '/agent-market/community', icon: Users }
+    ]
   }
 ];
 
@@ -299,7 +304,7 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           </div>
           
-          <nav className="flex-1 mt-4 md:mt-6 px-2 md:px-3 overflow-y-auto">
+          <nav className="flex-1 mt-4 md:mt-6 px-2 md:px-3 overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = !item.subItems && pathname === item.path;
