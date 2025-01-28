@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "@okxconnect/ui": "^1.7.0",
+    "@openzeppelin/contracts": "^5.2.0",
     "@swan-io/boxed": "^2.3.2",
+    "@thirdweb-dev/react": "^4.9.4",
+    "@thirdweb-dev/sdk": "^4.0.99",
     "bufferutil": "^4.0.8",
-    "ethers": "^6.13.4",
+    "ethers": "^5.7.2",
     "firebase": "^10.14.1",
     "framer-motion": "^10.16.16",
     "idb": "^8.0.0",

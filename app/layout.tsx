@@ -2,6 +2,7 @@ import './globals.css'
 import { Outfit } from 'next/font/google'
 import { AuthContextProvider } from '../contexts/AuthContext'
 import type { Metadata } from 'next'
+import { ThirdwebProvider } from '@thirdweb-dev/react'
 
 const outfit = Outfit({ 
   subsets: ['latin'],
@@ -23,9 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={outfit.variable}>
       <body className="bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col">
-        <AuthContextProvider>
-          {children}
-        </AuthContextProvider>
+        <ThirdwebProvider
+          activeChain={41}
+        >
+          <AuthContextProvider>
+            {children}
+          </AuthContextProvider>
+        </ThirdwebProvider>
       </body>
     </html>
   )
