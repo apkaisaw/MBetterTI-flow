@@ -1,13 +1,13 @@
-export const CHAIN_ID = 41;
-export const RPC_URL = 'https://testnet.telos.net/evm';
-export const CHAIN_NAME = 'Telos EVM Testnet';
+export const CHAIN_ID = 63424;
+export const RPC_URL = 'https://testnet.evm.nodes.onflow.org';
+export const CHAIN_NAME = 'Flow EVM Testnet';
 export const NATIVE_CURRENCY = {
-  name: 'Telos',
-  symbol: 'TLOS',
+  name: 'Flow',
+  symbol: 'FLOW',
   decimals: 18,
 };
 
-export const addTelosTestnet = async () => {
+export const addFlowTestnet = async () => {
   if (typeof window === 'undefined' || !window.ethereum) return;
 
   try {
@@ -19,11 +19,11 @@ export const addTelosTestnet = async () => {
           chainName: CHAIN_NAME,
           nativeCurrency: NATIVE_CURRENCY,
           rpcUrls: [RPC_URL],
-          blockExplorerUrls: ['https://testnet.teloscan.io/'],
+          blockExplorerUrls: ['https://evm-testnet.flowscan.io/'],
         },
       ],
     });
   } catch (error) {
-    console.error('Error adding Telos Testnet:', error);
+    console.error('Error adding Flow Testnet:', error);
   }
 }; 

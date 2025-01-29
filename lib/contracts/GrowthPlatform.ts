@@ -21,21 +21,21 @@ export class GrowthPlatform {
 
   public async init(contractAddress: string, contractABI: any[]) {
     try {
-      if (typeof window === 'undefined' || !window.ethereum) {
-        throw new Error('MetaMask not installed');
+      if (typeof window === 'undefined' || !window.okxwallet) {
+        throw new Error('OKX Wallet not installed');
       }
 
-      this.provider = new ethers.BrowserProvider(window.ethereum);
+      this.provider = new ethers.BrowserProvider(window.okxwallet);
       this.signer = await this.provider.getSigner();
       this.contract = new ethers.Contract(contractAddress, contractABI, this.signer);
 
-      // 设置事件监听
+      // Set up event listeners
       this.setupEventListeners();
       
       return true;
     } catch (error: any) {
-      console.error('初始化合约失败:', error);
-      toast.error('初始化合约失败: ' + error.message);
+      console.error('Failed to initialize contract:', error);
+      toast.error('Failed to initialize contract: ' + error.message);
       return false;
     }
   }
@@ -45,17 +45,17 @@ export class GrowthPlatform {
 
     this.contract.on('ChallengeCreated', (challengeId: string) => {
       this.challengesCache.delete(challengeId);
-      toast.success('新挑战已创建！');
+      toast.success('New challenge created!');
     });
 
     this.contract.on('SubmissionPosted', (user: string, challengeId: string, tweetUrl: string) => {
       this.submissionsCache.delete(user);
-      toast.success('新提交已记录！');
+      toast.success('New submission recorded!');
     });
 
     this.contract.on('ChallengeRated', (rater: string, target: string, challengeId: string, score: number) => {
       this.submissionsCache.delete(target);
-      toast.success('评分已更新！');
+      toast.success('Rating updated!');
     });
   }
 
@@ -64,13 +64,13 @@ export class GrowthPlatform {
       if (!this.contract) throw new Error('Contract not initialized');
 
       const challengeId = ethers.id(title);
-      const ipfsHash = ethers.id(description); // 简化版：实际应该上传到IPFS
+      const ipfsHash = ethers.id(description); // Simplified: should upload to IPFS
 
       const tx = await this.contract.createChallenge(challengeId, ipfsHash);
       await tx.wait();
       return true;
     } catch (error: any) {
-      console.error('创建挑战失败:', error);
+      console.error('Failed to create challenge:', error);
       throw error;
     }
   }
@@ -83,7 +83,7 @@ export class GrowthPlatform {
       await tx.wait();
       return true;
     } catch (error: any) {
-      console.error('提交挑战失败:', error);
+      console.error('Failed to submit challenge:', error);
       throw error;
     }
   }
@@ -96,7 +96,7 @@ export class GrowthPlatform {
       await tx.wait();
       return true;
     } catch (error: any) {
-      console.error('评分失败:', error);
+      console.error('Failed to rate:', error);
       throw error;
     }
   }
@@ -113,7 +113,7 @@ export class GrowthPlatform {
       this.challengesCache.set(challengeId, challenge);
       return challenge;
     } catch (error: any) {
-      console.error('获取挑战信息失败:', error);
+      console.error('Failed to get challenge:', error);
       throw error;
     }
   }
@@ -150,7 +150,7 @@ export class GrowthPlatform {
       this.submissionsCache.set(userAddress, submissions);
       return submissions;
     } catch (error: any) {
-      console.error('获取用户提交记录失败:', error);
+      console.error('Failed to get user submissions:', error);
       throw error;
     }
   }
@@ -162,7 +162,7 @@ export class GrowthPlatform {
       const adminRole = await this.contract.ADMIN_ROLE();
       return await this.contract.hasRole(adminRole, address);
     } catch (error: any) {
-      console.error('检查管理员权限失败:', error);
+      console.error('Failed to check admin role:', error);
       throw error;
     }
   }

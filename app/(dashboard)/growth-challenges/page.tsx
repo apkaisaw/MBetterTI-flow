@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAddress } from '@thirdweb-dev/react';
 import { toast } from 'sonner';
 import { GrowthPlatform } from '@/lib/contracts/GrowthPlatform';
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/lib/contracts/config';
@@ -9,7 +8,7 @@ import { Challenge, Submission } from '@/lib/contracts/types';
 import { ConnectWallet } from '@/app/components/ConnectWallet';
 
 export default function GrowthChallenges() {
-  const address = useAddress();
+  const [address, setAddress] = useState<string | null>(null);
   const [challengeTitle, setChallengeTitle] = useState('');
   const [challengeDescription, setChallengeDescription] = useState('');
   const [tweetUrl, setTweetUrl] = useState('');
@@ -20,18 +19,46 @@ export default function GrowthChallenges() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const initContract = async () => {
-      const platform = GrowthPlatform.getInstance();
-      const success = await platform.init(CONTRACT_ADDRESS, CONTRACT_ABI);
-      
-      if (success && address) {
-        const adminStatus = await platform.checkAdminRole(address);
-        setIsAdmin(adminStatus);
-        await loadChallenges();
-        await loadSubmissions();
+    const checkWallet = async () => {
+      if (typeof window !== 'undefined' && window.okxwallet) {
+        try {
+          const accounts = await window.okxwallet.request({ method: 'eth_accounts' });
+          if (accounts.length > 0) {
+            setAddress(accounts[0]);
+          }
+        } catch (error) {
+          console.error('Failed to get accounts:', error);
+        }
       }
-      
+      // 无论是否连接钱包，都结束加载状态
       setIsLoading(false);
+    };
+
+    checkWallet();
+    window.okxwallet?.on('accountsChanged', (accounts: string[]) => {
+      setAddress(accounts[0] || null);
+    });
+  }, []);
+
+  useEffect(() => {
+    const initContract = async () => {
+      setIsLoading(true); // 开始合约初始化时设置加载状态
+      try {
+        const platform = GrowthPlatform.getInstance();
+        const success = await platform.init(CONTRACT_ADDRESS, CONTRACT_ABI);
+        
+        if (success && address) {
+          const adminStatus = await platform.checkAdminRole(address);
+          setIsAdmin(adminStatus);
+          await loadChallenges();
+          await loadSubmissions();
+        }
+      } catch (error) {
+        console.error('Failed to initialize contract:', error);
+        toast.error('Failed to initialize contract');
+      } finally {
+        setIsLoading(false); // 无论成功失败都结束加载状态
+      }
     };
 
     if (address) {

@@ -1,14 +1,5 @@
-import './globals.css'
-import { Outfit } from 'next/font/google'
-import { AuthContextProvider } from '../contexts/AuthContext'
-import type { Metadata } from 'next'
-import { ThirdwebProvider } from '@thirdweb-dev/react'
-
-const outfit = Outfit({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-outfit',
-})
+import { Metadata } from 'next'
+import ClientLayout from './client-layout'
 
 export const metadata: Metadata = {
   title: 'MBetterTI Flow',
@@ -21,17 +12,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <html lang="en" className={outfit.variable}>
-      <body className="bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col">
-        <ThirdwebProvider
-          activeChain={41}
-        >
-          <AuthContextProvider>
-            {children}
-          </AuthContextProvider>
-        </ThirdwebProvider>
-      </body>
-    </html>
-  )
-}
+  return <ClientLayout>{children}</ClientLayout>
+} 

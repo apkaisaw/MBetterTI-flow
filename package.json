@@ -11,9 +11,8 @@
     "@okxconnect/ui": "^1.7.0",
     "@openzeppelin/contracts": "^5.2.0",
     "@swan-io/boxed": "^2.3.2",
-    "@thirdweb-dev/react": "^4.9.4",
-    "@thirdweb-dev/sdk": "^4.0.99",
     "bufferutil": "^4.0.8",
+    "clsx": "^2.1.1",
     "ethers": "^5.7.2",
     "firebase": "^10.14.1",
     "framer-motion": "^10.16.16",
@@ -23,6 +22,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sonner": "^1.7.1",
+    "tailwind-merge": "^2.6.0",
     "thirdweb": "^5.79.0",
     "utf-8-validate": "^6.0.5",
     "zustand": "^5.0.2"
